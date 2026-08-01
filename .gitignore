@@ -1,0 +1,9 @@
+# Editor (konfigurasi lokal, tidak perlu masuk repo)
+.zed/
+
+# Sistem operasi
+.DS_Store
+Thumbs.db
+
+# Node.js
+node_modules/
