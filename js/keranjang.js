@@ -30,7 +30,7 @@ function emptyCartHTML() {
 /* ---------- Info gratis ongkir ---------- */
 function shippingProgressHTML(freeShipping, remaining, progress) {
   return `
-    <div class="shipping-progress">
+    <div class="shipping-progress${freeShipping ? " free" : ""}">
       ${freeShipping
         ? "<p>Selamat, kamu mendapatkan <strong>gratis ongkir</strong> untuk pesanan ini.</p>"
         : "<p>Belanja <strong>" + formatRupiah(remaining) + "</strong> lagi untuk gratis ongkir.</p>"}

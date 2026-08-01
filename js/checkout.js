@@ -141,7 +141,7 @@ function validate() {
   return ok;
 }
 
-/* ---------- Submit: tampilkan pesan sukses & kosongkan keranjang ---------- */
+/* ---------- Submit: buka WhatsApp & tampilkan pesan sukses ---------- */
 function handleSubmit(e) {
   e.preventDefault();
   if (!validate()) {
@@ -149,16 +149,57 @@ function handleSubmit(e) {
     return;
   }
 
+  const value = (id) => (document.getElementById(id)?.value || "").trim();
+  const nama = value("nama");
+  const hp = value("hp");
+  const email = value("email");
+  const kodepos = value("kodepos");
+  const alamat = value("alamat");
+  const kota = value("kota");
+  const provinsi = value("provinsi");
   const payment =
     document.querySelector('input[name="payment"]:checked')?.value || "Transfer Bank";
-  const kota = (document.getElementById("kota")?.value || "").trim();
-  const provinsi = (document.getElementById("provinsi")?.value || "").trim();
-  const { total } = calcTotals(getCartItems());
+  const items = getCartItems();
+  const { subtotal, ongkir, total } = calcTotals(items);
   const orderNo = "AU-" + Date.now().toString().slice(-8);
+
+  /* Ringkasan pesanan untuk dikirim via WhatsApp */
+  const lines = items
+    .map((item, i) => {
+      const p = PRODUCTS[item.id];
+      return `${i + 1}. ${p.name} (${item.size} · ${item.color}) x${item.qty} = ${formatRupiah(item.price * item.qty)}`;
+    })
+    .join("\n");
+
+  const message = [
+    "Halo AURELLE! Saya mau pesan:",
+    "",
+    lines,
+    "",
+    `Subtotal: ${formatRupiah(subtotal)}`,
+    `Ongkir: ${ongkir === 0 ? "Gratis" : formatRupiah(ongkir)}`,
+    `TOTAL: ${formatRupiah(total)}`,
+    "",
+    `Nama: ${nama}`,
+    `No. HP: ${hp}`,
+    email ? `Email: ${email}` : "",
+    `Alamat: ${alamat}, ${kota}, ${provinsi} ${kodepos}`,
+    `Pembayaran: ${payment}`,
+    "",
+    `No. Order: ${orderNo}`,
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  const waLink =
+    "https://wa.me/6285939592558?text=" + encodeURIComponent(message);
+  window.open(waLink, "_blank");
 
   const orderNoEl = document.getElementById("orderNo");
   const orderInfoEl = document.getElementById("orderInfo");
+  const waOrderLink = document.getElementById("waOrderLink");
   if (orderNoEl) orderNoEl.textContent = orderNo;
+  if (waOrderLink) waOrderLink.href = waLink;
   if (orderInfoEl) {
     orderInfoEl.textContent =
       "Total " +
@@ -177,7 +218,8 @@ function handleSubmit(e) {
 
   clearCart();
   syncCartBadge();
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  if (typeof animatedScrollTo === "function") animatedScrollTo(0);
+  else window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 /* ---------- Init ---------- */
