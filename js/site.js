@@ -196,22 +196,7 @@ function animatedScrollTo(targetY) {
   requestAnimationFrame(step);
 }
 
-/* ---------- Tombol kembali ke atas ---------- */
-function initBackToTop() {
-  const btn = document.getElementById("backToTop");
-  if (!btn) return;
-
-  const onScroll = () => {
-    btn.classList.toggle("show", window.scrollY > 400);
-  };
-  onScroll();
-  window.addEventListener("scroll", onScroll, { passive: true });
-
-  btn.addEventListener("click", () => {
-    animatedScrollTo(0);
-  });
-}
-
+/* ---------- Animasi scroll kustom (garansi halus di semua browser) ---------- */
 /* ---------- Scroll halus antar bagian di halaman yang sama ---------- */
 const NAV_OFFSET = 90;
 
@@ -298,6 +283,17 @@ function initNavbar() {
   window.addEventListener("scroll", onScroll, { passive: true });
 }
 
+/* ---------- Ikon keranjang & wishlist aktif sesuai halaman ---------- */
+function initActiveNav() {
+  const page = window.location.pathname.split("/").pop() || "index.html";
+  if (page === "keranjang.html" || page === "checkout.html") {
+    document.querySelector(".cart-btn")?.classList.add("active");
+  }
+  if (page === "wishlist.html") {
+    document.querySelector(".wishlist-nav")?.classList.add("active");
+  }
+}
+
 /* ---------- Tombol pencarian ---------- */
 function initSearch() {
   const btn = document.getElementById("searchBtn");
@@ -328,9 +324,56 @@ function initWishlist() {
   });
 }
 
+/* ---------- Tambah cepat dari kartu produk (ukuran & warna default) ---------- */
+function initQuickAdd() {
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".quick-add");
+    if (!btn) return;
+
+    const index = parseInt(btn.dataset.index, 10);
+    const item = PRODUCTS[index];
+    if (!item) return;
+
+    e.preventDefault();
+    addToCart({
+      id: index,
+      name: item.name,
+      size: item.sizes[0],
+      color: item.colors[0].name,
+      qty: 1,
+      price: item.price,
+    });
+
+    // Umpan balik singkat pada tombol
+    btn.classList.add("added");
+    const label = btn.querySelector("span");
+    if (label) label.textContent = "Ditambahkan";
+    setTimeout(() => {
+      btn.classList.remove("added");
+      if (label) label.textContent = "Tambah";
+    }, 1600);
+  });
+}
+
 /* ---------- Kartu produk (markup bersama) ---------- */
-function productCardHTML(product, index) {
+function productCardHTML(product, index, opts = {}) {
   const wished = isInWishlist(index);
+  const quickAdd = opts.quickAdd
+    ? `
+      <button
+        type="button"
+        class="quick-add"
+        data-index="${index}"
+        aria-label="Tambahkan ${product.name} ke keranjang (ukuran ${product.sizes[0]})"
+        title="Tambah ke keranjang — ukuran ${product.sizes[0]}"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true">
+          <path d="M6 7h12l-1.2 12.2a1.5 1.5 0 0 1-1.5 1.3H8.7a1.5 1.5 0 0 1-1.5-1.3L6 7Z" />
+          <path d="M9 10V6a3 3 0 0 1 6 0v4" />
+        </svg>
+        <span>Tambah</span>
+      </button>`
+    : "";
   return `
   <article class="product-card reveal">
     <div class="product-media-wrap">
@@ -345,6 +388,7 @@ function productCardHTML(product, index) {
           <path d="M19 14c1.5-1.5 2-3.2 2-4.8A4.7 4.7 0 0 0 12 6.6 4.7 4.7 0 0 0 3 9.2C3 10.8 3.5 12.5 5 14l7 7 7-7Z" />
         </svg>
       </button>
+      ${quickAdd}
     </div>
     <div class="product-info">
       <p class="product-cat">${product.category}</p>
@@ -362,14 +406,15 @@ document.addEventListener("DOMContentLoaded", () => {
   initTheme();
   initMenu();
   initNavbar();
+  initActiveNav();
   initSearch();
   initCartButton();
   initWishlistNav();
   initWishlist();
   syncCartBadge();
   syncWishlistBadge();
-  initBackToTop();
   initSmoothScroll();
   initScrollSpy();
+  initQuickAdd();
   initReveal();
 });

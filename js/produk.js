@@ -66,7 +66,16 @@ function infoHTML() {
     <p class="detail-desc">${product.description}</p>
 
     <div class="option-group">
-      <h4>Pilih Ukuran <span class="required">*</span></h4>
+      <div class="option-head">
+        <h4>Pilih Ukuran <span class="required">*</span></h4>
+        <button type="button" class="size-guide-link" id="sizeGuideBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21.3 8.7 15.3 2.7a1 1 0 0 0-1.4 0L2.7 13.9a1 1 0 0 0 0 1.4l6 6a1 1 0 0 0 1.4 0l11.2-11.2a1 1 0 0 0 0-1.4Z" />
+            <path d="m7.5 10.5 2 2M10.5 7.5l2 2M13.5 4.5l2 2" />
+          </svg>
+          Panduan Ukuran
+        </button>
+      </div>
       <div class="size-pills" id="sizePills">
         ${product.sizes.map((s) => `<button type="button" data-size="${s}">${s}</button>`).join("")}
       </div>
@@ -137,17 +146,27 @@ function notFoundHTML() {
     </div>`;
 }
 
-/* ---------- Produk terkait ---------- */
-function renderRelated() {
-  const grid = document.getElementById("relatedGrid");
+/* ---------- Rekomendasi "Kamu Mungkin Suka" ---------- */
+/* Kategori bisa berupa gabungan (mis. "Wanita · Pria"), jadi cocokkan per label */
+function shareCategory(a, b) {
+  const catsA = a.split("·").map((s) => s.trim());
+  const catsB = b.split("·").map((s) => s.trim());
+  return catsA.some((c) => catsB.includes(c));
+}
+
+function renderRecommendations() {
+  const grid = document.getElementById("recommendGrid");
   if (!grid || !product) return;
 
   const others = PRODUCTS.map((p, i) => ({ p, i })).filter((x) => x.i !== productId);
-  const sameCategory = others.filter((x) => x.p.category === product.category);
-  const rest = others.filter((x) => x.p.category !== product.category);
-  const related = [...sameCategory, ...rest].slice(0, 4);
+  const byBestSeller = (a, b) => b.p.sold - a.p.sold;
 
-  grid.innerHTML = related.map((x) => productCardHTML(x.p, x.i)).join("");
+  // Prioritas 1: produk sekategori (terlaris dulu), prioritas 2: sisanya
+  const sameCategory = others.filter((x) => shareCategory(x.p.category, product.category)).sort(byBestSeller);
+  const rest = others.filter((x) => !shareCategory(x.p.category, product.category)).sort(byBestSeller);
+  const picks = [...sameCategory, ...rest].slice(0, 4);
+
+  grid.innerHTML = picks.map((x) => productCardHTML(x.p, x.i, { quickAdd: true })).join("");
   initReveal();
 }
 
@@ -231,7 +250,7 @@ function renderDetail() {
   const gallery = document.getElementById("gallery");
   const info = document.getElementById("detailInfo");
   const breadcrumbCurrent = document.getElementById("breadcrumbCurrent");
-  const relatedSection = document.getElementById("relatedSection");
+  const relatedSection = document.getElementById("recommendSection");
 
   if (!product) {
     document.title = "Produk tidak ditemukan — AURELLE";
@@ -248,9 +267,49 @@ function renderDetail() {
   if (breadcrumbCurrent) breadcrumbCurrent.textContent = product.name;
 }
 
+/* ---------- Modal panduan ukuran ---------- */
+function initSizeGuide() {
+  const modal = document.getElementById("sizeGuideModal");
+  const btn = document.getElementById("sizeGuideBtn");
+  const close = document.getElementById("sizeGuideClose");
+  if (!modal || !btn) return;
+
+  // Produk One Size: sembunyikan tabel, tampilkan catatan
+  if (product && product.sizes.length === 1) {
+    const table = document.getElementById("sizeGuideTable");
+    const note = document.getElementById("sizeGuideNote");
+    if (table) table.hidden = true;
+    if (note) note.hidden = false;
+  }
+
+  const open = () => {
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+    close?.focus();
+  };
+
+  const closeModal = () => {
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
+    btn.focus();
+  };
+
+  btn.addEventListener("click", open);
+  close?.addEventListener("click", closeModal);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
+  });
+}
+
 /* ---------- Init ---------- */
 document.addEventListener("DOMContentLoaded", () => {
   renderDetail();
-  renderRelated();
+  renderRecommendations();
   initControls();
+  initSizeGuide();
 });
