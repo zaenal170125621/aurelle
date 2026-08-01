@@ -4061,6 +4061,380 @@ body.modal-open {
 }
 
 /* ==========================================================================
+   Part 13 — Karier & Afiliasi (karier.html, afiliasi.html)
+   ========================================================================== */
+
+.karier-page,
+.afiliasi-page {
+  padding: 2rem 0 5.5rem;
+}
+
+.karier-head,
+.afiliasi-head {
+  margin-bottom: 2.2rem;
+}
+
+/* Keuntungan kerja */
+.perks-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.perk-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1.2rem 1.1rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.perk-icon {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: rgba(198, 123, 92, 0.12);
+  color: var(--terracotta-dark);
+  margin-bottom: 0.7rem;
+}
+
+.perk-card h3 {
+  font-family: var(--serif);
+  font-size: 0.98rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.perk-card p {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
+/* Daftar lowongan */
+.karier-sub-head {
+  margin-bottom: 1.5rem;
+}
+
+.jobs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+}
+
+.job-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 1.4rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.job-card-top {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.job-tag,
+.job-type {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.28rem 0.65rem;
+  border-radius: 999px;
+}
+
+.job-tag {
+  background: rgba(163, 163, 128, 0.18);
+  color: var(--sage);
+}
+
+.job-type {
+  background: rgba(198, 123, 92, 0.14);
+  color: var(--terracotta-dark);
+}
+
+.job-card h3 {
+  font-family: var(--serif);
+  font-size: 1.08rem;
+  font-weight: 600;
+}
+
+.job-loc {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.job-desc {
+  font-size: 0.84rem;
+  color: var(--ink-soft);
+  line-height: 1.65;
+  flex: 1;
+}
+
+.job-apply {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--terracotta-dark);
+}
+
+.job-apply:hover {
+  text-decoration: underline;
+}
+
+/* CTA karier & afiliasi */
+.karier-cta,
+.afiliasi-cta {
+  margin-top: 2.6rem;
+  background: var(--ink);
+  color: var(--cream);
+  border-radius: 20px;
+  padding: 2.2rem 2rem;
+  text-align: center;
+}
+
+.karier-cta h3,
+.afiliasi-cta h3 {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.karier-cta p,
+.afiliasi-cta p {
+  font-size: 0.88rem;
+  opacity: 0.75;
+  margin-bottom: 1.3rem;
+}
+
+.karier-cta-actions {
+  display: flex;
+  gap: 0.7rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.karier-cta .btn-outline,
+.afiliasi-cta .btn-outline {
+  color: var(--cream);
+  border-color: rgba(242, 237, 227, 0.5);
+}
+
+.karier-cta .btn-outline:hover,
+.afiliasi-cta .btn-outline:hover {
+  background: rgba(242, 237, 227, 0.12);
+}
+
+/* Afiliasi: cara kerja & tier */
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  margin-bottom: 3rem;
+}
+
+.step-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 1.5rem 1.4rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.step-num {
+  font-family: var(--serif);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--terracotta);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.step-card h3 {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.step-card p {
+  font-size: 0.84rem;
+  color: var(--ink-soft);
+  line-height: 1.65;
+}
+
+.tier-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  margin-bottom: 3rem;
+}
+
+.tier-card {
+  border-radius: 18px;
+  padding: 1.5rem 1.4rem;
+  text-align: center;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  box-shadow: var(--shadow-sm);
+}
+
+.tier-card.popular {
+  border-color: var(--terracotta);
+  box-shadow: 0 0 0 1px var(--terracotta), var(--shadow-md);
+}
+
+.tier-rate {
+  font-family: var(--serif);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--terracotta-dark);
+}
+
+.tier-rate span {
+  font-size: 1rem;
+}
+
+.tier-label {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-top: 0.3rem;
+}
+
+.tier-note {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  margin-top: 0.6rem;
+  line-height: 1.6;
+}
+
+/* Kalkulator komisi */
+.calc-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 1.8rem 1.6rem;
+  box-shadow: var(--shadow-sm);
+  max-width: 640px;
+  margin-inline: auto;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.calc-card .section-title {
+  margin-bottom: 1.3rem;
+  font-size: 1.4rem;
+}
+
+.calc-fields {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  text-align: left;
+}
+
+.calc-field label {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+
+.calc-field input {
+  width: 100%;
+  height: 44px;
+  padding: 0 0.85rem;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: var(--cream);
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.calc-field input:focus {
+  border-color: var(--terracotta);
+  box-shadow: 0 0 0 4px rgba(198, 123, 92, 0.12);
+}
+
+.calc-result {
+  margin-top: 1.3rem;
+  border-top: 1px dashed var(--line);
+  padding-top: 1.1rem;
+  display: grid;
+  gap: 0.6rem;
+  text-align: left;
+}
+
+.calc-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.calc-line span {
+  font-size: 0.84rem;
+  color: var(--ink-soft);
+}
+
+.calc-line strong {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.calc-line .calc-komisi {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  color: var(--terracotta-dark);
+}
+
+/* CTA afiliasi (latar sage) */
+.afiliasi-cta {
+  background: var(--sage);
+  color: var(--ink);
+}
+
+.afiliasi-cta .btn-outline {
+  color: var(--ink);
+  border-color: rgba(38, 35, 31, 0.45);
+}
+
+.afiliasi-cta .btn-outline:hover {
+  background: rgba(38, 35, 31, 0.08);
+}
+
+@media (max-width: 1024px) {
+  .perks-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .perks-grid,
+  .jobs-grid,
+  .steps-grid,
+  .tier-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .calc-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
    Part 9 — Halaman bantuan (bantuan.html)
    ========================================================================== */
 

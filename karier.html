@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="AURELLE — checkout pesanan. Isi alamat pengiriman, pilih pembayaran, dan selesaikan pesanan kamu." />
-  <title>Checkout — AURELLE</title>
+  <meta name="description" content="AURELLE — karier: lowongan kerja Content Creator, Admin & CS, Desainer Produk, dan Packer. Bergabunglah dengan tim kami." />
+  <title>Karier — AURELLE</title>
 
   <!-- Terapkan tema sebelum halaman digambar (hindari flash) -->
   <script>
@@ -29,9 +29,9 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="AURELLE" />
-  <meta property="og:title" content="Checkout — AURELLE" />
-  <meta property="og:description" content="AURELLE — checkout pesanan. Isi alamat pengiriman, pilih pembayaran, dan selesaikan pesanan kamu." />
-  <meta property="og:url" content="https://zaenal170125621.github.io/aurelle/checkout.html" />
+  <meta property="og:title" content="Karier — AURELLE" />
+  <meta property="og:description" content="Lowongan kerja di tim AURELLE." />
+  <meta property="og:url" content="https://zaenal170125621.github.io/aurelle/karier.html" />
   <meta property="og:image" content="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80" />
   <script src="js/analytics.js" defer></script>
 </head>
@@ -102,144 +102,110 @@
       <nav class="breadcrumb" aria-label="Jalur halaman">
         <a href="index.html">Beranda</a>
         <span class="sep">/</span>
-        <a href="keranjang.html">Keranjang</a>
-        <span class="sep">/</span>
-        <span class="current">Checkout</span>
+        <span class="current">Karier</span>
       </nav>
     </div>
 
-    <!-- ===== Checkout ===== -->
-    <section class="checkout-page">
+    <!-- ===== Karier ===== -->
+    <section class="karier-page">
       <div class="container">
-        <div class="section-head checkout-head">
-          <p class="eyebrow">Langkah Terakhir</p>
-          <h2 class="section-title">Checkout</h2>
-          <p class="section-sub">Lengkapi data penerima dan pilih pembayaran untuk menyelesaikan pesanan.</p>
+        <div class="section-head karier-head reveal">
+          <p class="eyebrow">Karier</p>
+          <h1 class="section-title">Tumbuh Bersama <em>Tim</em> AURELLE</h1>
+          <p class="section-sub">Kami membangun merek pakaian lokal dengan tim kecil yang ambisius. Kalau kamu suka tantangan dan punya selera estetik — tempatmu ada di sini.</p>
         </div>
 
-        <!-- Keranjang kosong -->
-        <div class="catalog-empty" id="checkoutEmpty" hidden>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 7h12l-1.2 12.2a1.5 1.5 0 0 1-1.5 1.3H8.7a1.5 1.5 0 0 1-1.5-1.3L6 7Z" />
-            <path d="M9 10V6a3 3 0 0 1 6 0v4" />
-          </svg>
-          <h2>Keranjang masih kosong</h2>
-          <p>Isi keranjangmu dulu sebelum melanjutkan ke pembayaran.</p>
-          <a href="koleksi.html" class="btn btn-dark">Jelajahi Koleksi</a>
+        <!-- Keuntungan -->
+        <div class="perks-grid">
+          <div class="perk-card reveal">
+            <span class="perk-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg>
+            </span>
+            <h3>Gaji Kompetitif</h3>
+            <p>Upah di atas rata-rata industri dengan review berkala.</p>
+          </div>
+          <div class="perk-card reveal">
+            <span class="perk-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2" /></svg>
+            </span>
+            <h3>Tunjangan Kesehatan</h3>
+            <p>Asuransi kesehatan untuk kamu dan satu anggota keluarga.</p>
+          </div>
+          <div class="perk-card reveal">
+            <span class="perk-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 3" /></svg>
+            </span>
+            <h3>Jam Kerja Fleksibel</h3>
+            <p>Banyak posisi bisa dikerjakan remote, sesuai gaya hidupmu.</p>
+          </div>
+          <div class="perk-card reveal">
+            <span class="perk-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8" /><path d="M14 7h7v7" /></svg>
+            </span>
+            <h3>Kesempatan Bertumbuh</h3>
+            <p>Belajar langsung dari tim, lengkap dengan mentoring.</p>
+          </div>
         </div>
 
-        <!-- Form + ringkasan -->
-        <div class="checkout-layout" id="checkoutMain">
-          <form class="checkout-form" id="checkoutForm" novalidate>
-            <h3>Data Penerima</h3>
-
-            <div class="form-grid">
-              <div class="field">
-                <label for="nama">Nama Lengkap *</label>
-                <input id="nama" name="nama" type="text" autocomplete="name" />
-                <p class="field-error" id="err-nama"></p>
-              </div>
-              <div class="field">
-                <label for="hp">No. HP / WhatsApp *</label>
-                <input id="hp" name="hp" type="tel" inputmode="numeric" autocomplete="tel" />
-                <p class="field-error" id="err-hp"></p>
-              </div>
-              <div class="field">
-                <label for="email">Email (opsional)</label>
-                <input id="email" name="email" type="email" autocomplete="email" />
-                <p class="field-error" id="err-email"></p>
-              </div>
-              <div class="field">
-                <label for="kodepos">Kode Pos *</label>
-                <input id="kodepos" name="kodepos" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="5" />
-                <p class="field-error" id="err-kodepos"></p>
-              </div>
-            </div>
-
-            <div class="field">
-              <label for="alamat">Alamat Lengkap *</label>
-              <textarea id="alamat" name="alamat" rows="3" autocomplete="street-address" placeholder="Nama jalan, nomor rumah, RT/RW, kelurahan, kecamatan"></textarea>
-              <p class="field-error" id="err-alamat"></p>
-            </div>
-
-            <div class="form-grid">
-              <div class="field">
-                <label for="kota">Kota / Kabupaten *</label>
-                <input id="kota" name="kota" type="text" autocomplete="address-level2" />
-                <p class="field-error" id="err-kota"></p>
-              </div>
-              <div class="field">
-                <label for="provinsi">Provinsi *</label>
-                <input id="provinsi" name="provinsi" type="text" autocomplete="address-level1" />
-                <p class="field-error" id="err-provinsi"></p>
-              </div>
-            </div>
-
-            <div class="field">
-              <label for="catatan">Catatan untuk penjual (opsional)</label>
-              <textarea id="catatan" name="catatan" rows="2" placeholder="Misal: warna boleh ditukar jika stok habis"></textarea>
-            </div>
-
-            <h3 class="mt">Metode Pembayaran</h3>
-            <div class="payment-options">
-              <label class="pay-opt">
-                <input type="radio" name="payment" value="Transfer Bank" checked />
-                <span>Transfer Bank</span>
-              </label>
-              <label class="pay-opt">
-                <input type="radio" name="payment" value="GoPay" />
-                <span>GoPay</span>
-              </label>
-              <label class="pay-opt">
-                <input type="radio" name="payment" value="OVO" />
-                <span>OVO</span>
-              </label>
-              <label class="pay-opt">
-                <input type="radio" name="payment" value="ShopeePay" />
-                <span>ShopeePay</span>
-              </label>
-              <label class="pay-opt">
-                <input type="radio" name="payment" value="COD" />
-                <span>COD</span>
-              </label>
-            </div>
-
-            <button type="submit" class="btn btn-dark btn-submit">Buat Pesanan</button>
-          </form>
-
-          <aside class="cart-summary checkout-summary">
-            <h3>Ringkasan Pesanan</h3>
-            <div id="summaryItems">
-              <!-- item dirender oleh checkout.js -->
-            </div>
-            <div class="summary-row">
-              <span>Subtotal</span>
-              <strong id="sSubtotal">—</strong>
-            </div>
-            <div class="summary-row">
-              <span>Ongkir</span>
-              <strong id="sOngkir">—</strong>
-            </div>
-            <div class="summary-row total">
-              <span>Total</span>
-              <strong id="sTotal">—</strong>
-            </div>
-          </aside>
+        <!-- Lowongan -->
+        <div class="section-head karier-sub-head reveal">
+          <p class="eyebrow">Lowongan</p>
+          <h2 class="section-title">Posisi <em>Terbuka</em></h2>
         </div>
 
-        <!-- Pesan sukses -->
-        <div class="order-success" id="orderSuccess" hidden>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10" />
-            <path d="m8 12.5 2.7 2.7L16.5 9" />
-          </svg>
-          <h2>Pesanan Berhasil Dibuat</h2>
-          <p class="order-no">Nomor pesanan: <strong id="orderNo"></strong></p>
-          <p class="order-info" id="orderInfo"></p>
-          <p class="order-note">Selesaikan pemesanan dengan mengirim ringkasan pesanan ke WhatsApp kami. Kalau jendela WhatsApp tidak terbuka, tekan tombol di bawah.</p>
-          <div class="order-actions">
-            <a href="#" id="waOrderLink" class="btn btn-dark" target="_blank" rel="noopener">Selesaikan di WhatsApp</a>
-            <a href="koleksi.html" class="btn btn-ghost">Lanjut Belanja</a>
+        <div class="jobs-grid">
+          <article class="job-card reveal">
+            <div class="job-card-top">
+              <span class="job-tag">Marketing</span>
+              <span class="job-type">Full-time</span>
+            </div>
+            <h3>Content Creator Sosial Media</h3>
+            <p class="job-loc">Jakarta · Hybrid</p>
+            <p class="job-desc">Membuat konten foto &amp; video produk untuk Instagram dan TikTok, merancang konsep konten bulanan bersama tim kreatif.</p>
+            <a class="job-apply" href="https://wa.me/6285939592558?text=Halo%20AURELLE!%20Saya%20mau%20melamar%20posisi%20Content%20Creator%20Sosial%20Media." target="_blank" rel="noopener">Lamar via WhatsApp →</a>
+          </article>
+
+          <article class="job-card reveal">
+            <div class="job-card-top">
+              <span class="job-tag">Operasional</span>
+              <span class="job-type">Full-time</span>
+            </div>
+            <h3>Admin &amp; Customer Service</h3>
+            <p class="job-loc">Remote</p>
+            <p class="job-desc">Menjawab chat pelanggan, memproses pesanan, dan memastikan pengalaman belanja AURELLE terasa personal.</p>
+            <a class="job-apply" href="https://wa.me/6285939592558?text=Halo%20AURELLE!%20Saya%20mau%20melamar%20posisi%20Admin%20dan%20Customer%20Service." target="_blank" rel="noopener">Lamar via WhatsApp →</a>
+          </article>
+
+          <article class="job-card reveal">
+            <div class="job-card-top">
+              <span class="job-tag">Produksi</span>
+              <span class="job-type">Full-time</span>
+            </div>
+            <h3>Desainer Produk</h3>
+            <p class="job-loc">Bandung · On-site</p>
+            <p class="job-desc">Merancang siluet dan detail koleksi baru, dari sketsa hingga sampel, dengan fokus pada kenyamanan dan estetika.</p>
+            <a class="job-apply" href="https://wa.me/6285939592558?text=Halo%20AURELLE!%20Saya%20mau%20melamar%20posisi%20Desainer%20Produk." target="_blank" rel="noopener">Lamar via WhatsApp →</a>
+          </article>
+
+          <article class="job-card reveal">
+            <div class="job-card-top">
+              <span class="job-tag">Operasional</span>
+              <span class="job-type">Part-time</span>
+            </div>
+            <h3>Packer &amp; Quality Control</h3>
+            <p class="job-loc">Bandung · On-site</p>
+            <p class="job-desc">Quality check setiap produk sebelum dikirim dan memastikan packing rapi sampai ke tangan pelanggan.</p>
+            <a class="job-apply" href="https://wa.me/6285939592558?text=Halo%20AURELLE!%20Saya%20mau%20melamar%20posisi%20Packer%20dan%20Quality%20Control." target="_blank" rel="noopener">Lamar via WhatsApp →</a>
+          </article>
+        </div>
+
+        <!-- CTA -->
+        <div class="karier-cta reveal">
+          <h3>Belum ada posisi yang cocok?</h3>
+          <p>Tetap kirim CV-mu — kami simpan untuk lowongan berikutnya.</p>
+          <div class="karier-cta-actions">
+            <a class="btn btn-dark" href="https://wa.me/6285939592558?text=Halo%20AURELLE!%20Saya%20mau%20mengirim%20lamaran%20kerja%20spontan." target="_blank" rel="noopener">Kirim Lamaran via WhatsApp</a>
+            <a class="btn btn-outline" href="mailto:zmuttakin000@gmail.com?subject=Lamaran%20Kerja%20AURELLE">Email CV</a>
           </div>
         </div>
       </div>
@@ -322,6 +288,5 @@
 
   <script src="js/data.js"></script>
   <script src="js/site.js"></script>
-  <script src="js/checkout.js"></script>
 </body>
 </html>

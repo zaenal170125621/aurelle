@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="AURELLE — checkout pesanan. Isi alamat pengiriman, pilih pembayaran, dan selesaikan pesanan kamu." />
-  <title>Checkout — AURELLE</title>
+  <meta name="description" content="AURELLE — program afiliasi: dapatkan komisi 8–12% untuk setiap penjualan dari link rekomendasimu." />
+  <title>Program Afiliasi — AURELLE</title>
 
   <!-- Terapkan tema sebelum halaman digambar (hindari flash) -->
   <script>
@@ -29,9 +29,9 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="AURELLE" />
-  <meta property="og:title" content="Checkout — AURELLE" />
-  <meta property="og:description" content="AURELLE — checkout pesanan. Isi alamat pengiriman, pilih pembayaran, dan selesaikan pesanan kamu." />
-  <meta property="og:url" content="https://zaenal170125621.github.io/aurelle/checkout.html" />
+  <meta property="og:title" content="Program Afiliasi — AURELLE" />
+  <meta property="og:description" content="Rekomendasikan produk AURELLE dan dapatkan komisi 8–12%." />
+  <meta property="og:url" content="https://zaenal170125621.github.io/aurelle/afiliasi.html" />
   <meta property="og:image" content="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80" />
   <script src="js/analytics.js" defer></script>
 </head>
@@ -102,144 +102,85 @@
       <nav class="breadcrumb" aria-label="Jalur halaman">
         <a href="index.html">Beranda</a>
         <span class="sep">/</span>
-        <a href="keranjang.html">Keranjang</a>
-        <span class="sep">/</span>
-        <span class="current">Checkout</span>
+        <span class="current">Afiliasi</span>
       </nav>
     </div>
 
-    <!-- ===== Checkout ===== -->
-    <section class="checkout-page">
+    <!-- ===== Afiliasi ===== -->
+    <section class="afiliasi-page">
       <div class="container">
-        <div class="section-head checkout-head">
-          <p class="eyebrow">Langkah Terakhir</p>
-          <h2 class="section-title">Checkout</h2>
-          <p class="section-sub">Lengkapi data penerima dan pilih pembayaran untuk menyelesaikan pesanan.</p>
+        <div class="section-head afiliasi-head reveal">
+          <p class="eyebrow">Program Afiliasi</p>
+          <h1 class="section-title">Rekomendasikan, <em>Dapatkan Komisi</em></h1>
+          <p class="section-sub">Bagikan produk favoritmu ke audiensmu, dan terima komisi 8–12% untuk setiap pesanan yang masuk lewat link kamu.</p>
         </div>
 
-        <!-- Keranjang kosong -->
-        <div class="catalog-empty" id="checkoutEmpty" hidden>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 7h12l-1.2 12.2a1.5 1.5 0 0 1-1.5 1.3H8.7a1.5 1.5 0 0 1-1.5-1.3L6 7Z" />
-            <path d="M9 10V6a3 3 0 0 1 6 0v4" />
-          </svg>
-          <h2>Keranjang masih kosong</h2>
-          <p>Isi keranjangmu dulu sebelum melanjutkan ke pembayaran.</p>
-          <a href="koleksi.html" class="btn btn-dark">Jelajahi Koleksi</a>
+        <!-- Cara kerja -->
+        <div class="steps-grid">
+          <div class="step-card reveal">
+            <span class="step-num">01</span>
+            <h3>Daftar Gratis</h3>
+            <p>Isi formulir pendaftaran lewat WhatsApp — tanpa biaya dan tanpa target wajib.</p>
+          </div>
+          <div class="step-card reveal">
+            <span class="step-num">02</span>
+            <h3>Bagikan Link</h3>
+            <p>Dapatkan link afiliasi unikmu. Bagikan di Instagram, TikTok, atau komunitasmu.</p>
+          </div>
+          <div class="step-card reveal">
+            <span class="step-num">03</span>
+            <h3>Terima Komisi</h3>
+            <p>Komisi 8–12% cair setiap bulan untuk pesanan yang masuk lewat link kamu.</p>
+          </div>
         </div>
 
-        <!-- Form + ringkasan -->
-        <div class="checkout-layout" id="checkoutMain">
-          <form class="checkout-form" id="checkoutForm" novalidate>
-            <h3>Data Penerima</h3>
-
-            <div class="form-grid">
-              <div class="field">
-                <label for="nama">Nama Lengkap *</label>
-                <input id="nama" name="nama" type="text" autocomplete="name" />
-                <p class="field-error" id="err-nama"></p>
-              </div>
-              <div class="field">
-                <label for="hp">No. HP / WhatsApp *</label>
-                <input id="hp" name="hp" type="tel" inputmode="numeric" autocomplete="tel" />
-                <p class="field-error" id="err-hp"></p>
-              </div>
-              <div class="field">
-                <label for="email">Email (opsional)</label>
-                <input id="email" name="email" type="email" autocomplete="email" />
-                <p class="field-error" id="err-email"></p>
-              </div>
-              <div class="field">
-                <label for="kodepos">Kode Pos *</label>
-                <input id="kodepos" name="kodepos" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="5" />
-                <p class="field-error" id="err-kodepos"></p>
-              </div>
-            </div>
-
-            <div class="field">
-              <label for="alamat">Alamat Lengkap *</label>
-              <textarea id="alamat" name="alamat" rows="3" autocomplete="street-address" placeholder="Nama jalan, nomor rumah, RT/RW, kelurahan, kecamatan"></textarea>
-              <p class="field-error" id="err-alamat"></p>
-            </div>
-
-            <div class="form-grid">
-              <div class="field">
-                <label for="kota">Kota / Kabupaten *</label>
-                <input id="kota" name="kota" type="text" autocomplete="address-level2" />
-                <p class="field-error" id="err-kota"></p>
-              </div>
-              <div class="field">
-                <label for="provinsi">Provinsi *</label>
-                <input id="provinsi" name="provinsi" type="text" autocomplete="address-level1" />
-                <p class="field-error" id="err-provinsi"></p>
-              </div>
-            </div>
-
-            <div class="field">
-              <label for="catatan">Catatan untuk penjual (opsional)</label>
-              <textarea id="catatan" name="catatan" rows="2" placeholder="Misal: warna boleh ditukar jika stok habis"></textarea>
-            </div>
-
-            <h3 class="mt">Metode Pembayaran</h3>
-            <div class="payment-options">
-              <label class="pay-opt">
-                <input type="radio" name="payment" value="Transfer Bank" checked />
-                <span>Transfer Bank</span>
-              </label>
-              <label class="pay-opt">
-                <input type="radio" name="payment" value="GoPay" />
-                <span>GoPay</span>
-              </label>
-              <label class="pay-opt">
-                <input type="radio" name="payment" value="OVO" />
-                <span>OVO</span>
-              </label>
-              <label class="pay-opt">
-                <input type="radio" name="payment" value="ShopeePay" />
-                <span>ShopeePay</span>
-              </label>
-              <label class="pay-opt">
-                <input type="radio" name="payment" value="COD" />
-                <span>COD</span>
-              </label>
-            </div>
-
-            <button type="submit" class="btn btn-dark btn-submit">Buat Pesanan</button>
-          </form>
-
-          <aside class="cart-summary checkout-summary">
-            <h3>Ringkasan Pesanan</h3>
-            <div id="summaryItems">
-              <!-- item dirender oleh checkout.js -->
-            </div>
-            <div class="summary-row">
-              <span>Subtotal</span>
-              <strong id="sSubtotal">—</strong>
-            </div>
-            <div class="summary-row">
-              <span>Ongkir</span>
-              <strong id="sOngkir">—</strong>
-            </div>
-            <div class="summary-row total">
-              <span>Total</span>
-              <strong id="sTotal">—</strong>
-            </div>
-          </aside>
+        <!-- Tier komisi -->
+        <div class="section-head karier-sub-head reveal">
+          <p class="eyebrow">Komisi</p>
+          <h2 class="section-title">Tingkat <em>Komisi</em></h2>
         </div>
 
-        <!-- Pesan sukses -->
-        <div class="order-success" id="orderSuccess" hidden>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10" />
-            <path d="m8 12.5 2.7 2.7L16.5 9" />
-          </svg>
-          <h2>Pesanan Berhasil Dibuat</h2>
-          <p class="order-no">Nomor pesanan: <strong id="orderNo"></strong></p>
-          <p class="order-info" id="orderInfo"></p>
-          <p class="order-note">Selesaikan pemesanan dengan mengirim ringkasan pesanan ke WhatsApp kami. Kalau jendela WhatsApp tidak terbuka, tekan tombol di bawah.</p>
-          <div class="order-actions">
-            <a href="#" id="waOrderLink" class="btn btn-dark" target="_blank" rel="noopener">Selesaikan di WhatsApp</a>
-            <a href="koleksi.html" class="btn btn-ghost">Lanjut Belanja</a>
+        <div class="tier-grid">
+          <div class="tier-card reveal">
+            <p class="tier-rate">8<span>%</span></p>
+            <p class="tier-label">1–5 pesanan / bulan</p>
+            <p class="tier-note">Cocok untuk kamu yang baru memulai dan masih membangun audiens.</p>
+          </div>
+          <div class="tier-card popular reveal">
+            <p class="tier-rate">10<span>%</span></p>
+            <p class="tier-label">6–20 pesanan / bulan</p>
+            <p class="tier-note">Konten mulai konsisten — komisi naik otomatis tanpa perlu mengajukan apa pun.</p>
+          </div>
+          <div class="tier-card reveal">
+            <p class="tier-rate">12<span>%</span></p>
+            <p class="tier-label">21+ pesanan / bulan</p>
+            <p class="tier-note">Afiliasi terbaik — prioritas akses koleksi baru dan bonus bulanan.</p>
+          </div>
+        </div>
+
+        <!-- Kalkulator komisi -->
+        <div class="calc-card reveal">
+          <h2 class="section-title">Simulasi <em>Komisi</em></h2>
+          <div class="calc-fields">
+            <div class="calc-field">
+              <label for="afUnits">Produk terjual bulan ini</label>
+              <input id="afUnits" type="number" min="0" inputmode="numeric" value="10" />
+            </div>
+            <div class="calc-field">
+              <label for="afSales">Total penjualan (Rp)</label>
+              <input id="afSales" type="number" min="0" inputmode="numeric" value="1000000" />
+            </div>
+          </div>
+          <div class="calc-result" id="afResult" aria-live="polite"></div>
+        </div>
+
+        <!-- CTA -->
+        <div class="afiliasi-cta reveal">
+          <h3>Siap mulai?</h3>
+          <p>Pendaftaran gratis, tanpa target wajib, dan komisi dibayar setiap bulan.</p>
+          <div class="karier-cta-actions">
+            <a class="btn btn-dark" href="https://wa.me/6285939592558?text=Halo%20AURELLE!%20Saya%20mau%20daftar%20program%20afiliasi." target="_blank" rel="noopener">Daftar via WhatsApp</a>
+            <a class="btn btn-outline" href="mailto:zmuttakin000@gmail.com?subject=Pendaftaran%20Program%20Afiliasi%20AURELLE">Daftar via Email</a>
           </div>
         </div>
       </div>
@@ -322,6 +263,6 @@
 
   <script src="js/data.js"></script>
   <script src="js/site.js"></script>
-  <script src="js/checkout.js"></script>
+  <script src="js/afiliasi.js"></script>
 </body>
 </html>

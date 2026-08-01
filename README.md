@@ -13,6 +13,8 @@ Website toko pakaian estetik — statis murni (HTML, CSS, JavaScript) tanpa back
 - **Bantuan** (`bantuan.html`) — cara order, pengiriman, retur & tukar, FAQ
 - **Cek Pesanan** (`cek-pesanan.html`) — cari status pesanan dengan timeline (mode demo)
 - **Blog** (`blog.html` + `artikel.html`) — tips ukuran, perawatan, inspirasi outfit (halaman artikel terpisah)
+- **Karier** (`karier.html`) — lowongan kerja + CTA lamaran via WhatsApp/email
+- **Afiliasi** (`afiliasi.html`) — program komisi 8–12% + kalkulator simulasi komisi
 - **Admin** (`admin.html`) — dashboard ringkas, kelola produk/pesanan/pelanggan, mode demo tanpa backend (ubah hanya berlaku di sesi)
 - Tema terang/gelap, navbar aktif + scrollspy, tombol kembali ke atas, animasi scroll halus
 - Data tersimpan di `localStorage` per browser (keranjang, wishlist, tema)
@@ -30,6 +32,8 @@ bantuan.html      Pusat bantuan (cara order, pengiriman, retur, FAQ)
 cek-pesanan.html  Cek status pesanan (timeline, mode demo)
 blog.html         Blog (tips, perawatan, inspirasi)
 artikel.html      Halaman isi artikel (blog + artikel terkait)
+karier.html       Lowongan kerja (posisi + CTA lamaran)
+afiliasi.html     Program afiliasi (komisi + kalkulator)
 admin.html        Panel admin (compact, mode demo)
 css/style.css     Seluruh styling (10 bagian)
 js/data.js        Data produk, kategori, konfigurasi ongkir
