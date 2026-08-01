@@ -1387,6 +1387,45 @@ ul {
   filter: brightness(0.85) saturate(0.95);
 }
 
+/* ---------- Koreksi kontras kartu & ikon ---------- */
+/* Hati pada kartu produk — lingkaran ikut gelap agar ikon terlihat */
+[data-theme="dark"] .wishlist-btn {
+  background: rgba(22, 19, 15, 0.78);
+  color: #f0e7d8;
+}
+
+/* Hati yang sudah disimpan tetap terracotta di mode gelap */
+[data-theme="dark"] .wishlist-btn.active {
+  background: var(--terracotta);
+  color: #fff;
+}
+
+/* Badge "Habis" — latar jadi terang di mode gelap, teks harus gelap */
+[data-theme="dark"] .product-badge.soldout {
+  color: #16130f;
+}
+
+/* Overlay kategori — gradien selalu gelap, teks tetap terang */
+[data-theme="dark"] .category-overlay {
+  color: var(--on-dark);
+}
+
+/* Banner promo — panel tetap gelap agar konsisten dengan overlay gambar */
+[data-theme="dark"] .promo-card {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+[data-theme="dark"] .promo-card .btn-light {
+  background: #efe6d8;
+  color: #221d16;
+}
+
+/* Pesan error form — lebih terang agar terbaca di latar gelap */
+[data-theme="dark"] .field-error {
+  color: #e28b78;
+}
+
 /* ==========================================================================
    Halaman detail produk
    ========================================================================== */
