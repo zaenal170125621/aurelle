@@ -322,10 +322,54 @@ function initSizeGuide() {
   });
 }
 
+/* ---------- Sticky bar beli (mobile) ---------- */
+function initStickyBar() {
+  const bar = document.getElementById("stickyBar");
+  const priceEl = document.getElementById("stickyPrice");
+  if (!bar || !product) return;
+  if (priceEl) priceEl.textContent = formatRupiah(product.price);
+
+  const onScroll = () => {
+    const addRow = document.getElementById("addToCartBtn");
+    if (!addRow) return;
+    const show = addRow.getBoundingClientRect().top < 0;
+    bar.classList.toggle("show", show);
+    bar.setAttribute("aria-hidden", String(!show));
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll, { passive: true });
+  onScroll();
+
+  const tambahKeKeranjang = () => {
+    if (!selectedSize) {
+      showToast("Pilih ukuran terlebih dahulu");
+      return false;
+    }
+    addToCart({
+      id: productId,
+      name: product.name,
+      size: selectedSize,
+      color: selectedColor,
+      qty,
+      price: product.price,
+    });
+    return true;
+  };
+
+  document.getElementById("stickyAdd")?.addEventListener("click", () => {
+    if (tambahKeKeranjang()) showToast("Ditambahkan ke keranjang 🛍️");
+  });
+
+  document.getElementById("stickyBuy")?.addEventListener("click", () => {
+    if (tambahKeKeranjang()) window.location.href = "checkout.html";
+  });
+}
+
 /* ---------- Init ---------- */
 document.addEventListener("DOMContentLoaded", () => {
   renderDetail();
   renderRecommendations();
   initControls();
   initSizeGuide();
+  initStickyBar();
 });

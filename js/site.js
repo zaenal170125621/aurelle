@@ -296,6 +296,29 @@ function initActiveNav() {
 }
 
 /* ---------- Pencarian produk (modal live search) ---------- */
+const SEARCH_HISTORY_KEY = "aurelle-search-history";
+const POPULAR_KEYWORDS = ["kaos", "dress", "jeans", "linen", "cardigan", "tote bag"];
+
+function getSearchHistory() {
+  try {
+    return JSON.parse(localStorage.getItem(SEARCH_HISTORY_KEY) || "[]");
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveSearchHistory(q) {
+  const query = q.trim().toLowerCase();
+  if (!query) return;
+  const list = getSearchHistory().filter((k) => k !== query);
+  list.unshift(query);
+  localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(list.slice(0, 6)));
+}
+
+function clearSearchHistory() {
+  localStorage.removeItem(SEARCH_HISTORY_KEY);
+}
+
 function searchProducts(query) {
   const q = query.trim().toLowerCase();
   if (!q) return [];
@@ -348,9 +371,29 @@ function initSearch() {
       </span>
     </a>`;
 
+  /* Chip kata kunci (riwayat / populer) */
+  const chipHTML = (label) =>
+    `<button type="button" class="search-chip" data-query="${String(label).replace(/"/g, "&quot;")}">${label}</button>`;
+
+  const popularHTML = () =>
+    `<p class="search-label">Kata kunci populer</p>` +
+    `<div class="search-chips">${POPULAR_KEYWORDS.map(chipHTML).join("")}</div>`;
+
+  const historyHTML = () => {
+    const history = getSearchHistory();
+    if (!history.length) return "";
+    return (
+      `<p class="search-label">Riwayat pencarian ` +
+      `<button type="button" class="search-clear" id="clearHistory">Hapus</button></p>` +
+      `<div class="search-chips">${history.map(chipHTML).join("")}</div>`
+    );
+  };
+
   const render = () => {
     if (!input.value.trim()) {
       results.innerHTML =
+        historyHTML() +
+        popularHTML() +
         `<p class="search-label">Produk populer</p>` +
         PRODUCTS.slice(0, 4).map((p, i) => itemHTML(p, i)).join("");
       return;
@@ -361,6 +404,26 @@ function initSearch() {
       ? found.map(({ index, product }) => itemHTML(product, index)).join("")
       : '<p class="search-empty">Tidak ada produk yang cocok. Coba kata kunci lain.</p>';
   };
+
+  /* Klik chip riwayat/populer, hapus riwayat, atau item hasil */
+  results.addEventListener("click", (e) => {
+    const chip = e.target.closest(".search-chip");
+    if (chip) {
+      const q = chip.dataset.query;
+      input.value = q;
+      saveSearchHistory(q);
+      render();
+      return;
+    }
+    if (e.target.closest("#clearHistory")) {
+      clearSearchHistory();
+      render();
+      return;
+    }
+    if (e.target.closest(".search-item") && input.value.trim()) {
+      saveSearchHistory(input.value);
+    }
+  });
 
   const open = () => {
     overlay.classList.add("open");
@@ -386,6 +449,7 @@ function initSearch() {
   input.addEventListener("input", render);
   input.addEventListener("keydown", (e) => {
     if (e.key !== "Enter") return;
+    if (input.value.trim()) saveSearchHistory(input.value);
     const first = results.querySelector(".search-item");
     if (first) {
       e.preventDefault();

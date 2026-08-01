@@ -133,6 +133,14 @@
           <form class="checkout-form" id="checkoutForm" novalidate>
             <h3>Data Penerima</h3>
 
+            <div class="field address-book">
+              <label for="alamatList">Buku Alamat</label>
+              <select id="alamatList">
+                <option value="">— Pilih alamat tersimpan —</option>
+              </select>
+              <p class="field-hint">Pilih alamat tersimpan untuk mengisi form otomatis.</p>
+            </div>
+
             <div class="form-grid">
               <div class="field">
                 <label for="nama">Nama Lengkap *</label>
@@ -180,6 +188,11 @@
               <textarea id="catatan" name="catatan" rows="2" placeholder="Misal: warna boleh ditukar jika stok habis"></textarea>
             </div>
 
+            <label class="save-addr">
+              <input type="checkbox" id="simpanAlamat" checked />
+              <span>Simpan alamat ini ke buku alamat</span>
+            </label>
+
             <h3 class="mt">Metode Pembayaran</h3>
             <div class="payment-options">
               <label class="pay-opt">
@@ -209,6 +222,17 @@
 
           <aside class="cart-summary checkout-summary">
             <h3>Ringkasan Pesanan</h3>
+
+            <div class="voucher-box">
+              <h4>Voucher / Kode Promo</h4>
+              <div class="voucher-input">
+                <input id="voucherInput" type="text" placeholder="Masukkan kode promo" autocomplete="off" aria-label="Kode promo" />
+                <button type="button" class="btn btn-dark" id="voucherApply">Pakai</button>
+              </div>
+              <p class="form-status" id="voucherStatus" role="status" aria-live="polite"></p>
+              <div class="voucher-list" id="voucherList"></div>
+            </div>
+
             <div id="summaryItems">
               <!-- item dirender oleh checkout.js -->
             </div>
@@ -219,6 +243,13 @@
             <div class="summary-row">
               <span>Ongkir</span>
               <strong id="sOngkir">—</strong>
+            </div>
+            <div class="summary-row voucher-row" id="voucherRow" hidden>
+              <span>Voucher <em id="voucherName"></em></span>
+              <span class="voucher-row-right">
+                <strong id="sDiskon">—</strong>
+                <button type="button" class="voucher-remove" id="voucherRemove" aria-label="Batalkan voucher">✕</button>
+              </span>
             </div>
             <div class="summary-row total">
               <span>Total</span>

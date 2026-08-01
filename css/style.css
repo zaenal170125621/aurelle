@@ -2595,6 +2595,59 @@ ul {
   }
 }
 
+/* Sticky bar beli (produk.html, mobile) */
+.sticky-buy {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 1rem calc(0.7rem + env(safe-area-inset-bottom));
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+  box-shadow: 0 -6px 24px rgba(38, 35, 31, 0.1);
+  transform: translateY(105%);
+  transition: transform 0.3s ease;
+}
+
+.sticky-buy.show {
+  transform: translateY(0);
+}
+
+.sticky-buy-info {
+  display: grid;
+  gap: 0.1rem;
+  margin-right: auto;
+  min-width: 0;
+}
+
+.sticky-buy-info span {
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+
+.sticky-buy-info strong {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.sticky-buy .btn {
+  padding: 0.75rem 1.1rem;
+  font-size: 0.88rem;
+  flex: none;
+}
+
+@media (min-width: 769px) {
+  .sticky-buy {
+    display: none;
+  }
+}
+
 /* ==========================================================================
    Part 7 — Halaman checkout (checkout.html)
    ========================================================================== */
@@ -2700,6 +2753,156 @@ ul {
 
 .pay-opt {
   position: relative;
+}
+
+/* Voucher / kode promo di checkout */
+.voucher-box {
+  margin: 0.2rem 0 1.1rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px dashed var(--line);
+}
+
+.voucher-box h4 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.6rem;
+}
+
+.voucher-input {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.voucher-input input {
+  flex: 1;
+  min-width: 0;
+  height: 42px;
+  padding: 0 0.85rem;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: var(--cream);
+  font: inherit;
+  font-size: 0.88rem;
+  color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  outline: none;
+}
+
+.voucher-input input:focus {
+  border-color: var(--terracotta);
+  box-shadow: 0 0 0 4px rgba(198, 123, 92, 0.12);
+}
+
+.voucher-input .btn {
+  padding: 0 1.2rem;
+  font-size: 0.85rem;
+  flex: none;
+}
+
+.voucher-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+.voucher-chip {
+  display: grid;
+  gap: 0.15rem;
+  text-align: left;
+  border: 1.5px dashed var(--line);
+  background: var(--paper);
+  border-radius: 12px;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  font: inherit;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.voucher-chip strong {
+  font-size: 0.85rem;
+  color: var(--terracotta-dark);
+  letter-spacing: 0.06em;
+}
+
+.voucher-chip span {
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+.voucher-chip:hover,
+.voucher-chip.active {
+  border-color: var(--terracotta);
+  border-style: solid;
+  background: var(--cream-deep);
+}
+
+.voucher-row .voucher-row-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.voucher-row strong {
+  color: var(--terracotta-dark);
+}
+
+.voucher-remove {
+  border: none;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0.2rem;
+  border-radius: 999px;
+}
+
+.voucher-remove:hover {
+  color: var(--terracotta-dark);
+}
+
+/* Buku alamat di checkout */
+.address-book select {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: var(--cream);
+  font: inherit;
+  font-size: 0.88rem;
+  color: var(--ink);
+  cursor: pointer;
+  outline: none;
+}
+
+.address-book select:focus {
+  border-color: var(--terracotta);
+  box-shadow: 0 0 0 4px rgba(198, 123, 92, 0.12);
+}
+
+.field-hint {
+  font-size: 0.76rem;
+  color: var(--muted);
+  margin-top: 0.35rem;
+}
+
+.save-addr {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0.9rem 0 0.3rem;
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.save-addr input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--terracotta);
+  flex: none;
 }
 
 .pay-opt input {
@@ -4708,6 +4911,49 @@ body.modal-open {
   text-align: center;
   font-size: 0.88rem;
   color: var(--muted);
+}
+
+/* Chip kata kunci: riwayat pencarian & kata kunci populer */
+.search-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  padding: 0.1rem 0.6rem 0.7rem;
+}
+
+.search-chip {
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink-soft);
+  font: inherit;
+  font-size: 0.8rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.search-chip:hover {
+  border-color: var(--terracotta);
+  color: var(--terracotta-dark);
+  background: var(--cream-deep);
+}
+
+.search-clear {
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 0.72rem;
+  color: var(--muted);
+  cursor: pointer;
+  text-decoration: underline;
+  text-transform: none;
+  letter-spacing: 0;
+  margin-left: 0.4rem;
+}
+
+.search-clear:hover {
+  color: var(--terracotta-dark);
 }
 
 /* Status form: pesan error merah (umum) */

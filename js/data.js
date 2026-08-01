@@ -188,6 +188,13 @@ const formatRupiah = (value) =>
 /* Format jumlah terjual ala marketplace (mis. 420 -> "400+") */
 const formatSold = (n) => (n >= 100 ? Math.floor(n / 100) * 100 + "+" : String(n));
 
+/* Voucher promo statis (demo) — dipakai di halaman checkout */
+const VOUCHERS = [
+  { kode: "HEMAT10", tipe: "persen", nilai: 10, minBelanja: 100000, deskripsi: "Diskon 10% · min. belanja Rp100.000" },
+  { kode: "HARIINI", tipe: "persen", nilai: 15, minBelanja: 200000, deskripsi: "Diskon 15% · min. belanja Rp200.000" },
+  { kode: "NGOPI", tipe: "nominal", nilai: 15000, minBelanja: 50000, deskripsi: "Potongan Rp15.000 · min. belanja Rp50.000" },
+];
+
 /* Kategori untuk filter di halaman katalog ("Semua" = tanpa filter) */
 const KATEGORI = ["Semua", "Wanita", "Pria", "Aksesoris"];
 
