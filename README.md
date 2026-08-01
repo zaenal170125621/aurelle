@@ -10,7 +10,8 @@ Website toko pakaian estetik — statis murni (HTML, CSS, JavaScript) tanpa back
 - **Keranjang** (`keranjang.html`) — ubah jumlah, hapus, progress gratis ongkir (min. Rp150.000)
 - **Wishlist** (`wishlist.html`) — tersimpan di localStorage + badge di navbar
 - **Checkout** (`checkout.html`) — form alamat dengan validasi, metode pembayaran, pesan sukses
-- **Pusat Bantuan** (`bantuan.html`) — cara order, pengiriman, retur & tukar, FAQ, CTA kontak
+- **Bantuan** (`bantuan.html`) — cara order, pengiriman, retur & tukar, FAQ
+- **Cek Pesanan** (`cek-pesanan.html`) — cari status pesanan dengan timeline (mode demo)
 - **Admin** (`admin.html`) — dashboard ringkas, kelola produk/pesanan/pelanggan, mode demo tanpa backend (ubah hanya berlaku di sesi)
 - Tema terang/gelap, navbar aktif + scrollspy, tombol kembali ke atas, animasi scroll halus
 - Data tersimpan di `localStorage` per browser (keranjang, wishlist, tema)
@@ -25,6 +26,7 @@ keranjang.html    Keranjang
 wishlist.html     Wishlist
 checkout.html     Checkout
 bantuan.html      Pusat bantuan (cara order, pengiriman, retur, FAQ)
+cek-pesanan.html  Cek status pesanan (timeline, mode demo)
 admin.html        Panel admin (compact, mode demo)
 css/style.css     Seluruh styling (10 bagian)
 js/data.js        Data produk, kategori, konfigurasi ongkir

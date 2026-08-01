@@ -5,18 +5,8 @@
 
 "use strict";
 
-/* ---------- Data contoh pesanan & pelanggan ---------- */
-const ORDERS = [
-  { id: "AUR-1042", nama: "Siti Rahma", tanggal: "2026-08-02", item: 3, total: 537000, status: "Diproses" },
-  { id: "AUR-1041", nama: "Budi Santoso", tanggal: "2026-08-02", item: 1, total: 89000, status: "Selesai" },
-  { id: "AUR-1040", nama: "Dewi Lestari", tanggal: "2026-08-01", item: 2, total: 448000, status: "Dikirim" },
-  { id: "AUR-1039", nama: "Rizky Pratama", tanggal: "2026-08-01", item: 4, total: 726000, status: "Menunggu" },
-  { id: "AUR-1038", nama: "Maya Anggraini", tanggal: "2026-07-31", item: 2, total: 358000, status: "Selesai" },
-  { id: "AUR-1037", nama: "Fajar Nugroho", tanggal: "2026-07-30", item: 1, total: 229000, status: "Selesai" },
-  { id: "AUR-1036", nama: "Putri Ayu", tanggal: "2026-07-30", item: 3, total: 497000, status: "Diproses" },
-  { id: "AUR-1035", nama: "Andi Wijaya", tanggal: "2026-07-29", item: 1, total: 99000, status: "Dikirim" },
-];
-
+/* ---------- Data contoh pelanggan (tanpa backend) ---------- */
+/* Data pesanan (ORDERS) diambil dari js/data.js agar konsisten dengan halaman cek pesanan */
 const CUSTOMERS = [
   { nama: "Siti Rahma", email: "siti.rahma@gmail.com", kota: "Jakarta", pesanan: 6, belanja: 2140000, status: "Aktif" },
   { nama: "Budi Santoso", email: "budi.s@gmail.com", kota: "Bandung", pesanan: 3, belanja: 890000, status: "Aktif" },

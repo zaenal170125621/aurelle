@@ -3611,6 +3611,250 @@ body.modal-open {
 }
 
 /* ==========================================================================
+   Part 11 — Cek pesanan (cek-pesanan.html)
+   ========================================================================== */
+
+.track-page {
+  padding: 2rem 0 5.5rem;
+}
+
+.track-head {
+  margin-bottom: 2.2rem;
+}
+
+.track-form {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1.4rem;
+  box-shadow: var(--shadow-sm);
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+.track-form-inner {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.track-form-inner input {
+  flex: 1;
+  min-width: 0;
+  height: 44px;
+  padding: 0 0.9rem;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: var(--cream);
+  font: inherit;
+  font-size: 0.92rem;
+  color: var(--ink);
+  outline: none;
+  text-transform: uppercase;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.track-form-inner input::placeholder {
+  text-transform: none;
+  color: var(--muted);
+}
+
+.track-form-inner input:focus {
+  border-color: var(--terracotta);
+  box-shadow: 0 0 0 4px rgba(198, 123, 92, 0.12);
+}
+
+.track-form .form-status {
+  margin-top: 0.7rem;
+  font-size: 0.84rem;
+}
+
+.track-form .form-status.invalid {
+  color: #b3402c;
+}
+
+[data-theme="dark"] .track-form .form-status.invalid {
+  color: #e28b78;
+}
+
+.track-form .form-hint {
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.track-result {
+  margin: 1.6rem auto 0;
+  max-width: 640px;
+  scroll-margin-top: 110px;
+}
+
+.track-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 1.5rem 1.5rem 1.7rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.track-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.track-id {
+  font-size: 1.02rem;
+}
+
+.track-id strong {
+  font-family: var(--serif);
+  font-weight: 600;
+}
+
+.track-sub {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 0.2rem;
+}
+
+.track-total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1.2rem 0 1.4rem;
+  padding: 0.9rem 1rem;
+  background: var(--cream-deep);
+  border-radius: 12px;
+}
+
+.track-total span {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+
+.track-total strong {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.track-timeline {
+  list-style: none;
+  position: relative;
+}
+
+.track-timeline::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: var(--line);
+}
+
+.track-timeline li {
+  position: relative;
+  padding: 0 0 1.1rem 2.4rem;
+}
+
+.track-timeline li:last-child {
+  padding-bottom: 0;
+}
+
+.track-timeline .dot {
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--line);
+  background: var(--paper);
+}
+
+.track-timeline li.done .dot {
+  background: var(--sage);
+  border-color: var(--sage);
+}
+
+.track-timeline li.active .dot {
+  background: var(--terracotta);
+  border-color: var(--terracotta);
+  box-shadow: 0 0 0 4px rgba(198, 123, 92, 0.18);
+}
+
+.track-timeline li strong {
+  display: block;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.track-timeline li small {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.track-timeline li:not(.done):not(.active) strong {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.track-note {
+  margin-top: 1.2rem;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+
+.track-note a {
+  color: var(--terracotta-dark);
+  font-weight: 600;
+}
+
+.track-note a:hover {
+  text-decoration: underline;
+}
+
+.track-card-empty {
+  text-align: center;
+  padding: 2.2rem 1.8rem;
+}
+
+.track-card-empty h3 {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+}
+
+.track-card-empty p {
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+
+.track-card-empty .track-note {
+  margin-top: 1.2rem;
+}
+
+@media (max-width: 520px) {
+  .track-form-inner {
+    flex-direction: column;
+  }
+
+  .track-form-inner input {
+    height: 46px;
+  }
+
+  .track-form-inner .btn {
+    width: 100%;
+  }
+}
+
+/* ==========================================================================
    Part 9 — Halaman bantuan (bantuan.html)
    ========================================================================== */
 

@@ -183,3 +183,15 @@ const KATEGORI = ["Semua", "Wanita", "Pria", "Aksesoris"];
 /* Konfigurasi ongkir (dipakai halaman keranjang & checkout) */
 const ONGKIR_FLAT = 20000;
 const FREE_ONGKIR_MIN = 150000;
+
+/* Data contoh pesanan (mode demo, tanpa backend) — dipakai admin & cek pesanan */
+const ORDERS = [
+  { id: "AUR-1042", nama: "Siti Rahma", tanggal: "2026-08-02", item: 3, total: 537000, status: "Diproses", kurir: null, resi: null },
+  { id: "AUR-1041", nama: "Budi Santoso", tanggal: "2026-08-02", item: 1, total: 89000, status: "Selesai", kurir: "J&T", resi: "JT2508142001" },
+  { id: "AUR-1040", nama: "Dewi Lestari", tanggal: "2026-08-01", item: 2, total: 448000, status: "Dikirim", kurir: "JNE", resi: "JD0023512487" },
+  { id: "AUR-1039", nama: "Rizky Pratama", tanggal: "2026-08-01", item: 4, total: 726000, status: "Menunggu", kurir: null, resi: null },
+  { id: "AUR-1038", nama: "Maya Anggraini", tanggal: "2026-07-31", item: 2, total: 358000, status: "Selesai", kurir: "SiCepat", resi: "SC3028112290" },
+  { id: "AUR-1037", nama: "Fajar Nugroho", tanggal: "2026-07-30", item: 1, total: 229000, status: "Selesai", kurir: "J&T", resi: "JT2508093104" },
+  { id: "AUR-1036", nama: "Putri Ayu", tanggal: "2026-07-30", item: 3, total: 497000, status: "Diproses", kurir: null, resi: null },
+  { id: "AUR-1035", nama: "Andi Wijaya", tanggal: "2026-07-29", item: 1, total: 99000, status: "Dikirim", kurir: "JNE", resi: "JD0023487126" },
+];
