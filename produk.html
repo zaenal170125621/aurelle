@@ -120,6 +120,13 @@
       </div>
     </section>
 
+    <!-- ===== Ulasan Pembeli ===== -->
+    <section class="ulasan-wrap">
+      <div class="container" id="ulasanSection">
+        <!-- ulasan dirender oleh produk.js -->
+      </div>
+    </section>
+
     <!-- ===== Kamu Mungkin Suka ===== -->
     <section class="related" id="recommendSection">
       <div class="container">
@@ -137,6 +144,12 @@
       </div>
     </section>
   </main>
+
+  <!-- ===== Modal Zoom Gambar ===== -->
+  <div class="zoom-modal" id="zoomModal" aria-hidden="true" role="dialog" aria-label="Perbesar gambar produk">
+    <button type="button" class="zoom-close" id="zoomClose" aria-label="Tutup gambar">✕</button>
+    <img id="zoomImg" src="" alt="" />
+  </div>
 
   <!-- ===== Modal Panduan Ukuran ===== -->
   <div class="modal-overlay" id="sizeGuideModal" aria-hidden="true">

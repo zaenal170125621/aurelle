@@ -344,6 +344,8 @@ function handleSubmit(e) {
     ongkir,
     total,
     voucher: activeVoucher ? activeVoucher.kode : null,
+    poin: Math.floor(total / 1000),
+    batasBayar: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
     status: "Menunggu",
     resi: "",
     timeline: [
@@ -405,8 +407,14 @@ function handleSubmit(e) {
       kota +
       ", " +
       provinsi +
-      ".";
+      " · +" +
+      Math.floor(total / 1000) +
+      " poin AURELLE";
   }
+
+  /* Countdown batas pembayaran (24 jam) */
+  const countdownEl = document.getElementById("payCountdown");
+  if (countdownEl) startCountdown(countdownEl, order.batasBayar);
 
   /* Simpan alamat ke buku alamat jika dicentang */
   if (document.getElementById("simpanAlamat")?.checked) {

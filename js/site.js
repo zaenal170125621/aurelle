@@ -670,4 +670,35 @@ function productCardHTML(product, index, opts = {}) {
   </article>`;
 }
 
+/* ---------- Hitung mundur batas pembayaran (checkout & cek pesanan) ---------- */
+function startCountdown(el, deadlineISO, onExpire) {
+  if (!el || !deadlineISO) return null;
+  const deadline = new Date(deadlineISO).getTime();
+  if (isNaN(deadline)) return null;
+
+  const pad = (n) => String(n).padStart(2, "0");
+  const tick = () => {
+    // Berhenti otomatis kalau elemen sudah tidak ada di halaman
+    if (!el.isConnected) {
+      clearInterval(iv);
+      return;
+    }
+    const sisa = deadline - Date.now();
+    if (sisa <= 0) {
+      el.textContent = "Waktu pembayaran habis";
+      el.classList.add("expired");
+      el.setAttribute("aria-live", "polite");
+      if (typeof onExpire === "function") onExpire(el);
+      return;
+    }
+    const h = Math.floor(sisa / 3600000);
+    const m = Math.floor((sisa % 3600000) / 60000);
+    const s = Math.floor((sisa % 60000) / 1000);
+    el.textContent = `${pad(h)}:${pad(m)}:${pad(s)}`;
+  };
+  tick();
+  const iv = setInterval(tick, 1000);
+  return iv;
+}
+
 

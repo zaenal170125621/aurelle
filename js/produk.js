@@ -12,17 +12,24 @@ let selectedSize = null;
 let selectedColor = product ? product.colors[0].name : null;
 let qty = 1;
 
-/* ---------- Galeri ---------- */
+/* ---------- Galeri multi-foto + zoom ---------- */
 function galleryHTML() {
   if (!product) return "";
 
-  const base = product.image.split("?")[0];
-  const mainSrc = base + "?auto=format&fit=crop&w=1100&q=85";
-  const thumbs = [
-    { src: base + "?auto=format&fit=crop&w=400&h=400&q=80", label: "Tampilan utama" },
-    { src: base + "?auto=format&fit=crop&w=400&h=400&q=80&crop=top", label: "Detail bagian atas" },
-    { src: base + "?auto=format&fit=crop&w=400&h=400&q=80&crop=bottom", label: "Detail bagian bawah" },
+  /* Foto utama produk + 2 foto lain dari pool (URL terbukti muat) */
+  const others = GALERI_POOL.filter((u) => u !== product.image);
+  const shots = [
+    product.image,
+    others[productId % others.length],
+    others[(productId + 1) % others.length],
   ];
+
+  const toSrc = (u, w) => u.split("?")[0] + "?auto=format&fit=crop&w=" + w + "&q=85";
+  const mainSrc = toSrc(shots[0], 1100);
+  const thumbs = shots.map((u, i) => ({
+    src: toSrc(u, 400),
+    label: "Foto " + (i + 1),
+  }));
 
   return `
     <div class="gallery-main">
@@ -41,6 +48,35 @@ function galleryHTML() {
     </div>`;
 }
 
+/* Zoom gambar utama (klik gambar -> tampil besar) */
+function initZoom() {
+  const main = document.getElementById("galleryMain");
+  const modal = document.getElementById("zoomModal");
+  const img = document.getElementById("zoomImg");
+  if (!main || !modal || !img) return;
+
+  main.addEventListener("click", () => {
+    img.src = main.src.replace("w=1100", "w=1600");
+    img.alt = main.alt;
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+  });
+
+  const close = () => {
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
+  };
+  document.getElementById("zoomClose")?.addEventListener("click", close);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) close();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("open")) close();
+  });
+}
+
 /* ---------- Info produk ---------- */
 function infoHTML() {
   if (!product) return "";
@@ -56,7 +92,7 @@ function infoHTML() {
     <h1 class="detail-name">${product.name}</h1>
     <div class="detail-rating">
       <span class="stars" aria-label="Rating ${product.rating} dari 5">${stars}</span>
-      <span>${product.rating.toLocaleString("id-ID")} · Terjual ${formatSold(product.sold)} · ${(product.reviews || 0).toLocaleString("id-ID")} ulasan</span>
+      <span>${product.rating.toLocaleString("id-ID")} · Terjual ${formatSold(product.sold)} · ${getUlasanCount(productId).toLocaleString("id-ID")} ulasan</span>
     </div>
     <div class="detail-price">
       <strong>${formatRupiah(product.price)}</strong>
@@ -349,6 +385,180 @@ function initSizeGuide() {
   });
 }
 
+/* ---------- Ulasan produk (seed + ulasan pengguna di localStorage) ---------- */
+const ULASAN_KEY = "aurelle-ulasan";
+const ULASAN_NAMA_KEY = "aurelle-ulasan-nama";
+
+function getUserUlasan(id) {
+  try {
+    return JSON.parse(localStorage.getItem(ULASAN_KEY) || "{}")[id] || [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveUserUlasan(id, ulasan) {
+  try {
+    const all = JSON.parse(localStorage.getItem(ULASAN_KEY) || "{}");
+    all[id] = [...(all[id] || []), ulasan];
+    localStorage.setItem(ULASAN_KEY, JSON.stringify(all));
+  } catch (e) {
+    /* abaikan */
+  }
+}
+
+/* Ulasan yang ditampilkan: punya pengguna (terbaru) + seed produk */
+function getUlasan(id) {
+  return getUserUlasan(id).concat(ULASAN_SEED.filter((u) => u.id === id));
+}
+
+/* Jumlah ulasan = angka awal produk + ulasan pengguna */
+function getUlasanCount(id) {
+  return (PRODUCTS[id]?.reviews || 0) + getUserUlasan(id).length;
+}
+
+/* Pernahkah pembeli ini membeli produk (pesanan Selesai di perangkat ini)? */
+function hasBoughtProduct(id) {
+  try {
+    const orders = JSON.parse(localStorage.getItem("aurelle-orders") || "[]");
+    return orders.some(
+      (o) =>
+        o.status === "Selesai" &&
+        Array.isArray(o.items) &&
+        o.items.some((it) => Number(it.id) === Number(id))
+    );
+  } catch (e) {
+    return false;
+  }
+}
+
+function formatUlasanWaktu(value) {
+  const d = new Date(value);
+  if (isNaN(d)) return "";
+  return d.toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+function ulasanHTML() {
+  if (!product) return "";
+  const all = getUlasan(productId);
+  const avg = all.length ? all.reduce((s, u) => s + u.rating, 0) / all.length : 0;
+  const stars = (n) => "★".repeat(n) + "☆".repeat(5 - n);
+  let namaTersimpan = "";
+  try {
+    namaTersimpan = localStorage.getItem(ULASAN_NAMA_KEY) || "";
+  } catch (e) {
+    /* abaikan */
+  }
+
+  return `
+    <section class="ulasan-section reveal">
+      <div class="ulasan-head">
+        <h3>Ulasan <em>Pembeli</em></h3>
+        <div class="ulasan-score">
+          <span class="stars" aria-hidden="true">${stars(Math.round(avg))}</span>
+          <strong>${avg ? avg.toFixed(1) : "—"}</strong>
+          <small>${getUlasanCount(productId).toLocaleString("id-ID")} ulasan</small>
+        </div>
+      </div>
+
+      <div class="ulasan-list">
+        ${all
+          .map(
+            (u) => `
+        <article class="ulasan-item">
+          <div class="ulasan-avatar" aria-hidden="true">${u.nama.charAt(0).toUpperCase()}</div>
+          <div class="ulasan-body">
+            <div class="ulasan-meta">
+              <strong>${u.nama}</strong>
+              ${u.verified ? `<span class="verified-badge">✓ Pembelian terverifikasi</span>` : ""}
+              <span class="stars" aria-label="Rating ${u.rating} dari 5">${stars(u.rating)}</span>
+            </div>
+            <p>${u.komentar}</p>
+            <small>${formatUlasanWaktu(u.waktu)}</small>
+          </div>
+        </article>`
+          )
+          .join("")}
+      </div>
+
+      <form class="ulasan-form" id="ulasanForm" novalidate>
+        <h4>Tulis Ulasanmu</h4>
+        <div class="star-picker" role="radiogroup" aria-label="Rating produk">
+          ${[5, 4, 3, 2, 1]
+            .map(
+              (n) => `<label>
+                <input type="radio" name="rating" value="${n}" ${n === 5 ? "checked" : ""} />
+                <span class="star" aria-hidden="true">★</span>
+              </label>`
+            )
+            .join("")}
+        </div>
+        <textarea id="ulasanKomentar" rows="3" placeholder="Ceritakan pengalamanmu memakai produk ini..." aria-label="Isi ulasan" required></textarea>
+        <div class="ulasan-form-row">
+          <input id="ulasanNama" type="text" placeholder="Nama kamu" value="${namaTersimpan}" aria-label="Nama kamu" required />
+          <button type="submit" class="btn btn-dark">Kirim Ulasan</button>
+        </div>
+        <p class="form-status" id="ulasanStatus" role="status" aria-live="polite"></p>
+      </form>
+    </section>`;
+}
+
+function initUlasan() {
+  const section = document.getElementById("ulasanSection");
+  if (!section || !product) return;
+  section.innerHTML = ulasanHTML();
+  initReveal();
+
+  document.getElementById("ulasanForm")?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const rating = Number(document.querySelector('input[name="rating"]:checked')?.value || 0);
+    const komentar = document.getElementById("ulasanKomentar")?.value.trim() || "";
+    const nama = document.getElementById("ulasanNama")?.value.trim() || "";
+    const status = document.getElementById("ulasanStatus");
+
+    if (!rating) {
+      if (status) status.textContent = "Pilih rating dulu ya.";
+      return;
+    }
+    if (komentar.length < 10) {
+      if (status) status.textContent = "Tulis komentar minimal 10 karakter.";
+      return;
+    }
+    if (!nama) {
+      if (status) status.textContent = "Isi nama kamu.";
+      return;
+    }
+
+    saveUserUlasan(productId, {
+      nama,
+      rating,
+      komentar,
+      waktu: new Date().toISOString(),
+      verified: hasBoughtProduct(productId),
+    });
+    try {
+      localStorage.setItem(ULASAN_NAMA_KEY, nama);
+    } catch (err) {
+      /* abaikan */
+    }
+
+    showToast("Terima kasih! Ulasanmu sudah terkirim 💛");
+    initUlasan();
+
+    /* Sinkronkan angka ulasan di baris rating atas */
+    const ratingLine = document.querySelector(".detail-rating span:last-child");
+    if (ratingLine) {
+      const parts = ratingLine.textContent.split(" · ");
+      parts[2] = getUlasanCount(productId).toLocaleString("id-ID") + " ulasan";
+      ratingLine.textContent = parts.join(" · ");
+    }
+  });
+}
+
 /* ---------- Sticky bar beli (mobile) ---------- */
 function initStickyBar() {
   const bar = document.getElementById("stickyBar");
@@ -399,4 +609,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initControls();
   initSizeGuide();
   initStickyBar();
+  initZoom();
+  initUlasan();
 });

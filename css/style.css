@@ -1690,6 +1690,7 @@ ul {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  cursor: zoom-in;
 }
 
 .detail-thumbs {
@@ -1959,6 +1960,270 @@ ul {
   height: 15px;
   color: var(--sage);
   flex: none;
+}
+
+/* ---------- Ulasan pembeli (produk.html) ---------- */
+.ulasan-wrap {
+  padding: 3.5rem 0 5rem;
+}
+
+.ulasan-section {
+  display: grid;
+  gap: 1.6rem;
+  padding: 1.8rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.ulasan-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.ulasan-head h3 {
+  font-family: var(--serif);
+  font-size: 1.45rem;
+  font-weight: 600;
+}
+
+.ulasan-head h3 em {
+  font-style: italic;
+  color: var(--terracotta-dark);
+}
+
+.ulasan-score {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.ulasan-score .stars {
+  font-size: 1.05rem;
+}
+
+.ulasan-score strong {
+  font-family: var(--serif);
+  font-size: 1.6rem;
+}
+
+.ulasan-score small {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.ulasan-list {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.ulasan-item {
+  display: flex;
+  gap: 0.9rem;
+}
+
+.ulasan-avatar {
+  width: 42px;
+  height: 42px;
+  flex: none;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: var(--cream-deep);
+  color: var(--terracotta-dark);
+  font-weight: 600;
+  font-family: var(--serif);
+}
+
+.ulasan-body {
+  min-width: 0;
+}
+
+.ulasan-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.ulasan-meta strong {
+  font-size: 0.9rem;
+}
+
+.ulasan-meta .stars {
+  font-size: 0.78rem;
+  margin-left: 0.2rem;
+}
+
+.verified-badge {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--sage-dark, #4d6b52);
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 0.15rem 0.5rem;
+}
+
+.ulasan-body p {
+  margin: 0.35rem 0 0.3rem;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--ink);
+}
+
+.ulasan-body > small {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.ulasan-form {
+  display: grid;
+  gap: 0.8rem;
+  padding-top: 1.4rem;
+  border-top: 1px dashed var(--line);
+}
+
+.ulasan-form h4 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.star-picker {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 0.25rem;
+}
+
+.star-picker label {
+  cursor: pointer;
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.star-picker label .star {
+  color: var(--line);
+  transition: color 0.15s ease;
+}
+
+.star-picker input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.star-picker input:checked ~ label .star,
+.star-picker label:hover .star,
+.star-picker label:hover ~ label .star {
+  color: #d9a441;
+}
+
+.ulasan-form textarea {
+  width: 100%;
+  padding: 0.65rem 0.8rem;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: var(--cream);
+  font: inherit;
+  font-size: 0.88rem;
+  color: var(--ink);
+  resize: vertical;
+  outline: none;
+}
+
+.ulasan-form textarea:focus {
+  border-color: var(--terracotta);
+  box-shadow: 0 0 0 4px rgba(198, 123, 92, 0.12);
+}
+
+.ulasan-form-row {
+  display: flex;
+  gap: 0.7rem;
+}
+
+.ulasan-form-row input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.6rem 0.8rem;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: var(--cream);
+  font: inherit;
+  font-size: 0.88rem;
+  color: var(--ink);
+  outline: none;
+}
+
+.ulasan-form-row input:focus {
+  border-color: var(--terracotta);
+  box-shadow: 0 0 0 4px rgba(198, 123, 92, 0.12);
+}
+
+.ulasan-form-row .btn {
+  flex: none;
+}
+
+@media (max-width: 480px) {
+  .ulasan-section {
+    padding: 1.2rem;
+  }
+  .ulasan-form-row {
+    flex-direction: column;
+  }
+}
+
+/* ---------- Modal zoom gambar ---------- */
+.zoom-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: grid;
+  place-items: center;
+  padding: 1.2rem;
+  background: rgba(20, 18, 16, 0.88);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.zoom-modal.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.zoom-modal img {
+  max-width: min(92vw, 900px);
+  max-height: 88vh;
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+  object-fit: contain;
+}
+
+.zoom-close {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.zoom-close:hover {
+  background: rgba(255, 255, 255, 0.28);
 }
 
 .detail-blocks {
@@ -3101,6 +3366,23 @@ ul {
   margin-bottom: 1.8rem;
 }
 
+.order-countdown {
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  margin-bottom: 0.9rem;
+}
+
+.order-countdown strong {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  color: var(--terracotta-dark);
+  letter-spacing: 0.06em;
+}
+
+.order-countdown strong.expired {
+  color: #b3402c;
+}
+
 .order-actions {
   display: flex;
   gap: 0.8rem;
@@ -4110,6 +4392,43 @@ body.modal-open {
   flex: 1;
   min-width: 180px;
   justify-content: center;
+}
+
+/* Batas pembayaran 24 jam + poin loyalitas (cek-pesanan) */
+.pay-deadline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: -0.6rem 0 1.2rem;
+  padding: 0.75rem 1rem;
+  border: 1px dashed var(--terracotta);
+  border-radius: 12px;
+  background: var(--cream-deep);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.pay-deadline strong {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  color: var(--terracotta-dark);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.pay-deadline strong.expired {
+  color: #b3402c;
+  font-size: 0.9rem;
+  font-family: var(--sans);
+  letter-spacing: 0;
+}
+
+.track-poin {
+  margin: 0.9rem 0 0;
+  font-size: 0.82rem;
+  color: var(--terracotta-dark);
+  font-weight: 500;
 }
 
 .track-timeline {

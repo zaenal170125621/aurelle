@@ -98,6 +98,20 @@ function resultHTML(order) {
       </div>`
       : "";
 
+  /* Batas pembayaran 24 jam (hanya pesanan nyata yang masih menunggu) */
+  const deadlineBlock =
+    order.batasBayar && order.status === "Menunggu"
+      ? `<div class="pay-deadline">
+          <span>Selesaikan pembayaran dalam</span>
+          <strong data-countdown="${order.batasBayar}">—</strong>
+        </div>`
+      : "";
+
+  /* Poin loyalitas AURELLE dari pesanan ini */
+  const poinBlock = order.poin
+    ? `<p class="track-poin">🏅 +${order.poin} poin AURELLE didapat dari pesanan ini</p>`
+    : "";
+
   return `
     <div class="track-card reveal">
       <div class="track-card-head">
@@ -111,8 +125,10 @@ function resultHTML(order) {
         <span>Total pembayaran</span>
         <strong>${formatRupiah(order.total)}</strong>
       </div>
+      ${deadlineBlock}
       ${actionsBlock}
       ${itemsBlock}
+      ${poinBlock}
       <ol class="track-timeline">
         ${steps}
       </ol>
@@ -162,6 +178,10 @@ function initTrack() {
     currentOrderId = order ? order.id : null;
     result.hidden = false;
     result.innerHTML = order ? resultHTML(order) : notFoundHTML(value.toUpperCase());
+    // Jalankan hitung mundur batas pembayaran jika ada
+    result.querySelectorAll("[data-countdown]").forEach((el) => {
+      startCountdown(el, el.dataset.countdown);
+    });
     initReveal();
     result.scrollIntoView({ behavior: "smooth", block: "start" });
   });

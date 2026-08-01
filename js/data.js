@@ -195,6 +195,41 @@ const VOUCHERS = [
   { kode: "NGOPI", tipe: "nominal", nilai: 15000, minBelanja: 50000, deskripsi: "Potongan Rp15.000 · min. belanja Rp50.000" },
 ];
 
+/* Ulasan awal per produk (demo) — digabung dengan ulasan pengguna di localStorage */
+const ULASAN_SEED = [
+  { id: 0, nama: "Sinta A.", rating: 5, komentar: "Bahannya adem dan jahitannya rapi. Pas di badan, cocok buat harian.", waktu: "2026-07-18T09:20:00.000Z" },
+  { id: 0, nama: "Rara M.", rating: 4, komentar: "Bagus dan sesuai foto, cuma ukurannya agak besar sedikit.", waktu: "2026-07-02T14:05:00.000Z" },
+  { id: 1, nama: "Dinda P.", rating: 5, komentar: "Warnanya cantik banget, flowy-nya pas. Dua kali beli di sini.", waktu: "2026-07-15T11:40:00.000Z" },
+  { id: 1, nama: "Ayu L.", rating: 5, komentar: "Pengiriman cepat, packing rapi, bahannya tebal dan adem.", waktu: "2026-06-28T08:15:00.000Z" },
+  { id: 2, nama: "Fina R.", rating: 4, komentar: "Nyaman dipakai lama, warna tidak luntur setelah dicuci.", waktu: "2026-07-10T16:30:00.000Z" },
+  { id: 2, nama: "Nadia K.", rating: 5, komentar: "Jeans-nya pas dan stretchy. Pinggangnya nyaman banget.", waktu: "2026-06-20T10:10:00.000Z" },
+  { id: 3, nama: "Gita W.", rating: 5, komentar: "Linennya ringan dan adem, cocok buat cuaca panas. Recommended!", waktu: "2026-07-08T13:25:00.000Z" },
+  { id: 3, nama: "Mega S.", rating: 4, komentar: "Modelnya simpel dan elegan. Semoga ada varian warna lain.", waktu: "2026-06-30T09:50:00.000Z" },
+  { id: 4, nama: "Tari N.", rating: 5, komentar: "Cardigan-nya lembut dan hangat, cocok buat naik gunung.", waktu: "2026-07-12T15:00:00.000Z" },
+  { id: 4, nama: "Wulan D.", rating: 5, komentar: "Ukuran pas, bahannya tebal tapi tetap adem. Suka banget!", waktu: "2026-06-25T07:45:00.000Z" },
+  { id: 5, nama: "Citra B.", rating: 4, komentar: "Roknya cantik, modelnya timeless. Sedikit perlu setrika.", waktu: "2026-07-05T12:10:00.000Z" },
+  { id: 5, nama: "Indah F.", rating: 5, komentar: "Kualitas premium, detail jahitannya rapi. Pasti belanja lagi.", waktu: "2026-06-18T17:20:00.000Z" },
+  { id: 6, nama: "Lala H.", rating: 5, komentar: "Motifnya unik dan bahannya nyaman. Sering dapat pujian!", waktu: "2026-07-14T10:35:00.000Z" },
+  { id: 6, nama: "Olla P.", rating: 4, komentar: "Bagus, warna sesuai foto. Ukurannya jujur.", waktu: "2026-07-01T09:05:00.000Z" },
+  { id: 7, nama: "Via T.", rating: 5, komentar: "Jaketnya ringan, hangat, dan gampang dilipat buat travel.", waktu: "2026-07-16T14:50:00.000Z" },
+  { id: 7, nama: "Zahra K.", rating: 5, komentar: "Suka banget, bahan lenting dan tidak gerah. Worth it!", waktu: "2026-06-22T11:00:00.000Z" },
+];
+
+/* Pool foto produk (URL Unsplash yang sudah terbukti muat) — dipakai untuk
+   galeri multi-foto di halaman produk */
+const GALERI_POOL = [
+  "https://images.unsplash.com/photo-1434389677669-e08b4cac3105",
+  "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f",
+  "https://images.unsplash.com/photo-1495385794356-15371f348c31",
+  "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c",
+  "https://images.unsplash.com/photo-1509631179647-0177331693ae",
+  "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab",
+  "https://images.unsplash.com/photo-1541099649105-f69ad21f3246",
+  "https://images.unsplash.com/photo-1556821840-3a63f95609a7",
+  "https://images.unsplash.com/photo-1584917865442-de89df76afd3",
+  "https://images.unsplash.com/photo-1590874103328-eac38a683ce7",
+];
+
 /* Kategori untuk filter di halaman katalog ("Semua" = tanpa filter) */
 const KATEGORI = ["Semua", "Wanita", "Pria", "Aksesoris"];
 
