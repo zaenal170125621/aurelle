@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="description" content="AURELLE — panel admin. Kelola produk, pesanan, dan pelanggan." />
+  <title>Admin — AURELLE</title>
+
+  <!-- Terapkan tema sebelum halaman digambar (hindari flash) -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("aurelle-theme");
+        var dark = saved
+          ? saved === "dark"
+          : window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (dark) document.documentElement.setAttribute("data-theme", "dark");
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+
+  <!-- ===== Topbar admin ===== -->
+  <header class="admin-topbar">
+    <div class="admin-topbar-inner">
+      <a href="index.html" class="brand admin-brand" aria-label="AURELLE beranda">
+        <span class="brand-mark">A</span>
+        <span class="brand-name">AURELLE</span>
+      </a>
+      <span class="admin-role">Admin</span>
+      <div class="admin-topbar-actions">
+        <a class="admin-store-link" href="index.html">Lihat Toko</a>
+        <button class="icon-btn theme-btn admin-theme" id="themeBtn" aria-label="Ganti tema terang atau gelap">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4.5" />
+            <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4" />
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+    <!-- ===== Sidebar ===== -->
+    <aside class="admin-sidebar">
+      <nav class="admin-nav" aria-label="Menu admin">
+        <button type="button" class="admin-nav-link active" data-tab="dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+            <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+            <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+            <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+          </svg>
+          Dashboard
+        </button>
+        <button type="button" class="admin-nav-link" data-tab="produk">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20.59 13.41 12 22 2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82Z"></path>
+            <circle cx="7" cy="7" r="1"></circle>
+          </svg>
+          Produk
+        </button>
+        <button type="button" class="admin-nav-link" data-tab="pesanan">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="8" y="2" width="8" height="4" rx="1"></rect>
+            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+            <path d="m9 12 2 2 4-4"></path>
+          </svg>
+          Pesanan
+        </button>
+        <button type="button" class="admin-nav-link" data-tab="pelanggan">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          Pelanggan
+        </button>
+      </nav>
+      <div class="admin-sidebar-foot">
+        <p>v1.0 · mode demo</p>
+        <p>Perubahan hanya berlaku di sesi ini.</p>
+      </div>
+    </aside>
+
+    <!-- ===== Konten ===== -->
+    <main class="admin-main">
+
+      <!-- Dashboard -->
+      <section class="admin-tab" id="tab-dashboard">
+        <header class="admin-tab-head">
+          <div>
+            <h1 class="admin-title">Dashboard</h1>
+            <p class="admin-sub">Ringkasan toko</p>
+          </div>
+          <span class="admin-date" id="adminDate"></span>
+        </header>
+
+        <div class="stat-grid">
+          <div class="stat-card">
+            <span class="stat-label">Pendapatan (est.)</span>
+            <strong class="stat-value" id="statRevenue">—</strong>
+            <span class="stat-note">dari total terjual</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Item Terjual</span>
+            <strong class="stat-value" id="statSold">—</strong>
+            <span class="stat-note">akumulasi penjualan</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Produk Katalog</span>
+            <strong class="stat-value" id="statProducts">—</strong>
+            <span class="stat-note">seluruh kategori</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Item Wishlist</span>
+            <strong class="stat-value" id="statWishlist">—</strong>
+            <span class="stat-note">tersimpan pengunjung</span>
+          </div>
+        </div>
+
+        <div class="admin-cols">
+          <div class="admin-panel">
+            <div class="admin-panel-head">
+              <h2>Produk Terlaris</h2>
+              <button type="button" class="admin-panel-link" data-goto="produk">Lihat semua</button>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr><th>Produk</th><th>Harga</th><th>Terjual</th><th>Rating</th></tr>
+                </thead>
+                <tbody id="topProducts"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="admin-panel">
+            <div class="admin-panel-head">
+              <h2>Pesanan Terbaru</h2>
+              <button type="button" class="admin-panel-link" data-goto="pesanan">Lihat semua</button>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr><th>ID</th><th>Pelanggan</th><th>Total</th><th>Status</th></tr>
+                </thead>
+                <tbody id="recentOrders"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Produk -->
+      <section class="admin-tab" id="tab-produk" hidden>
+        <header class="admin-tab-head">
+          <div>
+            <h1 class="admin-title">Produk</h1>
+            <p class="admin-sub">Kelola katalog &amp; harga</p>
+          </div>
+          <button type="button" class="admin-btn admin-btn-dark" id="addProductBtn">+ Produk Baru</button>
+        </header>
+
+        <div class="admin-toolbar">
+          <input type="search" id="adminSearch" placeholder="Cari produk…" aria-label="Cari produk" />
+          <select id="adminCategory" aria-label="Filter kategori">
+            <option value="Semua">Semua Kategori</option>
+          </select>
+          <select id="adminSort" aria-label="Urutkan">
+            <option value="terlaris">Terlaris</option>
+            <option value="termurah">Termurah</option>
+            <option value="termahal">Termahal</option>
+            <option value="rating">Rating</option>
+          </select>
+          <span class="admin-count" id="adminCount"></span>
+        </div>
+
+        <div class="admin-panel">
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Produk</th>
+                  <th>Kategori</th>
+                  <th>Badge</th>
+                  <th>Harga</th>
+                  <th>Terjual</th>
+                  <th>Rating</th>
+                  <th class="ta-r">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="productBody"></tbody>
+            </table>
+          </div>
+          <div class="admin-empty" id="adminEmpty" hidden>
+            <strong>Produk tidak ditemukan</strong>
+            Coba kata kunci atau filter lain.
+          </div>
+        </div>
+      </section>
+
+      <!-- Pesanan -->
+      <section class="admin-tab" id="tab-pesanan" hidden>
+        <header class="admin-tab-head">
+          <div>
+            <h1 class="admin-title">Pesanan</h1>
+            <p class="admin-sub">Pantau status pengiriman</p>
+          </div>
+          <select class="admin-toolbar-select" id="orderStatus" aria-label="Filter status pesanan">
+            <option value="Semua">Semua Status</option>
+            <option value="Menunggu">Menunggu</option>
+            <option value="Diproses">Diproses</option>
+            <option value="Dikirim">Dikirim</option>
+            <option value="Selesai">Selesai</option>
+          </select>
+        </header>
+
+        <div class="admin-panel">
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Pelanggan</th>
+                  <th>Tanggal</th>
+                  <th>Item</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th class="ta-r">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="orderBody"></tbody>
+            </table>
+          </div>
+          <div class="admin-empty" id="orderEmpty" hidden>
+            <strong>Belum ada pesanan</strong>
+            Tidak ada pesanan dengan status tersebut.
+          </div>
+        </div>
+      </section>
+
+      <!-- Pelanggan -->
+      <section class="admin-tab" id="tab-pelanggan" hidden>
+        <header class="admin-tab-head">
+          <div>
+            <h1 class="admin-title">Pelanggan</h1>
+            <p class="admin-sub">Data pembeli &amp; riwayat</p>
+          </div>
+        </header>
+
+        <div class="admin-panel">
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Pelanggan</th>
+                  <th>Kota</th>
+                  <th>Pesanan</th>
+                  <th>Total Belanja</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="customerBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/site.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
