@@ -13,6 +13,29 @@ function saveCart(cart) {
   }
 }
 
+/* ---------- Seleksi item (Shopee-style: pilih item untuk checkout) ---------- */
+const CART_SELECTED_KEY = "aurelle-cart-selected";
+let selectedKeys = new Set();
+
+/* Kunci item yang stabil: id + ukuran + warna (tidak ikut bergeser saat hapus) */
+const itemKey = (item) => `${item.id}-${item.size}-${item.color}`;
+
+function loadSelected() {
+  try {
+    selectedKeys = new Set(JSON.parse(localStorage.getItem(CART_SELECTED_KEY) || "[]"));
+  } catch (e) {
+    selectedKeys = new Set();
+  }
+}
+
+function saveSelected() {
+  try {
+    localStorage.setItem(CART_SELECTED_KEY, JSON.stringify([...selectedKeys]));
+  } catch (e) {
+    /* abaikan */
+  }
+}
+
 /* ---------- Status keranjang kosong ---------- */
 function emptyCartHTML() {
   return `
@@ -46,11 +69,20 @@ function renderCart() {
   // Buang item yang produknya sudah tidak ada di katalog
   const cart = getCart().filter((item) => PRODUCTS[item.id]);
   if (!cart.length) {
+    selectedKeys = new Set();
+    saveSelected();
     content.innerHTML = emptyCartHTML();
     return;
   }
 
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  // Seleksi hanya boleh menunjuk item yang masih ada
+  selectedKeys = new Set([...selectedKeys].filter((k) => cart.some((it) => itemKey(it) === k)));
+  saveSelected();
+
+  // Subtotal, ongkir, dan progress dihitung dari item yang terpilih saja
+  const selected = cart.filter((item) => selectedKeys.has(itemKey(item)));
+  const allSelected = selected.length === cart.length;
+  const subtotal = selected.reduce((sum, item) => sum + item.price * item.qty, 0);
   const freeShipping = subtotal >= FREE_ONGKIR_MIN;
   const ongkir = freeShipping ? 0 : ONGKIR_FLAT;
   const total = subtotal + ongkir;
@@ -60,8 +92,12 @@ function renderCart() {
   const itemsHTML = cart
     .map((item, index) => {
       const product = PRODUCTS[item.id];
+      const checked = selectedKeys.has(itemKey(item));
       return `
       <div class="cart-item">
+        <label class="cart-check" aria-label="Pilih ${product.name}">
+          <input type="checkbox" data-cart-action="toggle" data-index="${index}" ${checked ? "checked" : ""} />
+        </label>
         <a class="cart-item-img" href="produk.html?id=${item.id}">
           <img src="${product.image}" alt="${product.name}" />
         </a>
@@ -89,14 +125,20 @@ function renderCart() {
       <div class="cart-items">
         <div class="cart-items-head">
           <h2>Daftar Belanja (${cart.length})</h2>
-          <button type="button" class="link-btn" data-cart-action="clear">Hapus Semua</button>
+          <div class="cart-head-actions">
+            <label class="select-all">
+              <input type="checkbox" data-cart-action="toggle-all" ${allSelected ? "checked" : ""} />
+              <span>Pilih Semua</span>
+            </label>
+            <button type="button" class="link-btn" data-cart-action="clear">Hapus Semua</button>
+          </div>
         </div>
         ${itemsHTML}
       </div>
       <aside class="cart-summary">
         <h3>Ringkasan Pesanan</h3>
         <div class="summary-row">
-          <span>Subtotal (${cart.length} item)</span>
+          <span>Subtotal (${selected.length} item)</span>
           <strong>${formatRupiah(subtotal)}</strong>
         </div>
         <div class="summary-row">
@@ -107,7 +149,8 @@ function renderCart() {
           <span>Total</span>
           <strong>${formatRupiah(total)}</strong>
         </div>
-        <button type="button" class="btn btn-dark" data-cart-action="checkout">Lanjut ke Checkout</button>
+        ${selected.length ? "" : '<p class="cart-checkout-hint">Pilih minimal 1 item untuk melanjutkan checkout.</p>'}
+        <button type="button" class="btn btn-dark" data-cart-action="checkout" ${selected.length ? "" : "disabled"}>Lanjut ke Checkout</button>
         <a href="index.html#koleksi" class="btn btn-ghost">Lanjut Belanja</a>
       </aside>
     </div>`;
@@ -123,12 +166,39 @@ function initCartActions() {
     const cart = getCart().filter((item) => PRODUCTS[item.id]);
 
     if (action === "checkout") {
+      const selected = cart.filter((it) => selectedKeys.has(itemKey(it)));
+      if (!selected.length) {
+        showToast("Pilih minimal 1 item dulu");
+        return;
+      }
+      // Hanya item terpilih yang dibawa ke checkout
+      saveCart(selected);
+      syncCartBadge();
       window.location.href = "checkout.html";
+      return;
+    }
+
+    if (action === "toggle") {
+      const key = itemKey(cart[index]);
+      if (selectedKeys.has(key)) selectedKeys.delete(key);
+      else selectedKeys.add(key);
+      saveSelected();
+      renderCart();
+      return;
+    }
+
+    if (action === "toggle-all") {
+      if (cart.every((it) => selectedKeys.has(itemKey(it)))) selectedKeys.clear();
+      else cart.forEach((it) => selectedKeys.add(itemKey(it)));
+      saveSelected();
+      renderCart();
       return;
     }
 
     if (action === "clear") {
       saveCart([]);
+      selectedKeys = new Set();
+      saveSelected();
       syncCartBadge();
       renderCart();
       showToast("Keranjang dikosongkan");
@@ -153,6 +223,7 @@ function initCartActions() {
 
 /* ---------- Init ---------- */
 document.addEventListener("DOMContentLoaded", () => {
+  loadSelected();
   renderCart();
   initCartActions();
 });

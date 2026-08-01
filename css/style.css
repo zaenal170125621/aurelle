@@ -1936,6 +1936,31 @@ ul {
   fill: currentColor;
 }
 
+/* Trust badges pada halaman produk */
+.trust-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 1.4rem;
+  margin-top: 1.2rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--line);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+.trust-badges span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.trust-badges svg {
+  width: 15px;
+  height: 15px;
+  color: var(--sage);
+  flex: none;
+}
+
 .detail-blocks {
   margin-top: 2.4rem;
   border-top: 1px solid var(--line);
@@ -2128,7 +2153,7 @@ ul {
 /* ---------- Baris item ---------- */
 .cart-item {
   display: grid;
-  grid-template-columns: 84px 1fr auto;
+  grid-template-columns: 24px 84px 1fr auto;
   gap: 1.1rem;
   align-items: center;
   background: var(--paper);
@@ -2143,6 +2168,52 @@ ul {
   height: 96px;
   border-radius: 12px;
   overflow: hidden;
+}
+
+/* Checkbox pilih item (Shopee-style) */
+.cart-check,
+.select-all {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.cart-check {
+  justify-self: center;
+}
+
+.cart-check input,
+.select-all input {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--terracotta);
+  cursor: pointer;
+  flex: none;
+}
+
+.cart-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.select-all {
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.cart-checkout-hint {
+  margin-top: 0.7rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+  text-align: center;
 }
 
 .cart-item-img img {
@@ -2271,7 +2342,7 @@ ul {
 
 @media (max-width: 480px) {
   .cart-item {
-    grid-template-columns: 64px 1fr;
+    grid-template-columns: 24px 64px 1fr;
   }
 
   .cart-item-img {

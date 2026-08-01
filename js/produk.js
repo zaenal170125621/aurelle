@@ -127,6 +127,33 @@ function infoHTML() {
       </button>
     </div>
 
+    <!-- Trust badges -->
+    <div class="trust-badges">
+      <span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3 4 6v5c0 5 3.4 9.3 8 10 4.6-.7 8-5 8-10V6l-8-3Z" />
+          <path d="m9 11.5 2.2 2.2 4-4.4" />
+        </svg>
+        100% Original
+      </span>
+      <span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
+          <path d="M3 3v5h5" />
+        </svg>
+        Retur 7 Hari
+      </span>
+      <span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M1 8h13v9H1z" />
+          <path d="M14 11h4l4 3v3h-8z" />
+          <circle cx="5.5" cy="18.5" r="2" />
+          <circle cx="17.5" cy="18.5" r="2" />
+        </svg>
+        Kirim Cepat
+      </span>
+    </div>
+
     <div class="detail-blocks">
       <details open>
         <summary>Deskripsi Produk</summary>
