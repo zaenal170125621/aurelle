@@ -167,14 +167,39 @@ function initWishlistNav() {
   });
 }
 
+/* ---------- Animasi scroll kustom (garansi halus di semua browser) ---------- */
+function animatedScrollTo(targetY) {
+  const startY = window.scrollY;
+  const diff = targetY - startY;
+  if (Math.abs(diff) < 1) return;
+
+  // Matikan CSS scroll-behavior sementara agar tidak bertabrakan
+  const root = document.documentElement;
+  const prevBehavior = root.style.scrollBehavior;
+  root.style.scrollBehavior = "auto";
+
+  // Durasi menyesuaikan jarak agar terasa natural (350–900 ms)
+  const duration = Math.min(900, 350 + Math.abs(diff) * 0.3);
+  const start = performance.now();
+  const easeInOutCubic = (t) =>
+    t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+  function step(now) {
+    const t = Math.min(1, (now - start) / duration);
+    window.scrollTo(0, startY + diff * easeInOutCubic(t));
+    if (t < 1) {
+      requestAnimationFrame(step);
+    } else {
+      root.style.scrollBehavior = prevBehavior;
+    }
+  }
+  requestAnimationFrame(step);
+}
+
 /* ---------- Tombol kembali ke atas ---------- */
 function initBackToTop() {
   const btn = document.getElementById("backToTop");
   if (!btn) return;
-
-  const reduced =
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const onScroll = () => {
     btn.classList.toggle("show", window.scrollY > 400);
@@ -183,7 +208,7 @@ function initBackToTop() {
   window.addEventListener("scroll", onScroll, { passive: true });
 
   btn.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+    animatedScrollTo(0);
   });
 }
 
@@ -209,7 +234,7 @@ function initSmoothScroll() {
 
     e.preventDefault();
     const top = target.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
-    window.scrollTo({ top, behavior: "smooth" });
+    animatedScrollTo(top);
     history.replaceState(null, "", hash);
   });
 }
