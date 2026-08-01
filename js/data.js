@@ -26,6 +26,7 @@ const PRODUCTS = [
     ],
     rating: 4.9,
     sold: 420,
+    reviews: 96,
   },
   {
     name: "Dress Puff Sleeve",
@@ -47,6 +48,7 @@ const PRODUCTS = [
     ],
     rating: 4.8,
     sold: 265,
+    reviews: 58,
   },
   {
     name: "Blouse Linen",
@@ -67,6 +69,7 @@ const PRODUCTS = [
     ],
     rating: 4.9,
     sold: 198,
+    reviews: 41,
   },
   {
     name: "Jeans Wide Leg",
@@ -88,6 +91,7 @@ const PRODUCTS = [
     ],
     rating: 4.7,
     sold: 310,
+    reviews: 73,
   },
   {
     name: "Cardigan Rajut",
@@ -109,6 +113,7 @@ const PRODUCTS = [
     ],
     rating: 4.8,
     sold: 154,
+    reviews: 33,
   },
   {
     name: "Rok Plisket",
@@ -130,6 +135,7 @@ const PRODUCTS = [
     ],
     rating: 4.8,
     sold: 227,
+    reviews: 49,
   },
   {
     name: "Hoodie Premium",
@@ -151,6 +157,7 @@ const PRODUCTS = [
     ],
     rating: 4.9,
     sold: 342,
+    reviews: 81,
   },
   {
     name: "Tote Bag Kanvas",
@@ -171,11 +178,15 @@ const PRODUCTS = [
     ],
     rating: 4.9,
     sold: 512,
+    reviews: 118,
   },
 ];
 
 const formatRupiah = (value) =>
   "Rp" + value.toLocaleString("id-ID").replace(/,/g, ".");
+
+/* Format jumlah terjual ala marketplace (mis. 420 -> "400+") */
+const formatSold = (n) => (n >= 100 ? Math.floor(n / 100) * 100 + "+" : String(n));
 
 /* Kategori untuk filter di halaman katalog ("Semua" = tanpa filter) */
 const KATEGORI = ["Semua", "Wanita", "Pria", "Aksesoris"];

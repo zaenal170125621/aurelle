@@ -556,6 +556,8 @@ function initQuickAdd() {
 /* ---------- Kartu produk (markup bersama) ---------- */
 function productCardHTML(product, index, opts = {}) {
   const wished = isInWishlist(index);
+  const stars = "★".repeat(Math.round(product.rating)) + "☆".repeat(5 - Math.round(product.rating));
+  const disc = product.oldPrice ? Math.round((1 - product.price / product.oldPrice) * 100) : 0;
   const quickAdd = opts.quickAdd
     ? `
       <button
@@ -591,9 +593,14 @@ function productCardHTML(product, index, opts = {}) {
     <div class="product-info">
       <p class="product-cat">${product.category}</p>
       <a class="product-name" href="produk.html?id=${index}">${product.name}</a>
+      <div class="product-rating" aria-label="Rating ${product.rating} dari 5, ${product.sold} terjual">
+        <span class="stars" aria-hidden="true">${stars}</span>
+        <span>${product.rating.toLocaleString("id-ID")} · Terjual ${formatSold(product.sold)}</span>
+      </div>
       <div class="product-price">
         <strong>${formatRupiah(product.price)}</strong>
         ${product.oldPrice ? `<span class="old">${formatRupiah(product.oldPrice)}</span>` : ""}
+        ${disc > 0 && !(product.badge && product.badge.includes("%")) ? `<span class="disc">-${disc}%</span>` : ""}
       </div>
     </div>
   </article>`;

@@ -56,7 +56,7 @@ function infoHTML() {
     <h1 class="detail-name">${product.name}</h1>
     <div class="detail-rating">
       <span class="stars" aria-label="Rating ${product.rating} dari 5">${stars}</span>
-      <span>${product.rating.toLocaleString("id-ID")} · ${product.sold.toLocaleString("id-ID")} terjual</span>
+      <span>${product.rating.toLocaleString("id-ID")} · Terjual ${formatSold(product.sold)} · ${(product.reviews || 0).toLocaleString("id-ID")} ulasan</span>
     </div>
     <div class="detail-price">
       <strong>${formatRupiah(product.price)}</strong>
@@ -116,6 +116,14 @@ function infoHTML() {
           <path d="M19 14c1.5-1.5 2-3.2 2-4.8A4.7 4.7 0 0 0 12 6.6 4.7 4.7 0 0 0 3 9.2C3 10.8 3.5 12.5 5 14l7 7 7-7Z" />
         </svg>
         Wishlist
+      </button>
+      <button type="button" class="btn btn-ghost" id="shareBtn" title="Bagikan produk via WhatsApp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="17" height="17">
+          <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7" />
+          <path d="M12 3v13" />
+          <path d="m7.5 8 4.5-4.5L16.5 8" />
+        </svg>
+        Bagikan
       </button>
     </div>
 
@@ -231,6 +239,14 @@ function initControls() {
     setTimeout(() => {
       btn.textContent = "Tambahkan ke Keranjang";
     }, 1600);
+  });
+
+  // Bagikan produk via WhatsApp (alur pesanan toko juga lewat WA)
+  document.getElementById("shareBtn")?.addEventListener("click", () => {
+    const msg =
+      `Cek ${product.name} di AURELLE — ${formatRupiah(product.price)}` +
+      "\n" + window.location.href;
+    window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank", "noopener");
   });
 
   // Wishlist halaman detail (tersimpan di localStorage)

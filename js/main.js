@@ -105,10 +105,53 @@ function initTestimonialCarousel() {
   next?.addEventListener("click", () => track.scrollBy({ left: step(), behavior: "smooth" }));
 }
 
+/* ---------- Flash sale: countdown + progress terjual ---------- */
+function initFlashSale() {
+  const widget = document.getElementById("flashWidget");
+  if (!widget) return;
+
+  const totalStock = 100; // kuota stok flash sale (demo)
+  const soldQty = 76; // sudah terjual (demo)
+  const pad = (n) => String(n).padStart(2, "0");
+
+  const render = () => {
+    // Hitung mundur ke akhir hari agar selalu "live"
+    const now = new Date();
+    const end = new Date(now);
+    end.setHours(23, 59, 59, 999);
+    const totalSec = Math.max(0, Math.floor((end - now) / 1000));
+    const hh = Math.floor(totalSec / 3600);
+    const mm = Math.floor((totalSec % 3600) / 60);
+    const ss = totalSec % 60;
+    const pct = Math.min(100, Math.round((soldQty / totalStock) * 100));
+
+    widget.innerHTML = `
+      <div class="flash-timer" role="timer" aria-label="Flash sale berakhir dalam">
+        <span class="flash-timer-label">Berakhir dalam</span>
+        <div class="flash-timer-boxes">
+          <span class="flash-timer-box">${pad(hh)}</span><span class="flash-timer-sep">:</span>
+          <span class="flash-timer-box">${pad(mm)}</span><span class="flash-timer-sep">:</span>
+          <span class="flash-timer-box">${pad(ss)}</span>
+        </div>
+      </div>
+      <div class="flash-progress">
+        <div class="flash-progress-bar"><span style="width:${pct}%"></span></div>
+        <div class="flash-progress-meta">
+          <span>🔥 Terjual ${pct}%</span>
+          <span>Sisa ${totalStock - soldQty} dari ${totalStock}</span>
+        </div>
+      </div>`;
+  };
+
+  render();
+  setInterval(render, 1000);
+}
+
 /* ---------- Init ---------- */
 document.addEventListener("DOMContentLoaded", () => {
   renderProducts();
   initNewsletter();
   initContactForm();
   initTestimonialCarousel();
+  initFlashSale();
 });

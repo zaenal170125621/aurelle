@@ -685,6 +685,20 @@ ul {
   margin: 0.25rem 0 0.4rem;
 }
 
+/* Social proof ala marketplace: rating + jumlah terjual */
+.product-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 0.45rem;
+}
+
+.product-rating .stars {
+  font-size: 0.7rem;
+}
+
 .product-price {
   display: flex;
   align-items: baseline;
@@ -777,6 +791,73 @@ ul {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* Flash sale: hitung mundur + progress stok */
+.flash-widget {
+  margin: 0 0 1.8rem;
+  width: 100%;
+  max-width: 430px;
+}
+
+.flash-timer-label {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-bottom: 0.5rem;
+}
+
+.flash-timer-boxes {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.flash-timer-box {
+  min-width: 48px;
+  text-align: center;
+  padding: 0.5rem 0.4rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-weight: 600;
+  font-size: 1.2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.flash-timer-sep {
+  font-weight: 700;
+  opacity: 0.8;
+}
+
+.flash-progress {
+  margin-top: 1rem;
+}
+
+.flash-progress-bar {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  overflow: hidden;
+}
+
+.flash-progress-bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--terracotta), #e3a15c);
+  transition: width 0.4s ease;
+}
+
+.flash-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.78rem;
+  margin-top: 0.45rem;
+  opacity: 0.9;
 }
 
 /* ---------- About ---------- */
@@ -3739,6 +3820,22 @@ body.modal-open {
   font-family: var(--serif);
   font-size: 1.3rem;
   font-weight: 600;
+}
+
+/* Aksi pada kartu hasil: konfirmasi terima, beli lagi, chat penjual */
+.track-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0 0 1.4rem;
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.track-actions .btn {
+  flex: 1;
+  min-width: 180px;
+  justify-content: center;
 }
 
 .track-timeline {

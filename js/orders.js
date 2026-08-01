@@ -77,6 +77,43 @@ function timelineNote(status, resi) {
   }
 }
 
+/* Konfirmasi penerimaan pesanan (dari halaman Cek Pesanan).
+   Pesanan contoh (mock) ikut disalin ke localStorage agar perubahannya
+   nyata — status Selesai langsung terlihat juga di panel admin. */
+function confirmReceipt(id) {
+  const value = normalizeOrderId(id);
+  const orders = getOrders();
+  let order = orders.find((o) => normalizeOrderId(o.id) === value);
+
+  if (!order) {
+    const mock = ORDERS.find((o) => normalizeOrderId(o.id) === value);
+    if (!mock) return { ok: false };
+    order = JSON.parse(JSON.stringify(mock));
+    delete order.items; // mock hanya punya jumlah item, bukan detail produk
+    const base = new Date(order.tanggal).getTime();
+    order.timeline = [
+      { status: "Diproses", waktu: new Date(base + 3600e3 * 2).toISOString(), catatan: "Pesanan sedang disiapkan" },
+      {
+        status: "Dikirim",
+        waktu: new Date(base + 3600e3 * 26).toISOString(),
+        catatan: order.kurir && order.resi ? "Pesanan dikirim · No. resi " + order.resi : "Pesanan dikirim",
+      },
+    ];
+    orders.push(order);
+  }
+
+  if (order.status === "Selesai") return { ok: true };
+  if (!Array.isArray(order.timeline)) order.timeline = [];
+  order.status = "Selesai";
+  order.timeline.push({
+    status: "Selesai",
+    waktu: new Date().toISOString(),
+    catatan: "Pesanan dikonfirmasi diterima oleh pembeli",
+  });
+  localStorage.setItem(ORDER_STORE_KEY, JSON.stringify(orders));
+  return { ok: true };
+}
+
 /* Tanggal — terima "YYYY-MM-DD" (contoh) atau ISO penuh (pesanan nyata) */
 function formatTanggal(value) {
   const d = new Date(value);

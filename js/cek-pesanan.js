@@ -32,6 +32,22 @@ function resultHTML(order) {
   const isReal = Array.isArray(order.timeline) && order.timeline.length > 0;
   const itemCount = order.items ? order.items.length : order.item || 0;
 
+  /* Aksi pembeli: konfirmasi terima (saat dikirim), beli lagi (pesanan
+     nyata punya detail produk), dan chat penjual */
+  const canConfirm = order.status === "Dikirim";
+  const hasItems = Array.isArray(order.items) && order.items.length > 0;
+  const chatUrl =
+    "https://wa.me/6285939592558?text=" +
+    encodeURIComponent("Halo AURELLE! Saya mau tanya soal pesanan #" + order.id);
+  const actionsBlock =
+    canConfirm || hasItems
+      ? `<div class="track-actions">
+        ${canConfirm ? `<button type="button" class="btn btn-dark" data-action="confirm">Konfirmasi Penerimaan</button>` : ""}
+        ${hasItems ? `<button type="button" class="btn btn-ghost" data-action="reorder">Beli Lagi</button>` : ""}
+        <a class="btn btn-ghost" href="${chatUrl}" target="_blank" rel="noopener">Chat Penjual</a>
+      </div>`
+      : "";
+
   let steps;
   if (isReal) {
     steps = order.timeline
@@ -95,6 +111,7 @@ function resultHTML(order) {
         <span>Total pembayaran</span>
         <strong>${formatRupiah(order.total)}</strong>
       </div>
+      ${actionsBlock}
       ${itemsBlock}
       <ol class="track-timeline">
         ${steps}
@@ -126,6 +143,8 @@ function initTrack() {
   const result = document.getElementById("trackResult");
   if (!form) return;
 
+  let currentOrderId = null;
+
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -140,10 +159,42 @@ function initTrack() {
     status.classList.remove("invalid");
 
     const order = findOrder(value);
+    currentOrderId = order ? order.id : null;
     result.hidden = false;
     result.innerHTML = order ? resultHTML(order) : notFoundHTML(value.toUpperCase());
     initReveal();
     result.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  /* Aksi pada kartu hasil (delegasi karena innerHTML diganti tiap pencarian) */
+  result.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-action]");
+    if (!btn || !currentOrderId) return;
+
+    const order = findOrder(currentOrderId);
+    if (!order) return;
+
+    if (btn.dataset.action === "confirm") {
+      if (confirmReceipt(order.id).ok) {
+        showToast("Terima kasih! Pesanan ditandai Selesai ✨");
+        result.innerHTML = resultHTML(findOrder(order.id));
+        initReveal();
+      } else {
+        showToast("Pesanan tidak ditemukan");
+      }
+    }
+
+    if (btn.dataset.action === "reorder") {
+      order.items.forEach((it) => {
+        const p = PRODUCTS[it.id];
+        if (!p) return;
+        addToCart({ id: it.id, name: p.name, size: it.size, color: it.warna, qty: it.qty, price: it.harga });
+      });
+      showToast("Produk ditambahkan ke keranjang 🛍️");
+      setTimeout(() => {
+        window.location.href = "keranjang.html";
+      }, 700);
+    }
   });
 }
 
