@@ -1,6 +1,7 @@
 /* ==========================================================================
    AURELLE — Cek pesanan (cek-pesanan.html)
-   Data pesanan contoh (ORDERS) diambil dari js/data.js (mode demo, tanpa backend).
+   Mencari pesanan dari data contoh (js/data.js) maupun pesanan nyata hasil
+   checkout (js/orders.js — tersimpan di localStorage).
    ========================================================================== */
 
 "use strict";
@@ -9,25 +10,13 @@
 const TRACK_FLOW = ["Menunggu", "Diproses", "Dikirim", "Selesai"];
 
 const STEP_INFO = [
-  { label: "Pesanan Diterima", sub: (o) => formatDate(o.tanggal) },
+  { label: "Pesanan Diterima", sub: (o) => formatTanggal(o.tanggal) },
   { label: "Sedang Diproses", sub: () => "Tim kami sedang menyiapkan pesananmu" },
   { label: "Dikirim", sub: (o) => (o.kurir && o.resi ? `${o.kurir} · No. resi ${o.resi}` : "Nomor resi akan menyusul") },
   { label: "Selesai", sub: (_o, flowIndex) => (flowIndex === 3 ? "Pesanan telah tiba di tujuan" : "Menunggu konfirmasi penerimaan") },
 ];
 
 /* ---------- Utilitas ---------- */
-function formatDate(iso) {
-  return new Date(iso + "T00:00:00").toLocaleDateString("id-ID", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-}
-
-function normalizeId(value) {
-  return value.trim().toUpperCase().replace(/\s+/g, "");
-}
-
 function statusBadgeHTML(status) {
   const map = {
     Menunggu: "badge-muted",
@@ -40,12 +29,30 @@ function statusBadgeHTML(status) {
 
 /* ---------- Hasil pencarian ---------- */
 function resultHTML(order) {
-  const flowIndex = TRACK_FLOW.indexOf(order.status);
-  const steps = TRACK_FLOW.map((status, i) => {
-    const cls = i < flowIndex ? "done" : i === flowIndex ? "active" : "";
-    const info = STEP_INFO[i];
-    const sub = typeof info.sub === "function" ? info.sub(order, flowIndex) : info.sub;
-    return `
+  const isReal = Array.isArray(order.timeline) && order.timeline.length > 0;
+  const itemCount = order.items ? order.items.length : order.item || 0;
+
+  let steps;
+  if (isReal) {
+    steps = order.timeline
+      .map(
+        (t, i) => `
+      <li class="${i === order.timeline.length - 1 ? "active" : "done"}">
+        <span class="dot" aria-hidden="true"></span>
+        <div>
+          <strong>${t.status}</strong>
+          <small>${formatWaktu(t.waktu)} · ${t.catatan || ""}</small>
+        </div>
+      </li>`
+      )
+      .join("");
+  } else {
+    const flowIndex = TRACK_FLOW.indexOf(order.status);
+    steps = TRACK_FLOW.map((status, i) => {
+      const cls = i < flowIndex ? "done" : i === flowIndex ? "active" : "";
+      const info = STEP_INFO[i];
+      const sub = typeof info.sub === "function" ? info.sub(order, flowIndex) : info.sub;
+      return `
       <li class="${cls}">
         <span class="dot" aria-hidden="true"></span>
         <div>
@@ -53,14 +60,34 @@ function resultHTML(order) {
           <small>${sub}</small>
         </div>
       </li>`;
-  }).join("");
+    }).join("");
+  }
+
+  const itemsBlock =
+    order.items && order.items.length
+      ? `<div class="track-items">
+        <h4>Ringkasan belanja</h4>
+        <ul>
+          ${order.items
+            .map(
+              (it) => `
+          <li>
+            <span>${it.nama} <small>(${it.size} · ${it.warna}) × ${it.qty}</small></span>
+            <strong>${formatRupiah(it.harga * it.qty)}</strong>
+          </li>`
+            )
+            .join("")}
+        </ul>
+        <p class="track-items-total">Total <strong>${formatRupiah(order.total)}</strong></p>
+      </div>`
+      : "";
 
   return `
     <div class="track-card reveal">
       <div class="track-card-head">
         <div>
           <p class="track-id">Pesanan <strong>#${order.id}</strong></p>
-          <p class="track-sub">dipesan ${formatDate(order.tanggal)} · ${order.item} item · ${order.nama}</p>
+          <p class="track-sub">dipesan ${formatTanggal(order.tanggal)} · ${itemCount} item · ${order.nama}</p>
         </div>
         ${statusBadgeHTML(order.status)}
       </div>
@@ -68,6 +95,7 @@ function resultHTML(order) {
         <span>Total pembayaran</span>
         <strong>${formatRupiah(order.total)}</strong>
       </div>
+      ${itemsBlock}
       <ol class="track-timeline">
         ${steps}
       </ol>
@@ -82,9 +110,9 @@ function notFoundHTML(value) {
   return `
     <div class="track-card track-card-empty reveal">
       <h3>Pesanan tidak ditemukan</h3>
-      <p>Kami tidak menemukan pesanan dengan nomor <strong>${value}</strong>. Pastikan huruf dan angka sudah sesuai dengan nomor dari email/WhatsApp konfirmasi (contoh: AUR-1042).</p>
+      <p>Kami tidak menemukan pesanan dengan nomor <strong>${value}</strong>. Pastikan huruf dan angka sesuai dengan nomor dari halaman sukses checkout atau konfirmasi WhatsApp (contoh: AUR-1042).</p>
       <p class="track-note">
-        Pesananmu baru saja dibuat? Halaman demo ini hanya memuat beberapa contoh. Kalau ragu,
+        Pesananmu baru saja dibuat? Pesanan tersimpan otomatis di perangkat ini (mode demo). Kalau ragu,
         <a href="https://wa.me/6285939592558?text=Halo%20AURELLE!%20Saya%20mau%20cek%20status%20pesanan." target="_blank" rel="noopener">hubungi kami di WhatsApp</a>.
       </p>
     </div>`;
@@ -111,7 +139,7 @@ function initTrack() {
     status.textContent = "";
     status.classList.remove("invalid");
 
-    const order = ORDERS.find((o) => normalizeId(o.id) === normalizeId(value));
+    const order = findOrder(value);
     result.hidden = false;
     result.innerHTML = order ? resultHTML(order) : notFoundHTML(value.toUpperCase());
     initReveal();

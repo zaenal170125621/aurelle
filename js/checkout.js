@@ -163,6 +163,46 @@ function handleSubmit(e) {
   const { subtotal, ongkir, total } = calcTotals(items);
   const orderNo = "AU-" + Date.now().toString().slice(-8);
 
+  /* Simpan pesanan ke localStorage (Fase 0) agar bisa dikelola admin
+     dan dicek lewat halaman Cek Pesanan */
+  const order = {
+    id: orderNo,
+    tanggal: new Date().toISOString(),
+    nama,
+    hp,
+    email: email || "",
+    alamat: alamat + ", " + kota + ", " + provinsi + " " + kodepos,
+    kota,
+    provinsi,
+    kodepos,
+    catatan: value("catatan"),
+    payment,
+    items: items.map((item) => {
+      const p = PRODUCTS[item.id];
+      return {
+        id: item.id,
+        nama: p.name,
+        size: item.size,
+        warna: item.color,
+        qty: item.qty,
+        harga: item.price,
+      };
+    }),
+    subtotal,
+    ongkir,
+    total,
+    status: "Menunggu",
+    resi: "",
+    timeline: [
+      {
+        status: "Menunggu",
+        waktu: new Date().toISOString(),
+        catatan: timelineNote("Menunggu"),
+      },
+    ],
+  };
+  saveOrder(order);
+
   /* Ringkasan pesanan untuk dikirim via WhatsApp */
   const lines = items
     .map((item, i) => {

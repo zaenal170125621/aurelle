@@ -4669,6 +4669,226 @@ body.modal-open {
 }
 
 /* ==========================================================================
+   Part 15 — Modal detail pesanan (admin) & ringkasan belanja (cek pesanan)
+   ========================================================================== */
+
+/* Overlay modal admin */
+.admin-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(38, 35, 31, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.2rem;
+  z-index: 300;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.admin-modal-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.admin-modal {
+  width: min(640px, 100%);
+  max-height: 88vh;
+  overflow-y: auto;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-10px);
+  transition: transform 0.25s ease;
+}
+
+.admin-modal-overlay.open .admin-modal {
+  transform: translateY(0);
+}
+
+.admin-modal-head {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.1rem 1.2rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.admin-modal-head > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-modal-id {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.admin-modal-sub {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 0.15rem;
+}
+
+.admin-modal-body {
+  padding: 1.1rem 1.2rem;
+}
+
+.om-section {
+  margin-bottom: 1.2rem;
+}
+
+.om-section:last-child {
+  margin-bottom: 0;
+}
+
+.om-section h4 {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.7rem;
+}
+
+.om-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.7rem 1.2rem;
+}
+
+.om-info > div {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.om-info span {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.om-info strong {
+  font-size: 0.88rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.om-total {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.4rem 1rem;
+  margin-top: 0.9rem;
+  padding-top: 0.9rem;
+  border-top: 1px dashed var(--line);
+  font-size: 0.88rem;
+}
+
+.om-total .om-total-final {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.admin-modal-foot {
+  padding: 1rem 1.2rem 1.2rem;
+  border-top: 1px solid var(--line);
+}
+
+.om-status-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.om-field {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  flex: 1;
+  min-width: 150px;
+}
+
+.om-field select,
+.om-field input {
+  width: 100%;
+  padding: 0.55rem 0.8rem;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+  font: inherit;
+  font-size: 0.88rem;
+  color: var(--ink);
+  outline: none;
+}
+
+.om-field select:focus,
+.om-field input:focus {
+  border-color: var(--terracotta);
+  box-shadow: 0 0 0 3px rgba(198, 123, 92, 0.14);
+}
+
+/* Ringkasan belanja di halaman cek pesanan */
+.track-items {
+  margin: 1rem 0 0;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--cream-deep);
+}
+
+.track-items h4 {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.6rem;
+}
+
+.track-items ul {
+  display: grid;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.track-items li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.88rem;
+}
+
+.track-items li small {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.track-items li strong {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.track-items-total {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.7rem 0 0;
+  padding-top: 0.7rem;
+  border-top: 1px dashed var(--line);
+  font-size: 0.9rem;
+}
+
+.track-items-total strong {
+  font-weight: 700;
+}
+
+/* ==========================================================================
    Part 9 — Halaman bantuan (bantuan.html)
    ========================================================================== */
 

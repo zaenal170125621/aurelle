@@ -36,16 +36,12 @@ function badgeHTML(status) {
   return `<span class="admin-badge ${STATUS_BADGE[status] || "badge-muted"}">${status}</span>`;
 }
 
-function formatDate(iso) {
-  return new Date(iso + "T00:00:00").toLocaleDateString("id-ID", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-}
-
 function formatNum(value) {
   return value.toLocaleString("id-ID");
+}
+
+function itemCount(o) {
+  return o.items ? o.items.length : o.item || 0;
 }
 
 /* ---------- Pindah tab ---------- */
@@ -118,7 +114,9 @@ function renderTopProducts() {
 function renderRecentOrders() {
   const body = document.getElementById("recentOrders");
   if (!body) return;
-  body.innerHTML = ORDERS.slice(0, 5)
+  body.innerHTML = getAllOrders()
+    .slice(-5)
+    .reverse()
     .map(
       (o) => `
     <tr>
@@ -267,7 +265,7 @@ function renderOrders() {
   if (!body) return;
 
   const filter = document.getElementById("orderStatus")?.value || "Semua";
-  const items = ORDERS.filter((o) => filter === "Semua" || o.status === filter);
+  const items = getAllOrders().filter((o) => filter === "Semua" || o.status === filter);
 
   body.innerHTML = items
     .map(
@@ -275,8 +273,8 @@ function renderOrders() {
     <tr>
       <td><span class="admin-prod-name">${o.id}</span></td>
       <td>${o.nama}</td>
-      <td>${formatDate(o.tanggal)}</td>
-      <td>${o.item} item</td>
+      <td>${formatTanggal(o.tanggal)}</td>
+      <td>${itemCount(o)} item</td>
       <td>${formatRupiah(o.total)}</td>
       <td>${badgeHTML(o.status)}</td>
       <td class="ta-r">
@@ -289,11 +287,171 @@ function renderOrders() {
   if (empty) empty.hidden = items.length > 0;
 }
 
+/* ---------- Detail pesanan (modal) ---------- */
+let activeOrderId = null;
+
+function buildOrderModal() {
+  const modal = document.createElement("div");
+  modal.className = "admin-modal-overlay";
+  modal.id = "orderModal";
+  modal.setAttribute("aria-hidden", "true");
+  modal.innerHTML = `
+    <div class="admin-modal" role="dialog" aria-modal="true" aria-label="Detail pesanan">
+      <div class="admin-modal-head">
+        <div>
+          <p class="admin-modal-id">Pesanan <strong id="omId"></strong></p>
+          <p class="admin-modal-sub" id="omSub"></p>
+        </div>
+        <span class="admin-badge" id="omBadge"></span>
+        <button type="button" class="modal-close" id="omClose" aria-label="Tutup detail">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M18 6 6 18M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="admin-modal-body" id="omBody"></div>
+      <div class="admin-modal-foot">
+        <div class="om-status-row">
+          <label class="om-field">
+            <span>Status pesanan</span>
+            <select id="omStatus" class="admin-toolbar-select"></select>
+          </label>
+          <label class="om-field" id="omResiWrap" hidden>
+            <span>No. resi</span>
+            <input type="text" id="omResi" placeholder="contoh: JT2508142001" />
+          </label>
+          <button type="button" class="admin-btn" id="omSave">Simpan</button>
+        </div>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  return modal;
+}
+
+function orderDetailHTML(o) {
+  const rows = (o.items || [])
+    .map(
+      (it) => `
+    <tr>
+      <td>${it.nama}</td>
+      <td>${it.size} · ${it.warna} × ${it.qty}</td>
+      <td class="ta-r">${formatRupiah(it.harga * it.qty)}</td>
+    </tr>`
+    )
+    .join("");
+
+  const itemsBlock = rows
+    ? `<div class="om-section">
+        <h4>Produk</h4>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead><tr><th>Produk</th><th>Varian</th><th class="ta-r">Total</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+        <div class="om-total">
+          <span>Subtotal</span><strong>${formatRupiah(o.subtotal)}</strong>
+          <span>Ongkir</span><strong>${o.ongkir === 0 ? "Gratis" : formatRupiah(o.ongkir)}</strong>
+          <span class="om-total-final">Total</span><strong class="om-total-final">${formatRupiah(o.total)}</strong>
+        </div>
+      </div>`
+    : "";
+
+  return `
+    <div class="om-section">
+      <h4>Informasi</h4>
+      <div class="om-info">
+        <div><span>Nama</span><strong>${o.nama}</strong></div>
+        <div><span>No. HP</span><strong>${o.hp}</strong></div>
+        <div><span>Email</span><strong>${o.email || "—"}</strong></div>
+        <div><span>Dipesan</span><strong>${formatWaktu(o.tanggal)}</strong></div>
+        <div><span>Alamat</span><strong>${o.alamat}</strong></div>
+        <div><span>Pembayaran</span><strong>${o.payment}</strong></div>
+        ${o.catatan ? `<div><span>Catatan</span><strong>${o.catatan}</strong></div>` : ""}
+      </div>
+    </div>
+    ${itemsBlock}`;
+}
+
+function openOrderModal(order) {
+  let modal = document.getElementById("orderModal");
+  if (!modal) modal = buildOrderModal();
+  activeOrderId = order.id;
+
+  document.getElementById("omId").textContent = order.id;
+  document.getElementById("omSub").textContent =
+    order.nama + " · " + formatTanggal(order.tanggal);
+  const badge = document.getElementById("omBadge");
+  badge.textContent = order.status;
+  badge.className = "admin-badge " + (STATUS_BADGE[order.status] || "badge-muted");
+  document.getElementById("omBody").innerHTML = orderDetailHTML(order);
+
+  const statusSelect = document.getElementById("omStatus");
+  statusSelect.innerHTML = ORDER_FLOW.map(
+    (s) => `<option value="${s}" ${s === order.status ? "selected" : ""}>${s}</option>`
+  ).join("");
+
+  const resiWrap = document.getElementById("omResiWrap");
+  const resiInput = document.getElementById("omResi");
+  resiInput.value = order.resi || "";
+  resiWrap.hidden = !(order.status === "Dikirim" || order.status === "Selesai");
+  statusSelect.onchange = () => {
+    resiWrap.hidden = !(statusSelect.value === "Dikirim" || statusSelect.value === "Selesai");
+  };
+
+  modal.classList.add("open");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+}
+
+function closeOrderModal() {
+  const modal = document.getElementById("orderModal");
+  if (modal) {
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+  }
+  document.body.classList.remove("modal-open");
+  activeOrderId = null;
+}
+
+function initOrderModal() {
+  let modal = document.getElementById("orderModal");
+  if (!modal) modal = buildOrderModal();
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeOrderModal();
+  });
+  document.getElementById("omClose")?.addEventListener("click", closeOrderModal);
+  document.getElementById("omSave")?.addEventListener("click", () => {
+    if (!activeOrderId) return;
+    const status = document.getElementById("omStatus").value;
+    const resi = document.getElementById("omResi").value.trim() || null;
+    if (updateOrderStatus(activeOrderId, status, resi)) {
+      showToast("Status " + activeOrderId + " → " + status);
+      renderOrders();
+      renderRecentOrders();
+      closeOrderModal();
+    } else {
+      showToast("Pesanan tidak ditemukan");
+    }
+  });
+}
+
 function initOrderDetail() {
   document.getElementById("orderBody")?.addEventListener("click", (e) => {
     const btn = e.target.closest(".js-order-detail");
     if (!btn) return;
-    showToast("Detail pesanan " + btn.dataset.id + " segera hadir");
+
+    const order = findOrder(btn.dataset.id);
+    if (!order) {
+      showToast("Pesanan tidak ditemukan");
+      return;
+    }
+    if (!Array.isArray(order.timeline) || !order.timeline.length) {
+      showToast("Pesanan contoh — buat pesanan lewat checkout untuk kelola detail");
+      return;
+    }
+    openOrderModal(order);
   });
 }
 
@@ -302,7 +460,26 @@ function renderCustomers() {
   const body = document.getElementById("customerBody");
   if (!body) return;
 
-  body.innerHTML = CUSTOMERS.map(
+  /* Pelanggan nyata dari pesanan di localStorage */
+  const real = getOrders().map((o) => ({
+    nama: o.nama,
+    email: o.email || "—",
+    kota: o.kota || "—",
+    pesanan: 1,
+    belanja: o.total,
+    status: "Baru",
+  }));
+
+  const seen = new Set(CUSTOMERS.map((c) => c.nama.toLowerCase()));
+  const combined = CUSTOMERS.slice();
+  real.forEach((c) => {
+    const key = c.nama.toLowerCase();
+    if (seen.has(key)) return;
+    seen.add(key);
+    combined.push(c);
+  });
+
+  body.innerHTML = combined.map(
     (c) => `
     <tr>
       <td>
@@ -332,6 +509,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initProductControls();
   renderOrders();
   initOrderDetail();
+  initOrderModal();
   renderCustomers();
   document.getElementById("orderStatus")?.addEventListener("change", renderOrders);
 });

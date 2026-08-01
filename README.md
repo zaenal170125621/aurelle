@@ -11,11 +11,11 @@ Website toko pakaian estetik — statis murni (HTML, CSS, JavaScript) tanpa back
 - **Wishlist** (`wishlist.html`) — tersimpan di localStorage + badge di navbar
 - **Checkout** (`checkout.html`) — form alamat dengan validasi, metode pembayaran, pesan sukses
 - **Bantuan** (`bantuan.html`) — cara order, pengiriman, retur & tukar, FAQ
-- **Cek Pesanan** (`cek-pesanan.html`) — cari status pesanan dengan timeline (mode demo)
+- **Cek Pesanan** (`cek-pesanan.html`) — cari status pesanan dengan timeline (data contoh + pesanan tersimpan lokal)
 - **Blog** (`blog.html` + `artikel.html`) — tips ukuran, perawatan, inspirasi outfit (halaman artikel terpisah)
 - **Karier** (`karier.html`) — lowongan kerja + CTA lamaran via WhatsApp/email
 - **Afiliasi** (`afiliasi.html`) — program komisi 8–12% + kalkulator simulasi komisi
-- **Admin** (`admin.html`) — dashboard ringkas, kelola produk/pesanan/pelanggan, mode demo tanpa backend (ubah hanya berlaku di sesi)
+- **Admin** (`admin.html`) — dashboard ringkas, kelola produk/pesanan/pelanggan, mode demo tanpa backend (produk: ubah hanya di sesi — pesanan: tersimpan lokal & statusnya bisa diubah)
 - **Pencarian** — ikon search di navbar membuka modal live search (filter nama/kategori dari `PRODUCTS`, hasil menuju `produk.html?id=N`)
 - **Newsletter** — form beranda berfungsi: validasi email, simpan subscriber (mode demo), pesan sukses
 - **Penunjang UX** — announcement bar bisa ditutup (diingat), tombol kembali ke atas muncul setelah scroll
@@ -32,13 +32,13 @@ keranjang.html    Keranjang
 wishlist.html     Wishlist
 checkout.html     Checkout
 bantuan.html      Pusat bantuan (cara order, pengiriman, retur, FAQ)
-cek-pesanan.html  Cek status pesanan (timeline, mode demo)
+cek-pesanan.html  Cek status pesanan (timeline; data contoh + pesanan tersimpan lokal)
 blog.html         Blog (tips, perawatan, inspirasi)
 artikel.html      Halaman isi artikel (blog + artikel terkait)
 karier.html       Lowongan kerja (posisi + CTA lamaran)
 afiliasi.html     Program afiliasi (komisi + kalkulator)
-admin.html        Panel admin (compact, mode demo)
-css/style.css     Seluruh styling (14 bagian)
+admin.html        Panel admin (compact; kelola status pesanan tersimpan lokal)
+css/style.css     Seluruh styling (15 bagian)
 js/data.js        Data produk, kategori, konfigurasi ongkir
 js/site.js        Utilitas bersama (tema, keranjang, wishlist, pencarian, newsletter, back-to-top, dll.)
 js/*.js           Logika per halaman
