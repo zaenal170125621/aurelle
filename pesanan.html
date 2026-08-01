@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="AURELLE — cek status pesanan: masukkan nomor pesanan dan lihat status terbaru pengirimanmu." />
-  <title>Cek Pesanan — AURELLE</title>
+  <meta name="description" content="AURELLE — Pesanan Saya. Semua transaksimu dalam satu tampilan: bayar, lacak, konfirmasi, dan beli lagi." />
+  <title>Pesanan Saya — AURELLE</title>
 
   <!-- Terapkan tema sebelum halaman digambar (hindari flash) -->
   <script>
@@ -29,9 +29,9 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="AURELLE" />
-  <meta property="og:title" content="Cek Pesanan — AURELLE" />
-  <meta property="og:description" content="Masukkan nomor pesanan dan lihat status pengirimanmu." />
-  <meta property="og:url" content="https://zaenal170125621.github.io/aurelle/cek-pesanan.html" />
+  <meta property="og:title" content="Pesanan Saya — AURELLE" />
+  <meta property="og:description" content="Semua transaksimu dalam satu tampilan: bayar, lacak, konfirmasi, dan beli lagi." />
+  <meta property="og:url" content="https://zaenal170125621.github.io/aurelle/pesanan.html" />
   <meta property="og:image" content="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80" />
   <script src="js/analytics.js" defer></script>
 </head>
@@ -102,39 +102,42 @@
       <nav class="breadcrumb" aria-label="Jalur halaman">
         <a href="index.html">Beranda</a>
         <span class="sep">/</span>
-        <span class="current">Cek Pesanan</span>
+        <span class="current">Pesanan Saya</span>
       </nav>
     </div>
 
-    <!-- ===== Cek Pesanan ===== -->
-    <section class="track-page">
+    <!-- ===== Pesanan Saya (terinspirasi halaman Pembelian Shopee) ===== -->
+    <section class="purchase-page">
       <div class="container">
-        <div class="section-head track-head">
-          <p class="eyebrow">Lacak Pesanan</p>
-          <h1 class="section-title">Cek Status <em>Pesanan</em></h1>
-          <p class="section-sub">Masukkan nomor pesanan yang kamu dapatkan saat checkout, dan lihat status terbarunya.</p>
-          <p class="track-switch">Lihat semua transaksi? <a href="pesanan.html">Buka Pesanan Saya</a></p>
+        <div class="section-head purchase-head">
+          <p class="eyebrow">Akun &amp; Transaksi</p>
+          <h1 class="section-title">Pesanan <em>Saya</em></h1>
+          <p class="section-sub">Semua transaksimu dalam satu tampilan — bayar, lacak, konfirmasi, dan beli lagi dengan sekali klik.</p>
+          <p class="track-switch">
+            Punya nomor pesanan? <a href="cek-pesanan.html">Lacak via Cek Pesanan</a>
+          </p>
         </div>
 
-        <div class="track-form">
-          <form id="trackForm" class="track-form-inner" novalidate>
-            <label for="orderInput" class="sr-only">Nomor pesanan</label>
-            <input
-              id="orderInput"
-              type="text"
-              inputmode="text"
-              placeholder="Contoh: AUR-1042"
-              autocomplete="off"
-              autocapitalize="characters"
-              spellcheck="false"
-            />
-            <button type="submit" class="btn btn-dark">Lacak Pesanan</button>
-          </form>
-          <p class="form-status" id="trackStatus" role="status" aria-live="polite"></p>
-          <p class="form-hint">Mode demo — coba nomor <strong>AUR-1042</strong>, <strong>AUR-1040</strong>, atau <strong>AUR-1039</strong>.</p>
+        <!-- Tab status ala Shopee -->
+        <div class="purchase-tabs" id="purchaseTabs" role="tablist" aria-label="Filter status pesanan">
+          <!-- dirender oleh pesanan.js -->
         </div>
 
-        <div class="track-result" id="trackResult" hidden></div>
+        <!-- Pencarian + jumlah pesanan -->
+        <div class="purchase-toolbar">
+          <div class="purchase-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" />
+              <path d="m20 20-3.5-3.5" />
+            </svg>
+            <input id="purchaseSearch" type="text" placeholder="Cari pesanan (contoh: AUR-1042)" autocomplete="off" aria-label="Cari pesanan" />
+          </div>
+          <p class="purchase-count" id="purchaseCount" aria-live="polite"></p>
+        </div>
+
+        <div class="purchase-list" id="purchaseList">
+          <!-- kartu pesanan dirender oleh pesanan.js -->
+        </div>
       </div>
     </section>
   </main>
@@ -180,7 +183,6 @@
         <a href="cek-pesanan.html">Cek Pesanan</a>
         <a href="pesanan.html">Pesanan Saya</a>
         <a href="pesanan.html">Pesanan Saya</a>
-        <a href="pesanan.html">Pesanan Saya</a>
         <a href="bantuan.html#pengiriman">Pengiriman</a>
         <a href="bantuan.html#retur">Retur &amp; Tukar</a>
       </div>
@@ -219,6 +221,6 @@
   <script src="js/data.js"></script>
   <script src="js/orders.js"></script>
   <script src="js/site.js"></script>
-  <script src="js/cek-pesanan.js"></script>
+  <script src="js/pesanan.js"></script>
 </body>
 </html>

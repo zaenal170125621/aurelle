@@ -237,16 +237,68 @@ const KATEGORI = ["Semua", "Wanita", "Pria", "Aksesoris"];
 const ONGKIR_FLAT = 20000;
 const FREE_ONGKIR_MIN = 150000;
 
-/* Data contoh pesanan (mode demo, tanpa backend) — dipakai admin & cek pesanan */
+/* Data contoh pesanan (mode demo, tanpa backend) — dipakai admin, cek pesanan,
+   dan halaman Pesanan Saya. Order asli dari checkout punya bentuk serupa + timeline. */
 const ORDERS = [
-  { id: "AUR-1042", nama: "Siti Rahma", tanggal: "2026-08-02", item: 3, total: 537000, status: "Diproses", kurir: null, resi: null },
-  { id: "AUR-1041", nama: "Budi Santoso", tanggal: "2026-08-02", item: 1, total: 89000, status: "Selesai", kurir: "J&T", resi: "JT2508142001" },
-  { id: "AUR-1040", nama: "Dewi Lestari", tanggal: "2026-08-01", item: 2, total: 448000, status: "Dikirim", kurir: "JNE", resi: "JD0023512487" },
-  { id: "AUR-1039", nama: "Rizky Pratama", tanggal: "2026-08-01", item: 4, total: 726000, status: "Menunggu", kurir: null, resi: null },
-  { id: "AUR-1038", nama: "Maya Anggraini", tanggal: "2026-07-31", item: 2, total: 358000, status: "Selesai", kurir: "SiCepat", resi: "SC3028112290" },
-  { id: "AUR-1037", nama: "Fajar Nugroho", tanggal: "2026-07-30", item: 1, total: 229000, status: "Selesai", kurir: "J&T", resi: "JT2508093104" },
-  { id: "AUR-1036", nama: "Putri Ayu", tanggal: "2026-07-30", item: 3, total: 497000, status: "Diproses", kurir: null, resi: null },
-  { id: "AUR-1035", nama: "Andi Wijaya", tanggal: "2026-07-29", item: 1, total: 99000, status: "Dikirim", kurir: "JNE", resi: "JD0023487126" },
+  {
+    id: "AUR-1042", nama: "Siti Rahma", tanggal: "2026-08-02", item: 3, total: 537000, status: "Diproses", kurir: null, resi: null,
+    kota: "Jakarta", provinsi: "DKI Jakarta", kodepos: "10310", alamat: "Jl. Melati No. 12, Menteng", payment: "Transfer Bank",
+    items: [
+      { id: 1, nama: "Dress Puff Sleeve", size: "S", warna: "Krem", qty: 1, harga: 249000 },
+      { id: 2, nama: "Blouse Linen", size: "S", warna: "Natural", qty: 1, harga: 199000 },
+      { id: 0, nama: "Kaos Oversize Basic", size: "S", warna: "Putih", qty: 1, harga: 89000 },
+    ],
+  },
+  {
+    id: "AUR-1041", nama: "Budi Santoso", tanggal: "2026-08-02", item: 1, total: 89000, status: "Selesai", kurir: "J&T", resi: "JT2508142001",
+    kota: "Bandung", provinsi: "Jawa Barat", kodepos: "40135", alamat: "Jl. Anggrek No. 8, Dago", payment: "Transfer Bank",
+    items: [{ id: 0, nama: "Kaos Oversize Basic", size: "S", warna: "Putih", qty: 1, harga: 89000 }],
+  },
+  {
+    id: "AUR-1040", nama: "Dewi Lestari", tanggal: "2026-08-01", item: 2, total: 448000, status: "Dikirim", kurir: "JNE", resi: "JD0023512487",
+    kota: "Surabaya", provinsi: "Jawa Timur", kodepos: "60271", alamat: "Jl. Kenanga No. 3, Gubeng", payment: "QRIS",
+    items: [
+      { id: 1, nama: "Dress Puff Sleeve", size: "S", warna: "Krem", qty: 1, harga: 249000 },
+      { id: 2, nama: "Blouse Linen", size: "S", warna: "Natural", qty: 1, harga: 199000 },
+    ],
+  },
+  {
+    id: "AUR-1039", nama: "Rizky Pratama", tanggal: "2026-08-01", item: 4, total: 726000, status: "Menunggu", kurir: null, resi: null,
+    kota: "Yogyakarta", provinsi: "DI Yogyakarta", kodepos: "55212", alamat: "Jl. Mawar No. 21, Kotabaru", payment: "Transfer Bank",
+    items: [
+      { id: 3, nama: "Jeans Wide Leg", size: "S", warna: "Denim Gelap", qty: 1, harga: 259000 },
+      { id: 4, nama: "Cardigan Rajut", size: "S", warna: "Cokelat Susu", qty: 1, harga: 179000 },
+      { id: 2, nama: "Blouse Linen", size: "S", warna: "Natural", qty: 1, harga: 199000 },
+      { id: 0, nama: "Kaos Oversize Basic", size: "S", warna: "Putih", qty: 1, harga: 89000 },
+    ],
+  },
+  {
+    id: "AUR-1038", nama: "Maya Anggraini", tanggal: "2026-07-31", item: 2, total: 358000, status: "Selesai", kurir: "SiCepat", resi: "SC3028112290",
+    kota: "Semarang", provinsi: "Jawa Tengah", kodepos: "50253", alamat: "Jl. Dahlia No. 5, Candi", payment: "Transfer Bank",
+    items: [
+      { id: 5, nama: "Rok Plisket", size: "S", warna: "Hitam", qty: 1, harga: 159000 },
+      { id: 2, nama: "Blouse Linen", size: "S", warna: "Natural", qty: 1, harga: 199000 },
+    ],
+  },
+  {
+    id: "AUR-1037", nama: "Fajar Nugroho", tanggal: "2026-07-30", item: 1, total: 229000, status: "Selesai", kurir: "J&T", resi: "JT2508093104",
+    kota: "Medan", provinsi: "Sumatera Utara", kodepos: "20152", alamat: "Jl. Cempaka No. 15, Polonia", payment: "Transfer Bank",
+    items: [{ id: 6, nama: "Hoodie Premium", size: "M", warna: "Abu Tua", qty: 1, harga: 229000 }],
+  },
+  {
+    id: "AUR-1036", nama: "Putri Ayu", tanggal: "2026-07-30", item: 3, total: 497000, status: "Diproses", kurir: null, resi: null,
+    kota: "Makassar", provinsi: "Sulawesi Selatan", kodepos: "90231", alamat: "Jl. Flamboyan No. 9, Panakkukang", payment: "QRIS",
+    items: [
+      { id: 6, nama: "Hoodie Premium", size: "M", warna: "Abu Tua", qty: 1, harga: 229000 },
+      { id: 4, nama: "Cardigan Rajut", size: "S", warna: "Cokelat Susu", qty: 1, harga: 179000 },
+      { id: 0, nama: "Kaos Oversize Basic", size: "S", warna: "Putih", qty: 1, harga: 89000 },
+    ],
+  },
+  {
+    id: "AUR-1035", nama: "Andi Wijaya", tanggal: "2026-07-29", item: 1, total: 99000, status: "Dikirim", kurir: "JNE", resi: "JD0023487126",
+    kota: "Denpasar", provinsi: "Bali", kodepos: "80234", alamat: "Jl. Teratai No. 4, Renon", payment: "Transfer Bank",
+    items: [{ id: 7, nama: "Tote Bag Kanvas", size: "One Size", warna: "Natural", qty: 1, harga: 99000 }],
+  },
 ];
 
 /* Data contoh artikel (mode demo, tanpa backend) — dipakai blog.html & artikel.html */
