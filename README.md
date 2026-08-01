@@ -16,6 +16,9 @@ Website toko pakaian estetik — statis murni (HTML, CSS, JavaScript) tanpa back
 - **Karier** (`karier.html`) — lowongan kerja + CTA lamaran via WhatsApp/email
 - **Afiliasi** (`afiliasi.html`) — program komisi 8–12% + kalkulator simulasi komisi
 - **Admin** (`admin.html`) — dashboard ringkas, kelola produk/pesanan/pelanggan, mode demo tanpa backend (ubah hanya berlaku di sesi)
+- **Pencarian** — ikon search di navbar membuka modal live search (filter nama/kategori dari `PRODUCTS`, hasil menuju `produk.html?id=N`)
+- **Newsletter** — form beranda berfungsi: validasi email, simpan subscriber (mode demo), pesan sukses
+- **Penunjang UX** — announcement bar bisa ditutup (diingat), tombol kembali ke atas muncul setelah scroll
 - Tema terang/gelap, navbar aktif + scrollspy, tombol kembali ke atas, animasi scroll halus
 - Data tersimpan di `localStorage` per browser (keranjang, wishlist, tema)
 
@@ -35,9 +38,9 @@ artikel.html      Halaman isi artikel (blog + artikel terkait)
 karier.html       Lowongan kerja (posisi + CTA lamaran)
 afiliasi.html     Program afiliasi (komisi + kalkulator)
 admin.html        Panel admin (compact, mode demo)
-css/style.css     Seluruh styling (10 bagian)
+css/style.css     Seluruh styling (14 bagian)
 js/data.js        Data produk, kategori, konfigurasi ongkir
-js/site.js        Utilitas bersama (tema, keranjang, wishlist, scroll, dll.)
+js/site.js        Utilitas bersama (tema, keranjang, wishlist, pencarian, newsletter, back-to-top, dll.)
 js/*.js           Logika per halaman
 ```
 

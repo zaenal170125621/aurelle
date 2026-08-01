@@ -1,7 +1,8 @@
 /* ==========================================================================
-   AURELLE — Utilitas bersama (dipakai oleh index.html & produk.html)
+   AURELLE — Utilitas bersama (dipakai seluruh halaman)
    Tema gelap/terang, keranjang, menu mobile, navbar, toast, wishlist,
-   kartu produk, dan animasi reveal.
+   kartu produk, pencarian (modal), newsletter, announcement, back-to-top,
+   dan animasi reveal.
    ========================================================================== */
 
 "use strict";
@@ -294,15 +295,212 @@ function initActiveNav() {
   }
 }
 
-/* ---------- Tombol pencarian ---------- */
+/* ---------- Pencarian produk (modal live search) ---------- */
+function searchProducts(query) {
+  const q = query.trim().toLowerCase();
+  if (!q) return [];
+
+  const found = [];
+  for (let i = 0; i < PRODUCTS.length && found.length < 6; i++) {
+    const p = PRODUCTS[i];
+    if (p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q)) {
+      found.push({ index: i, product: p });
+    }
+  }
+  return found;
+}
+
 function initSearch() {
   const btn = document.getElementById("searchBtn");
-  if (!btn) return;
+  if (!btn || typeof PRODUCTS === "undefined") return;
 
-  btn.addEventListener("click", () => {
-    window.location.href = "koleksi.html";
+  const overlay = document.createElement("div");
+  overlay.className = "search-overlay";
+  overlay.setAttribute("aria-hidden", "true");
+  overlay.innerHTML = `
+    <div class="search-panel" role="dialog" aria-modal="true" aria-label="Cari produk">
+      <div class="search-head">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" />
+          <path d="m20 20-3.5-3.5" />
+        </svg>
+        <input type="search" id="searchInput" placeholder="Cari produk atau kategori..." autocomplete="off" aria-label="Kata kunci pencarian" />
+        <button type="button" class="modal-close" id="searchClose" aria-label="Tutup pencarian">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M18 6 6 18M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="search-results" id="searchResults" aria-live="polite"></div>
+    </div>`;
+  document.body.appendChild(overlay);
+
+  const input = overlay.querySelector("#searchInput");
+  const results = overlay.querySelector("#searchResults");
+  const closeBtn = overlay.querySelector("#searchClose");
+
+  const itemHTML = (p, index) => `
+    <a class="search-item" href="produk.html?id=${index}">
+      <img src="${p.image}" alt="" loading="lazy" />
+      <span class="search-item-info">
+        <strong>${p.name}</strong>
+        <small>${p.category} · ${formatRupiah(p.price)}</small>
+      </span>
+    </a>`;
+
+  const render = () => {
+    if (!input.value.trim()) {
+      results.innerHTML =
+        `<p class="search-label">Produk populer</p>` +
+        PRODUCTS.slice(0, 4).map((p, i) => itemHTML(p, i)).join("");
+      return;
+    }
+
+    const found = searchProducts(input.value);
+    results.innerHTML = found.length
+      ? found.map(({ index, product }) => itemHTML(product, index)).join("")
+      : '<p class="search-empty">Tidak ada produk yang cocok. Coba kata kunci lain.</p>';
+  };
+
+  const open = () => {
+    overlay.classList.add("open");
+    overlay.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+    input.value = "";
+    render();
+    input.focus();
+  };
+
+  const close = () => {
+    overlay.classList.remove("open");
+    overlay.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
+    btn.focus();
+  };
+
+  btn.addEventListener("click", open);
+  closeBtn.addEventListener("click", close);
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) close();
+  });
+  input.addEventListener("input", render);
+  input.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter") return;
+    const first = results.querySelector(".search-item");
+    if (first) {
+      e.preventDefault();
+      window.location.href = first.getAttribute("href");
+    }
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && overlay.classList.contains("open")) close();
   });
 }
+
+/* ---------- Newsletter (beranda) ---------- */
+function initNewsletter() {
+  const form = document.getElementById("newsletterForm");
+  if (!form) return;
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const email = form.email.value.trim();
+    const status = document.getElementById("formStatus");
+    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    if (!valid) {
+      if (status) {
+        status.textContent = "Masukkan alamat email yang valid.";
+        status.classList.add("invalid");
+      }
+      form.email.focus();
+      return;
+    }
+
+    const subs = JSON.parse(localStorage.getItem("aurelle-subscribers") || "[]");
+    if (!subs.includes(email)) {
+      subs.push(email);
+      localStorage.setItem("aurelle-subscribers", JSON.stringify(subs));
+    }
+
+    form.reset();
+    if (status) {
+      status.textContent = "Terima kasih! Cek emailmu untuk diskon 10%.";
+      status.classList.remove("invalid");
+    }
+    showToast("Berhasil berlangganan newsletter");
+  });
+}
+
+/* ---------- Announcement bar (bisa ditutup) ---------- */
+function initAnnouncement() {
+  const bar = document.querySelector(".announcement");
+  if (!bar) return;
+
+  if (localStorage.getItem("aurelle-announcement-closed") === "1") {
+    bar.remove();
+    return;
+  }
+
+  const closeBtn = document.createElement("button");
+  closeBtn.type = "button";
+  closeBtn.className = "announcement-close";
+  closeBtn.setAttribute("aria-label", "Tutup pengumuman");
+  closeBtn.innerHTML = `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <path d="M18 6 6 18M6 6l12 12" />
+    </svg>`;
+  bar.appendChild(closeBtn);
+
+  closeBtn.addEventListener("click", () => {
+    localStorage.setItem("aurelle-announcement-closed", "1");
+    bar.classList.add("closing");
+    setTimeout(() => bar.remove(), 320);
+  });
+}
+
+/* ---------- Tombol kembali ke atas ---------- */
+function initBackToTop() {
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "back-to-top";
+  btn.setAttribute("aria-label", "Kembali ke atas");
+  btn.innerHTML = `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 19V5M5 12l7-7 7 7" />
+    </svg>`;
+  document.body.appendChild(btn);
+
+  const onScroll = () => btn.classList.toggle("show", window.scrollY > 600);
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  btn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+}
+
+/* ---------- Init bersama ---------- */
+document.addEventListener("DOMContentLoaded", () => {
+  initTheme();
+  initMenu();
+  initNavbar();
+  initActiveNav();
+  initAnnouncement();
+  initSearch();
+  initCartButton();
+  initWishlistNav();
+  initWishlist();
+  syncCartBadge();
+  syncWishlistBadge();
+  initSmoothScroll();
+  initScrollSpy();
+  initQuickAdd();
+  initNewsletter();
+  initBackToTop();
+  initReveal();
+});
 
 /* ---------- Wishlist (event delegation) ---------- */
 function initWishlist() {
@@ -401,20 +599,4 @@ function productCardHTML(product, index, opts = {}) {
   </article>`;
 }
 
-/* ---------- Init bersama ---------- */
-document.addEventListener("DOMContentLoaded", () => {
-  initTheme();
-  initMenu();
-  initNavbar();
-  initActiveNav();
-  initSearch();
-  initCartButton();
-  initWishlistNav();
-  initWishlist();
-  syncCartBadge();
-  syncWishlistBadge();
-  initSmoothScroll();
-  initScrollSpy();
-  initQuickAdd();
-  initReveal();
-});
+
