@@ -88,9 +88,27 @@ function initContactForm() {
   });
 }
 
+/* ---------- Carousel cerita pelanggan ---------- */
+function initTestimonialCarousel() {
+  const track = document.getElementById("testimonialTrack");
+  const prev = document.getElementById("testPrev");
+  const next = document.getElementById("testNext");
+  if (!track) return;
+
+  const card = () => track.querySelector(".testimonial");
+  const step = () => {
+    const c = card();
+    return c ? c.getBoundingClientRect().width + 16 : 300;
+  };
+
+  prev?.addEventListener("click", () => track.scrollBy({ left: -step(), behavior: "smooth" }));
+  next?.addEventListener("click", () => track.scrollBy({ left: step(), behavior: "smooth" }));
+}
+
 /* ---------- Init ---------- */
 document.addEventListener("DOMContentLoaded", () => {
   renderProducts();
   initNewsletter();
   initContactForm();
+  initTestimonialCarousel();
 });
