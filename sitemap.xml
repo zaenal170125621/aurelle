@@ -21,6 +21,14 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://zaenal170125621.github.io/aurelle/blog.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://zaenal170125621.github.io/aurelle/artikel.html</loc>
+    <priority>0.4</priority>
+  </url>
+  <url>
     <loc>https://zaenal170125621.github.io/aurelle/keranjang.html</loc>
     <priority>0.5</priority>
   </url>

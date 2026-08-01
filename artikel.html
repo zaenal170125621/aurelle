@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="AURELLE — detail produk pakaian estetik. Pilih ukuran dan warna, lalu tambahkan ke keranjang." />
-  <title>Detail Produk — AURELLE</title>
+  <meta name="description" content="AURELLE — baca artikel: tips memilih ukuran, cara merawat pakaian, inspirasi outfit, dan cerita di balik produk." />
+  <title>Artikel — AURELLE</title>
 
   <!-- Terapkan tema sebelum halaman digambar (hindari flash) -->
   <script>
@@ -27,11 +27,11 @@
   />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content="article" />
   <meta property="og:site_name" content="AURELLE" />
-  <meta property="og:title" content="Detail Produk — AURELLE" />
-  <meta property="og:description" content="AURELLE — detail produk pakaian estetik. Pilih ukuran dan warna, lalu tambahkan ke keranjang." />
-  <meta property="og:url" content="https://zaenal170125621.github.io/aurelle/produk.html" />
+  <meta property="og:title" content="Artikel — AURELLE" />
+  <meta property="og:description" content="Tips, perawatan, dan inspirasi dari AURELLE." />
+  <meta property="og:url" content="https://zaenal170125621.github.io/aurelle/artikel.html" />
   <meta property="og:image" content="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80" />
   <script src="js/analytics.js" defer></script>
 </head>
@@ -102,83 +102,43 @@
       <nav class="breadcrumb" aria-label="Jalur halaman">
         <a href="index.html">Beranda</a>
         <span class="sep">/</span>
-        <a href="koleksi.html">Koleksi</a>
+        <a href="blog.html">Blog</a>
         <span class="sep">/</span>
-        <span class="current" id="breadcrumbCurrent">Produk</span>
+        <span class="current" id="breadcrumbCurrent">Artikel</span>
       </nav>
     </div>
 
-    <!-- ===== Detail Produk ===== -->
-    <section class="detail">
-      <div class="container detail-grid">
-        <div class="detail-gallery reveal" id="gallery">
-          <!-- galeri dirender oleh produk.js -->
+    <!-- ===== Isi Artikel (dirender oleh js/artikel.js) ===== -->
+    <article class="article-page">
+      <div class="container article-wrap">
+        <div class="section-head article-head reveal">
+          <p class="eyebrow" id="articleCat">Kategori</p>
+          <h1 class="section-title" id="articleTitle">Judul Artikel</h1>
+          <p class="article-meta" id="articleMeta">tanggal · menit baca</p>
         </div>
-        <div class="detail-info reveal" id="detailInfo">
-          <!-- info produk dirender oleh produk.js -->
-        </div>
-      </div>
-    </section>
 
-    <!-- ===== Kamu Mungkin Suka ===== -->
-    <section class="related" id="recommendSection">
-      <div class="container">
-        <div class="section-head reveal">
-          <p class="eyebrow">Rekomendasi untukmu</p>
-          <h2 class="section-title">Kamu Mungkin <em>Suka</em></h2>
-          <p class="section-sub">
-            Produk sekategori yang paling sering dibeli bersama produk ini. Klik “Tambah” untuk
-            langsung memasukkannya ke keranjang.
-          </p>
+        <div class="article-hero reveal">
+          <img id="articleImage" src="" alt="Gambar artikel" />
         </div>
-        <div class="product-grid" id="recommendGrid">
-          <!-- rekomendasi dirender oleh produk.js -->
-        </div>
+
+        <div class="article-body" id="articleBody"></div>
+
+        <a class="btn btn-outline back-blog" href="blog.html">
+          ← Kembali ke Blog
+        </a>
       </div>
-    </section>
+
+      <section class="article-more">
+        <div class="container">
+          <div class="section-head reveal">
+            <p class="eyebrow">Lanjut Membaca</p>
+            <h2 class="section-title">Artikel <em>Lainnya</em></h2>
+          </div>
+          <div class="related-grid" id="relatedGrid"></div>
+        </div>
+      </section>
+    </article>
   </main>
-
-  <!-- ===== Modal Panduan Ukuran ===== -->
-  <div class="modal-overlay" id="sizeGuideModal" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="sizeGuideTitle">
-      <div class="modal-head">
-        <h2 id="sizeGuideTitle" class="modal-title">Panduan <em>Ukuran</em></h2>
-        <button type="button" class="modal-close" id="sizeGuideClose" aria-label="Tutup panduan ukuran">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-            <path d="M18 6 6 18M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p class="modal-sub">Satuan sentimeter (cm), diukur rata (flat) saat pakaian dilipat.</p>
-        <div class="modal-table-wrap" id="sizeGuideTable">
-          <table class="size-table">
-            <thead>
-              <tr><th>Ukuran</th><th>Panjang</th><th>Lebar</th><th>Lingkar Dada</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>S</td><td>62</td><td>46</td><td>92</td></tr>
-              <tr><td>M</td><td>64</td><td>48</td><td>96</td></tr>
-              <tr><td>L</td><td>66</td><td>50</td><td>100</td></tr>
-              <tr><td>XL</td><td>68</td><td>52</td><td>104</td></tr>
-              <tr><td>XXL</td><td>70</td><td>54</td><td>108</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="modal-note" id="sizeGuideNote" hidden>
-          Produk ini berukuran <strong>One Size</strong> — tidak memerlukan pemilihan ukuran.
-        </p>
-        <div class="size-tips">
-          <h3>Tips mengukur</h3>
-          <ul class="about-list">
-            <li>Gunakan pakaian yang paling pas di badanmu sebagai acuan.</li>
-            <li>Bandingkan ukuran rata dengan tabel ini — tambah 2–3 cm kalau suka potongan lebih longgar.</li>
-            <li>Masih ragu? Chat kami di WhatsApp, kami bantu pilihkan ukuran yang tepat.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- ===== Footer ===== -->
   <footer class="footer">
@@ -256,6 +216,7 @@
 
   <script src="js/data.js"></script>
   <script src="js/site.js"></script>
-  <script src="js/produk.js"></script>
+  <script src="js/blog.js"></script>
+  <script src="js/artikel.js"></script>
 </body>
 </html>

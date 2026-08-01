@@ -1,5 +1,5 @@
 /* ==========================================================================
-   AURELLE — Data produk (dipakai oleh index.html & produk.html)
+   AURELLE — Data produk, pesanan & artikel (dipakai seluruh halaman)
    ========================================================================== */
 
 "use strict";
@@ -194,4 +194,75 @@ const ORDERS = [
   { id: "AUR-1037", nama: "Fajar Nugroho", tanggal: "2026-07-30", item: 1, total: 229000, status: "Selesai", kurir: "J&T", resi: "JT2508093104" },
   { id: "AUR-1036", nama: "Putri Ayu", tanggal: "2026-07-30", item: 3, total: 497000, status: "Diproses", kurir: null, resi: null },
   { id: "AUR-1035", nama: "Andi Wijaya", tanggal: "2026-07-29", item: 1, total: 99000, status: "Dikirim", kurir: "JNE", resi: "JD0023487126" },
+];
+
+/* Data contoh artikel (mode demo, tanpa backend) — dipakai blog.html & artikel.html */
+const ARTICLES = [
+  {
+    id: 1,
+    title: "Panduan Memilih Ukuran Baju Tanpa Menyesal",
+    category: "Tips",
+    date: "2026-07-28",
+    readTime: 3,
+    image:
+      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80",
+    excerpt:
+      "Ukuran M yang pas di satu toko belum tentu pas di toko lain. Ini cara mudah menemukan ukuran yang paling cocok untukmu.",
+    content: [
+      "Pernah beli baju ukuran M tapi jatuhnya kekecilan? Tenang, kamu tidak sendirian. Ukuran pakaian antar merek bisa beda jauh — makanya kami selalu menyertakan tabel ukuran di setiap halaman produk.",
+      "Langkah pertama: ambil baju favoritmu yang paling pas. Letakkan di permukaan datar, lalu ukur lebar dada dan panjangnya dengan meteran. Bandingkan angkanya dengan tabel ukuran di halaman produk.",
+      "Suka potongan longgar? Tambahkan kelonggaran 2–3 cm dari ukuran pas. Suka yang pas di badan? Ambil ukuran yang sesuai, atau satu tingkat di bawah kalau bahannya elastis.",
+      "Masih ragu? Jangan sungkan chat kami di WhatsApp — tim kami biasa membantu pelanggan memilih ukuran, lengkap dengan rekomendasi berdasarkan tinggi dan berat badan.",
+    ],
+  },
+  {
+    id: 2,
+    title: "5 Cara Merawat Bahan Katun Combed agar Awet",
+    category: "Perawatan",
+    date: "2026-07-21",
+    readTime: 4,
+    image:
+      "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=800&q=80",
+    excerpt:
+      "Katun combed 30s itu adem dan jatuh — tapi biar awet dipakai bertahun-tahun, perawatannya harus benar.",
+    content: [
+      "Sebagian besar produk AURELLE memakai katun combed 30s: adem, tidak menerawang, dan jatuhnya enak. Dengan perawatan yang tepat, kaos favoritmu bisa tetap seperti baru.",
+      "<ul><li><strong>Cuci dengan air dingin</strong> — air panas bisa membuat serat katun cepat kendur dan warna luntur.</li><li><strong>Jangan direndam terlalu lama</strong> — cukup 5–10 menit sebelum dicuci.</li><li><strong>Jemur di tempat teduh</strong> — sinar matahari langsung bikin warna cepat pudar, terutama untuk warna gelap.</li><li><strong>Setrika dengan suhu sedang</strong> — katun combed mudah halus tanpa perlu setrika panas.</li><li><strong>Pisahkan warna terang dan gelap</strong> — mencegah noda luntur di cucian pertama.</li></ul>",
+      "Satu lagi: balik pakaian ke sisi dalam sebelum dicuci. Sabuk jahitan dan warna di bagian luar jadi lebih terlindungi, sehingga kaos tetap rapi lebih lama.",
+    ],
+  },
+  {
+    id: 3,
+    title: "Tampil Rapi ke Kantor dengan Atasan AURELLE",
+    category: "Inspirasi",
+    date: "2026-07-14",
+    readTime: 3,
+    image:
+      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&q=80",
+    excerpt:
+      "Rapi, nyaman, dan tetap santai — tiga padu padan atasan AURELLE untuk look kantoran yang effortless.",
+    content: [
+      "<h3>1. Kaos oversize + celana panjang</h3>Padukan Kaos Oversize Basic dengan celana panjang atau chino. Selipkan sedikit bagian depan kaos ke celana untuk siluet yang lebih rapi, lengkapi dengan sneakers putih.",
+      "<h3>2. Dress puff sleeve + blazer tipis</h3>Dress Puff Sleeve terlihat profesional saat dipakai dengan blazer tipis. Pilih warna netral seperti krem atau sage agar lebih mudah dipadu dengan tas dan sepatu.",
+      "<h3>3. Kemeja krem + rok plisket</h3>Kemeja krem yang diselipkan rapi ke Rok Plisket memberi kesan formal tanpa terasa kaku. Tambahkan sabuk tipis untuk memberi definisi pada pinggang.",
+      "Rahasianya ada di bahan: katun combed yang adem membuatmu nyaman duduk berjam-jam di ruangan ber-AC tanpa gerah. Semua produk di atas tersedia di halaman koleksi.",
+    ],
+  },
+  {
+    id: 4,
+    title: "Di Balik Proses: Kaos Combed yang Kami Banggakan",
+    category: "Cerita",
+    date: "2026-07-07",
+    readTime: 5,
+    image:
+      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=80",
+    excerpt:
+      "Dari pemilihan benang sampai jahitan akhir — begini perjalanan satu kaos AURELLE dibuat dengan hati.",
+    content: [
+      "Semua berawal dari benang. Kami memilih kapas berserat panjang yang dipintal halus, menghasilkan kain combed 30s yang lembut, adem, dan tidak menerawang. Benang inilah yang membuat kaos AURELLE nyaman dipakai dari pagi sampai malam.",
+      "Kain kemudian dipotong dengan pola presisi agar motif tidak miring dan sisi kiri-kanan simetris. Setiap potongan diperiksa satu per satu sebelum masuk ke bagian penjahitan.",
+      "Jahitan menggunakan teknik flatlock yang rata dan kuat di sisi dalam, sehingga tidak menggesek kulit dan tahan terhadap tarikan. Kerah dibuat dengan rib yang lentur — tidak mudah melar meski sering dipakai.",
+      "Sebelum dikirim, setiap kaos melewati quality check akhir: cek jahitan, kerapian kerah, dan kebersihan kain. Baru setelah lolos, kaos itu layak sampai di tanganmu. Itulah kenapa kami yakin — setiap AURELLE yang kamu pakai adalah yang terbaik.",
+    ],
+  },
 ];
