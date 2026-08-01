@@ -2652,3 +2652,96 @@ ul {
 .nav-links a.active::after {
   width: 100%;
 }
+
+/* ==========================================================================
+   Part 9 — Section Kontak
+   ========================================================================== */
+.contact {
+  padding: 0 0 6rem;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.contact-info {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.contact-card {
+  display: flex;
+  gap: 1.1rem;
+  align-items: flex-start;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 1.3rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.contact-icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(198, 123, 92, 0.12);
+  color: var(--terracotta);
+}
+
+.contact-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.contact-card h3 {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.contact-card p {
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+}
+
+.contact-card a:hover {
+  color: var(--terracotta-dark);
+}
+
+.contact-form {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 2.2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.contact-form h3 {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-bottom: 1.4rem;
+}
+
+.contact-form .form-status {
+  margin-top: 0.9rem;
+  font-size: 0.88rem;
+}
+
+.contact-form textarea {
+  resize: vertical;
+}
+
+@media (max-width: 768px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}

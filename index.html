@@ -411,10 +411,85 @@
         </div>
       </div>
     </section>
-  </main>
 
-  <!-- ===== Footer ===== -->
-  <footer class="footer" id="kontak">
+    <!-- ===== Kontak ===== -->
+    <section class="contact" id="kontak">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Kontak</p>
+          <h2 class="section-title">Mari <em>terhubung</em></h2>
+          <p class="section-sub">
+            Butuh bantuan memilih ukuran atau mengecek pesanan? Tim AURELLE siap
+            membantu Senin–Sabtu, 09.00–18.00 WIB.
+          </p>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-info reveal">
+            <div class="contact-card">
+              <span class="contact-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></svg>
+              </span>
+              <div>
+                <h3>Alamat</h3>
+                <p>Jl. Senopati No. 27, Kebayoran Baru, Jakarta Selatan 12190</p>
+              </div>
+            </div>
+            <div class="contact-card">
+              <span class="contact-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-10 6L2 7" /></svg>
+              </span>
+              <div>
+                <h3>Email</h3>
+                <p><a href="mailto:halo@aurelle.id">halo@aurelle.id</a></p>
+              </div>
+            </div>
+            <div class="contact-card">
+              <span class="contact-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z" /></svg>
+              </span>
+              <div>
+                <h3>Telepon / WhatsApp</h3>
+                <p><a href="tel:+6281234567890">+62 812-3456-7890</a></p>
+              </div>
+            </div>
+            <div class="contact-card">
+              <span class="contact-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></svg>
+              </span>
+              <div>
+                <h3>Jam Operasional</h3>
+                <p>Senin–Sabtu, 09.00–18.00 WIB</p>
+              </div>
+            </div>
+          </div>
+
+          <form class="contact-form reveal" id="contactForm" novalidate>
+            <h3>Kirim Pesan</h3>
+            <div class="field">
+              <label for="contactName">Nama *</label>
+              <input id="contactName" name="nama" type="text" autocomplete="name" />
+              <p class="field-error" id="err-contactName"></p>
+            </div>
+            <div class="field">
+              <label for="contactEmail">Email *</label>
+              <input id="contactEmail" name="email" type="email" autocomplete="email" />
+              <p class="field-error" id="err-contactEmail"></p>
+            </div>
+            <div class="field">
+              <label for="contactMsg">Pesan *</label>
+              <textarea id="contactMsg" name="pesan" rows="4" placeholder="Tulis pesan kamu di sini..."></textarea>
+              <p class="field-error" id="err-contactMsg"></p>
+            </div>
+            <button type="submit" class="btn btn-dark">Kirim Pesan</button>
+            <p class="form-status" id="contactStatus" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Footer ===== -->
+    <footer class="footer">
     <div class="container footer-grid">
       <div class="footer-brand">
         <a href="index.html" class="brand">
