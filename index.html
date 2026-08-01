@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AURELLE — toko baju estetik dengan koleksi pakaian timeless, nyaman, dan penuh karakter. Free ongkir untuk seluruh Indonesia." />
+  <title>AURELLE — Toko Baju Estetik</title>
+
+  <!-- Terapkan tema sebelum halaman digambar (hindari flash) -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("aurelle-theme");
+        var dark = saved
+          ? saved === "dark"
+          : window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (dark) document.documentElement.setAttribute("data-theme", "dark");
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ===== Announcement Bar ===== -->
+  <div class="announcement">
+    <p>Free ongkir se-Indonesia untuk pembelian min. Rp150.000</p>
+  </div>
+
+  <!-- ===== Navigation ===== -->
+  <header class="nav" id="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="brand" aria-label="AURELLE beranda">
+        <span class="brand-mark">A</span>
+        <span class="brand-name">AURELLE</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks" aria-label="Navigasi utama">
+        <a href="#beranda" class="active">Beranda</a>
+        <a href="koleksi.html">Koleksi</a>
+        <a href="#tentang">Tentang</a>
+        <a href="#testimoni">Testimoni</a>
+        <a href="#kontak">Kontak</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="icon-btn" id="searchBtn" aria-label="Cari produk">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <circle cx="11" cy="11" r="7" />
+            <path d="m20 20-3.5-3.5" />
+          </svg>
+        </button>
+        <button class="icon-btn wishlist-nav" aria-label="Buka wishlist">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 14c1.5-1.5 2-3.2 2-4.8A4.7 4.7 0 0 0 12 6.6 4.7 4.7 0 0 0 3 9.2C3 10.8 3.5 12.5 5 14l7 7 7-7Z" />
+          </svg>
+          <span class="cart-badge wishlist-badge" hidden>0</span>
+        </button>
+        <button class="icon-btn cart-btn" aria-label="Keranjang belanja">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 7h12l-1.2 12.2a1.5 1.5 0 0 1-1.5 1.3H8.7a1.5 1.5 0 0 1-1.5-1.3L6 7Z" />
+            <path d="M9 10V6a3 3 0 0 1 6 0v4" />
+          </svg>
+          <span class="cart-badge" hidden>0</span>
+        </button>
+        <button class="icon-btn theme-btn" id="themeBtn" aria-label="Ganti tema terang atau gelap">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4.5" />
+            <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4" />
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z" />
+          </svg>
+        </button>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Buka menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <path d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== Hero ===== -->
+    <section class="hero" id="beranda">
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Koleksi Musim Ini</p>
+          <h1 class="hero-title">
+            Pakaian yang<br />
+            <em>bercerita</em> untuk<br />
+            hari-harimu.
+          </h1>
+          <p class="hero-sub">
+            AURELLE menghadirkan pakaian estetik dengan potongan timeless,
+            bahan premium yang nyaman dipakai, dan detail yang penuh karakter.
+            Lemari pakaianmu pantas punya cerita sendiri.
+          </p>
+          <div class="hero-cta">
+            <a href="koleksi.html" class="btn btn-dark">Lihat Koleksi</a>
+            <a href="#tentang" class="btn btn-ghost">Cerita Kami</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat">
+              <strong>12K+</strong>
+              <span>Pelanggan bahagia</span>
+            </div>
+            <div class="stat">
+              <strong>4.9★</strong>
+              <span>Rating toko</span>
+            </div>
+            <div class="stat">
+              <strong>500+</strong>
+              <span>Produk estetik</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-media reveal">
+          <div class="hero-img hero-img-main">
+            <img
+              src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=80"
+              alt="Model mengenakan pakaian estetik dari koleksi AURELLE"
+              loading="eager"
+            />
+          </div>
+          <div class="hero-img hero-img-small">
+            <img
+              src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=600&q=80"
+              alt="Pelanggan berbelanja pakaian"
+              loading="lazy"
+            />
+          </div>
+          <div class="hero-tag">
+            <p>New In</p>
+            <strong>Spring Drop '26</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Features ===== -->
+    <section class="features">
+      <div class="container features-grid">
+        <div class="feature reveal">
+          <span class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 3h15v13H1z" />
+              <path d="M16 8h4l3 3v5h-7V8z" />
+              <circle cx="5.5" cy="18.5" r="2.5" />
+              <circle cx="18.5" cy="18.5" r="2.5" />
+            </svg>
+          </span>
+          <div>
+            <h3>Free Ongkir</h3>
+            <p>Gratis ongkir min. belanja Rp150rb ke seluruh Indonesia</p>
+          </div>
+        </div>
+        <div class="feature reveal">
+          <span class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 1l4 4-4 4" />
+              <path d="M3 11V9a4 4 0 0 1 4-4h14" />
+              <path d="M7 23l-4-4 4-4" />
+              <path d="M21 13v2a4 4 0 0 1-4 4H3" />
+            </svg>
+          </span>
+          <div>
+            <h3>Mudah Ditukar</h3>
+            <p>Retur dan tukar ukuran dalam 7 hari tanpa ribet</p>
+          </div>
+        </div>
+        <div class="feature reveal">
+          <span class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="6" cy="6" r="3" />
+              <circle cx="6" cy="18" r="3" />
+              <path d="M20 4 8.12 15.88" />
+              <path d="M14.47 14.48 20 20" />
+              <path d="M8.12 8.12 12 12" />
+            </svg>
+          </span>
+          <div>
+            <h3>Bahan Premium</h3>
+            <p>Kain pilihan yang adem, jatuh, dan awet dipakai</p>
+          </div>
+        </div>
+        <div class="feature reveal">
+          <span class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="4" width="22" height="16" rx="2" />
+              <path d="M1 10h22" />
+            </svg>
+          </span>
+          <div>
+            <h3>Bayar Aman</h3>
+            <p>COD, transfer, dan e-wallet tersedia</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Categories ===== -->
+    <section class="categories" id="koleksi">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Kategori</p>
+          <h2 class="section-title">Jelajahi <em>Koleksi</em></h2>
+          <p class="section-sub">Dari keseharian yang santai hingga momen spesial — semua ada di sini.</p>
+        </div>
+
+        <div class="category-grid">
+          <a href="koleksi.html?kategori=Wanita" class="category-card reveal">
+            <img
+              src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=800&q=80"
+              alt="Koleksi wanita AURELLE"
+              loading="lazy"
+            />
+            <div class="category-overlay">
+              <h3>Wanita</h3>
+              <span>Mulai dari Rp89rb →</span>
+            </div>
+          </a>
+          <a href="koleksi.html?kategori=Pria" class="category-card reveal">
+            <img
+              src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&q=80"
+              alt="Koleksi pria AURELLE"
+              loading="lazy"
+            />
+            <div class="category-overlay">
+              <h3>Pria</h3>
+              <span>Mulai dari Rp99rb →</span>
+            </div>
+          </a>
+          <a href="koleksi.html?kategori=Aksesoris" class="category-card reveal">
+            <img
+              src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80"
+              alt="Koleksi aksesoris AURELLE"
+              loading="lazy"
+            />
+            <div class="category-overlay">
+              <h3>Aksesoris</h3>
+              <span>Mulai dari Rp49rb →</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Featured Products ===== -->
+    <section class="products">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Best Seller</p>
+          <h2 class="section-title">Produk <em>Pilihan</em></h2>
+          <p class="section-sub">Yang paling dicari oleh pelanggan kami minggu ini.</p>
+        </div>
+
+        <div class="product-grid" id="productGrid">
+          <!-- produk dirender oleh main.js -->
+        </div>
+
+        <div class="products-more reveal">
+          <a href="koleksi.html" class="btn btn-ghost">Lihat Semua Produk</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Promo Banner ===== -->
+    <section class="promo">
+      <div class="container">
+        <div class="promo-card reveal">
+          <div class="promo-text">
+            <p class="eyebrow">Flash Sale</p>
+            <h2>Mid-Year <em>Sale</em> — Diskon hingga 40%</h2>
+            <p>Periode terbatas. Koleksi terbaru mulai dari Rp79.000. Selagi stok masih ada!</p>
+            <a href="produk.html?id=1" class="btn btn-light">Belanja Sekarang</a>
+          </div>
+          <div class="promo-img">
+            <img
+              src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80"
+              alt="Tampilan dalam toko AURELLE"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== About ===== -->
+    <section class="about" id="tentang">
+      <div class="container about-grid">
+        <div class="about-media reveal">
+          <img
+            src="https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=900&q=80"
+            alt="Rak pakaian estetik di butik AURELLE"
+            loading="lazy"
+          />
+          <div class="about-badge">
+            <strong>Sejak 2020</strong>
+            <span>Menemani gaya ribuan orang</span>
+          </div>
+        </div>
+        <div class="about-copy reveal">
+          <p class="eyebrow">Tentang Kami</p>
+          <h2 class="section-title">Lebih dari sekadar <em>pakaian</em></h2>
+          <p>
+            AURELLE lahir dari kecintaan kami pada detail kecil: jahitan yang rapi,
+            bahan yang nyaman, dan warna yang menenangkan. Setiap produk kami kurasi
+            dengan hati agar kamu tampil percaya diri — tanpa harus mengorbankan kenyamanan.
+          </p>
+          <p>
+            Kami percaya gaya bukan tentang mengikuti tren, melainkan menemukan
+            versi terbaik dirimu. Itulah kenapa kami merancang koleksi yang timeless,
+            mudah dipadukan, dan tahan lama.
+          </p>
+          <ul class="about-list">
+            <li>Kurasi ketat: hanya 1 dari 10 produk lolos seleksi</li>
+            <li>Kualitas teruji dengan ribuan ulasan 5 bintang</li>
+            <li>Desain original tim AURELLE Studio</li>
+          </ul>
+          <a href="#" class="btn btn-dark">Baca Cerita Kami</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Testimonials ===== -->
+    <section class="testimonials" id="testimoni">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Kata Mereka</p>
+          <h2 class="section-title">Cerita <em>Pelanggan</em></h2>
+        </div>
+
+        <div class="testimonial-grid">
+          <figure class="testimonial reveal">
+            <div class="stars" aria-label="Rating 5 dari 5">★★★★★</div>
+            <blockquote>
+              "Bajunya jatuh banget dan bahan-nya adem. Aku beli dressnya untuk
+              kondangan, malah jadi pusat perhatian. Sudah repeat order 3 kali!"
+            </blockquote>
+            <figcaption>
+              <span class="avatar" style="--hue: 20">SN</span>
+              <div>
+                <strong>Salsa N.</strong>
+                <span>Jakarta</span>
+              </div>
+            </figcaption>
+          </figure>
+
+          <figure class="testimonial reveal">
+            <div class="stars" aria-label="Rating 5 dari 5">★★★★★</div>
+            <blockquote>
+              "Jahitan rapi, ukuran sesuai, dan packing-nya cantik banget sampai
+              aku ragu mau buka. Ini toko baju estetik favorit aku banget."
+            </blockquote>
+            <figcaption>
+              <span class="avatar" style="--hue: 140">DM</span>
+              <div>
+                <strong>Dinda M.</strong>
+                <span>Bandung</span>
+              </div>
+            </figcaption>
+          </figure>
+
+          <figure class="testimonial reveal">
+            <div class="stars" aria-label="Rating 5 dari 5">★★★★★</div>
+            <blockquote>
+              "Gratis ongkir beneran, sampai cuma 2 hari. Kaos oversize-nya jadi
+              andalan buat hangout. Worth it banget!"
+            </blockquote>
+            <figcaption>
+              <span class="avatar" style="--hue: 260">RA</span>
+              <div>
+                <strong>Raka A.</strong>
+                <span>Surabaya</span>
+              </div>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Newsletter ===== -->
+    <section class="newsletter">
+      <div class="container">
+        <div class="newsletter-card reveal">
+          <p class="eyebrow">Newsletter</p>
+          <h2>Dapatkan <em>info koleksi</em> terlebih dahulu</h2>
+          <p>Gabung 12.000+ subscriber dan dapatkan diskon 10% untuk pembelian pertama.</p>
+          <form class="newsletter-form" id="newsletterForm">
+            <label for="email" class="sr-only">Alamat email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Masukkan email kamu..."
+              required
+            />
+            <button type="submit" class="btn btn-dark">Berlangganan</button>
+          </form>
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer" id="kontak">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="brand">
+          <span class="brand-mark">A</span>
+          <span class="brand-name">AURELLE</span>
+        </a>
+        <p>Pakaian estetik untuk hari-hari yang lebih bermakna. Dibuat dengan hati di Indonesia.</p>
+        <div class="socials">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="TikTok">TT</a>
+          <a href="#" aria-label="Shopee">SH</a>
+          <a href="#" aria-label="WhatsApp">WA</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Bantuan</h4>
+        <a href="#">Cara Order</a>
+        <a href="#">Cek Pesanan</a>
+        <a href="#">Pengiriman</a>
+        <a href="#">Retur &amp; Tukar</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Perusahaan</h4>
+        <a href="#tentang">Tentang Kami</a>
+        <a href="#">Karier</a>
+        <a href="#">Blog</a>
+        <a href="#">Afiliasi</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Kontak</h4>
+        <a href="mailto:halo@aurelle.id">halo@aurelle.id</a>
+        <a href="tel:+6281234567890">+62 812-3456-7890</a>
+        <span>Senin–Sabtu, 09.00–18.00 WIB</span>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>© 2026 AURELLE. Seluruh hak cipta dilindungi.</p>
+      <div class="payments" aria-label="Metode pembayaran">
+        <span>BCA</span><span>GoPay</span><span>OVO</span><span>ShopeePay</span><span>COD</span>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 19V5" />
+      <path d="m5 12 7-7 7 7" />
+    </svg>
+  </button>
+
+  <script src="js/data.js"></script>
+  <script src="js/site.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

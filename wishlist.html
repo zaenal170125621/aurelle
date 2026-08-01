@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AURELLE — wishlist produk favorit kamu. Simpan dan kelola pakaian estetik incaranmu di satu tempat." />
+  <title>Wishlist — AURELLE</title>
+
+  <!-- Terapkan tema sebelum halaman digambar (hindari flash) -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("aurelle-theme");
+        var dark = saved
+          ? saved === "dark"
+          : window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (dark) document.documentElement.setAttribute("data-theme", "dark");
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ===== Announcement Bar ===== -->
+  <div class="announcement">
+    <p>Free ongkir se-Indonesia untuk pembelian min. Rp150.000</p>
+  </div>
+
+  <!-- ===== Navigation ===== -->
+  <header class="nav" id="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="brand" aria-label="AURELLE beranda">
+        <span class="brand-mark">A</span>
+        <span class="brand-name">AURELLE</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks" aria-label="Navigasi utama">
+        <a href="index.html#beranda">Beranda</a>
+        <a href="koleksi.html" class="active">Koleksi</a>
+        <a href="index.html#tentang">Tentang</a>
+        <a href="index.html#testimoni">Testimoni</a>
+        <a href="index.html#kontak">Kontak</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="icon-btn" id="searchBtn" aria-label="Cari produk">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <circle cx="11" cy="11" r="7" />
+            <path d="m20 20-3.5-3.5" />
+          </svg>
+        </button>
+        <button class="icon-btn wishlist-nav" aria-label="Buka wishlist">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 14c1.5-1.5 2-3.2 2-4.8A4.7 4.7 0 0 0 12 6.6 4.7 4.7 0 0 0 3 9.2C3 10.8 3.5 12.5 5 14l7 7 7-7Z" />
+          </svg>
+          <span class="cart-badge wishlist-badge" hidden>0</span>
+        </button>
+        <button class="icon-btn cart-btn" aria-label="Keranjang belanja">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 7h12l-1.2 12.2a1.5 1.5 0 0 1-1.5 1.3H8.7a1.5 1.5 0 0 1-1.5-1.3L6 7Z" />
+            <path d="M9 10V6a3 3 0 0 1 6 0v4" />
+          </svg>
+          <span class="cart-badge" hidden>0</span>
+        </button>
+        <button class="icon-btn theme-btn" id="themeBtn" aria-label="Ganti tema terang atau gelap">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4.5" />
+            <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4" />
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z" />
+          </svg>
+        </button>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Buka menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <path d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== Breadcrumb ===== -->
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Jalur halaman">
+        <a href="index.html">Beranda</a>
+        <span class="sep">/</span>
+        <span class="current">Wishlist</span>
+      </nav>
+    </div>
+
+    <!-- ===== Daftar Wishlist ===== -->
+    <section class="wishlist-page">
+      <div class="container">
+        <div class="section-head wishlist-head">
+          <p class="eyebrow">Favorit Kamu</p>
+          <h2 class="section-title">Wishlist <em>Kamu</em></h2>
+        </div>
+
+        <div class="wishlist-toolbar">
+          <p id="wishlistCount" aria-live="polite"></p>
+          <button type="button" class="btn btn-dark" id="addAllBtn" hidden>
+            Tambahkan Semua ke Keranjang
+          </button>
+        </div>
+
+        <div class="product-grid" id="wishlistGrid">
+          <!-- produk wishlist dirender oleh wishlist.js -->
+        </div>
+
+        <div class="catalog-empty" id="wishlistEmpty" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 14c1.5-1.5 2-3.2 2-4.8A4.7 4.7 0 0 0 12 6.6 4.7 4.7 0 0 0 3 9.2C3 10.8 3.5 12.5 5 14l7 7 7-7Z" />
+          </svg>
+          <h2>Belum ada wishlist</h2>
+          <p>Tekan ikon hati pada produk yang kamu suka, nanti tersimpan di sini.</p>
+          <a href="koleksi.html" class="btn btn-dark">Jelajahi Koleksi</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer" id="kontak">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="brand">
+          <span class="brand-mark">A</span>
+          <span class="brand-name">AURELLE</span>
+        </a>
+        <p>Pakaian estetik untuk hari-hari yang lebih bermakna. Dibuat dengan hati di Indonesia.</p>
+        <div class="socials">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="TikTok">TT</a>
+          <a href="#" aria-label="Shopee">SH</a>
+          <a href="#" aria-label="WhatsApp">WA</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Bantuan</h4>
+        <a href="#">Cara Order</a>
+        <a href="#">Cek Pesanan</a>
+        <a href="#">Pengiriman</a>
+        <a href="#">Retur &amp; Tukar</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Perusahaan</h4>
+        <a href="index.html#tentang">Tentang Kami</a>
+        <a href="#">Karier</a>
+        <a href="#">Blog</a>
+        <a href="#">Afiliasi</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Kontak</h4>
+        <a href="mailto:halo@aurelle.id">halo@aurelle.id</a>
+        <a href="tel:+6281234567890">+62 812-3456-7890</a>
+        <span>Senin–Sabtu, 09.00–18.00 WIB</span>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>© 2026 AURELLE. Seluruh hak cipta dilindungi.</p>
+      <div class="payments" aria-label="Metode pembayaran">
+        <span>BCA</span><span>GoPay</span><span>OVO</span><span>ShopeePay</span><span>COD</span>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 19V5" />
+      <path d="m5 12 7-7 7 7" />
+    </svg>
+  </button>
+
+  <script src="js/data.js"></script>
+  <script src="js/site.js"></script>
+  <script src="js/wishlist.js"></script>
+</body>
+</html>

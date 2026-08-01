@@ -1,0 +1,350 @@
+/* ==========================================================================
+   AURELLE — Utilitas bersama (dipakai oleh index.html & produk.html)
+   Tema gelap/terang, keranjang, menu mobile, navbar, toast, wishlist,
+   kartu produk, dan animasi reveal.
+   ========================================================================== */
+
+"use strict";
+
+/* ---------- Toast notifikasi ---------- */
+function showToast(message) {
+  const existing = document.querySelector(".toast");
+  if (existing) existing.remove();
+
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.textContent = message;
+  toast.setAttribute("role", "status");
+  document.body.appendChild(toast);
+
+  requestAnimationFrame(() => toast.classList.add("show"));
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 300);
+  }, 2200);
+}
+
+/* ---------- Scroll reveal ---------- */
+let revealObserver;
+
+function initReveal() {
+  const items = document.querySelectorAll(".reveal:not(.visible)");
+  if (!items.length) return;
+
+  if (!revealObserver) {
+    revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+    );
+  }
+
+  items.forEach((el) => revealObserver.observe(el));
+}
+
+/* ---------- Tema gelap / terang ---------- */
+function initTheme() {
+  const btn = document.getElementById("themeBtn");
+  if (!btn) return;
+
+  btn.addEventListener("click", () => {
+    const root = document.documentElement;
+    const isDark = root.getAttribute("data-theme") === "dark";
+    const next = isDark ? "light" : "dark";
+
+    root.setAttribute("data-theme", next);
+    try {
+      localStorage.setItem("aurelle-theme", next);
+    } catch (e) {
+      /* localStorage tidak tersedia — abaikan */
+    }
+    showToast(next === "dark" ? "Mode gelap aktif" : "Mode terang aktif");
+  });
+}
+
+/* ---------- Keranjang (localStorage) ---------- */
+function getCart() {
+  try {
+    return JSON.parse(localStorage.getItem("aurelle-cart") || "[]");
+  } catch (e) {
+    return [];
+  }
+}
+
+function syncCartBadge() {
+  const badge = document.querySelector(".cart-badge");
+  if (!badge) return;
+  const count = getCart().length;
+  badge.textContent = count;
+  badge.hidden = count === 0;
+}
+
+function addToCart(item) {
+  const cart = getCart();
+
+  // Gabungkan item yang sama (id + ukuran + warna) agar tidak jadi baris ganda
+  const existing = cart.find(
+    (i) => i.id === item.id && i.size === item.size && i.color === item.color
+  );
+  if (existing) {
+    existing.qty = Math.min(10, existing.qty + item.qty);
+  } else {
+    cart.push(item);
+  }
+
+  try {
+    localStorage.setItem("aurelle-cart", JSON.stringify(cart));
+  } catch (e) {
+    /* abaikan */
+  }
+  syncCartBadge();
+  showToast("Ditambahkan ke keranjang");
+}
+
+function initCartButton() {
+  const btn = document.querySelector(".cart-btn");
+  if (!btn) return;
+
+  btn.addEventListener("click", () => {
+    window.location.href = "keranjang.html";
+  });
+}
+
+/* ---------- Wishlist (localStorage) ---------- */
+function getWishlist() {
+  try {
+    return JSON.parse(localStorage.getItem("aurelle-wishlist") || "[]");
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveWishlist(list) {
+  try {
+    localStorage.setItem("aurelle-wishlist", JSON.stringify(list));
+  } catch (e) {
+    /* abaikan */
+  }
+}
+
+function isInWishlist(productId) {
+  return getWishlist().includes(productId);
+}
+
+function toggleWishlist(productId) {
+  const list = getWishlist();
+  const index = list.indexOf(productId);
+  const added = index === -1;
+
+  if (added) list.push(productId);
+  else list.splice(index, 1);
+
+  saveWishlist(list);
+  syncWishlistBadge();
+  return added;
+}
+
+function syncWishlistBadge() {
+  const badge = document.querySelector(".wishlist-badge");
+  if (!badge) return;
+  const count = getWishlist().length;
+  badge.textContent = count;
+  badge.hidden = count === 0;
+}
+
+function initWishlistNav() {
+  document.querySelectorAll(".wishlist-nav").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      window.location.href = "wishlist.html";
+    });
+  });
+}
+
+/* ---------- Tombol kembali ke atas ---------- */
+function initBackToTop() {
+  const btn = document.getElementById("backToTop");
+  if (!btn) return;
+
+  const reduced =
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const onScroll = () => {
+    btn.classList.toggle("show", window.scrollY > 400);
+  };
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  btn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+  });
+}
+
+/* ---------- Scroll halus antar bagian di halaman yang sama ---------- */
+const NAV_OFFSET = 90;
+
+function initSmoothScroll() {
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest('a[href^="#"]');
+    if (!link) return;
+
+    const hash = link.getAttribute("href");
+
+    // Tautan mati (href="#") — beri umpan balik, jangan lompat ke atas halaman
+    if (hash === "#") {
+      e.preventDefault();
+      showToast("Fitur ini segera hadir");
+      return;
+    }
+
+    const target = document.querySelector(hash);
+    if (!target) return;
+
+    e.preventDefault();
+    const top = target.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
+    window.scrollTo({ top, behavior: "smooth" });
+    history.replaceState(null, "", hash);
+  });
+}
+
+/* ---------- Scrollspy: tandai link nav sesuai bagian yang terlihat ---------- */
+function initScrollSpy() {
+  const links = document.querySelectorAll('.nav-links a[href^="#"]');
+  if (!links.length) return;
+
+  const map = {};
+  links.forEach((link) => {
+    const id = link.getAttribute("href").slice(1);
+    if (id) map[id] = link;
+  });
+
+  const sections = Object.keys(map)
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
+  if (!sections.length) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        links.forEach((l) => l.classList.remove("active"));
+        map[entry.target.id].classList.add("active");
+      });
+    },
+    { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
+  );
+  sections.forEach((section) => observer.observe(section));
+}
+
+/* ---------- Menu mobile ---------- */
+function initMenu() {
+  const menuBtn = document.getElementById("menuBtn");
+  const navLinks = document.getElementById("navLinks");
+  if (!menuBtn || !navLinks) return;
+
+  menuBtn.addEventListener("click", () => {
+    const isOpen = navLinks.classList.toggle("open");
+    menuBtn.setAttribute("aria-expanded", String(isOpen));
+    menuBtn.setAttribute("aria-label", isOpen ? "Tutup menu" : "Buka menu");
+  });
+
+  navLinks.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      navLinks.classList.remove("open");
+      menuBtn.setAttribute("aria-expanded", "false");
+    });
+  });
+}
+
+/* ---------- Navbar sticky ---------- */
+function initNavbar() {
+  const nav = document.getElementById("navbar");
+  if (!nav) return;
+
+  const onScroll = () => nav.classList.toggle("scrolled", window.scrollY > 8);
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+}
+
+/* ---------- Tombol pencarian ---------- */
+function initSearch() {
+  const btn = document.getElementById("searchBtn");
+  if (!btn) return;
+
+  btn.addEventListener("click", () => {
+    window.location.href = "koleksi.html";
+  });
+}
+
+/* ---------- Wishlist (event delegation) ---------- */
+function initWishlist() {
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".wishlist-btn");
+    if (!btn) return;
+
+    e.preventDefault();
+
+    const index = parseInt(btn.dataset.index, 10);
+    if (isNaN(index)) return;
+
+    const added = toggleWishlist(index);
+    btn.classList.toggle("active", added);
+    showToast(added ? "Ditambahkan ke wishlist" : "Dihapus dari wishlist");
+
+    // Di halaman wishlist, render ulang agar item yang dihapus langsung hilang
+    if (typeof refreshWishlistPage === "function") refreshWishlistPage();
+  });
+}
+
+/* ---------- Kartu produk (markup bersama) ---------- */
+function productCardHTML(product, index) {
+  const wished = isInWishlist(index);
+  return `
+  <article class="product-card reveal">
+    <div class="product-media-wrap">
+      <a class="product-link" href="produk.html?id=${index}" aria-label="Lihat detail ${product.name}">
+        <div class="product-media">
+          <img src="${product.image}" alt="${product.name}" loading="lazy" />
+          ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ""}
+        </div>
+      </a>
+      <button class="wishlist-btn${wished ? " active" : ""}" data-index="${index}" aria-label="Tambah ${product.name} ke wishlist">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="17" height="17">
+          <path d="M19 14c1.5-1.5 2-3.2 2-4.8A4.7 4.7 0 0 0 12 6.6 4.7 4.7 0 0 0 3 9.2C3 10.8 3.5 12.5 5 14l7 7 7-7Z" />
+        </svg>
+      </button>
+    </div>
+    <div class="product-info">
+      <p class="product-cat">${product.category}</p>
+      <a class="product-name" href="produk.html?id=${index}">${product.name}</a>
+      <div class="product-price">
+        <strong>${formatRupiah(product.price)}</strong>
+        ${product.oldPrice ? `<span class="old">${formatRupiah(product.oldPrice)}</span>` : ""}
+      </div>
+    </div>
+  </article>`;
+}
+
+/* ---------- Init bersama ---------- */
+document.addEventListener("DOMContentLoaded", () => {
+  initTheme();
+  initMenu();
+  initNavbar();
+  initSearch();
+  initCartButton();
+  initWishlistNav();
+  initWishlist();
+  syncCartBadge();
+  syncWishlistBadge();
+  initBackToTop();
+  initSmoothScroll();
+  initScrollSpy();
+  initReveal();
+});
