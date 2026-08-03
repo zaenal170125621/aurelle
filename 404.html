@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="description" content="404 — Halaman tidak ditemukan. Kembali ke beranda AURELLE." />
+  <title>404 — Halaman Tidak Ditemukan · AURELLE</title>
+
+  <!-- Terapkan tema sebelum halaman digambar (hindari flash) -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("aurelle-theme");
+        var dark = saved
+          ? saved === "dark"
+          : window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (dark) document.documentElement.setAttribute("data-theme", "dark");
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Base dinamis: link relatif tetap benar meski URL 404 berada di subfolder/dalam -->
+  <script>
+    (function () {
+      var m = location.pathname.match(/^\/[^/]*\//);
+      if (m) {
+        var base = document.createElement("base");
+        base.href = m[0];
+        document.head.appendChild(base);
+      }
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+
+  <style>
+    .error-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+    .error-code {
+      font-family: var(--serif);
+      font-size: clamp(4rem, 14vw, 7rem);
+      font-weight: 700;
+      color: var(--terracotta);
+      line-height: 1;
+    }
+    .error-page h1 {
+      font-family: var(--serif);
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 600;
+      margin: 0.5rem 0 0.75rem;
+    }
+    .error-page p {
+      color: var(--muted);
+      max-width: 44ch;
+      margin: 0 auto 1.75rem;
+    }
+  </style>
+</head>
+<body>
+  <main class="error-page">
+    <div>
+      <p class="error-code" aria-hidden="true">404</p>
+      <h1>Halaman tidak ditemukan</h1>
+      <p>Halaman yang kamu cari mungkin sudah dipindah atau dihapus. Tenang, koleksi terbaru masih menantimu di beranda.</p>
+      <a href="index.html" class="btn btn-dark">Kembali ke Beranda</a>
+    </div>
+  </main>
+</body>
+</html>

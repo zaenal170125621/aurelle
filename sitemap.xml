@@ -48,4 +48,20 @@
     <loc>https://zaenal170125621.github.io/aurelle/checkout.html</loc>
     <priority>0.5</priority>
   </url>
+  <url>
+    <loc>https://zaenal170125621.github.io/aurelle/pesanan.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://zaenal170125621.github.io/aurelle/alamat.html</loc>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://zaenal170125621.github.io/aurelle/voucher.html</loc>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://zaenal170125621.github.io/aurelle/profil.html</loc>
+    <priority>0.4</priority>
+  </url>
 </urlset>

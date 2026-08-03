@@ -52,10 +52,11 @@ function initReveal() {
 
 /* ---------- Tema gelap / terang ---------- */
 function initTheme() {
-  const btn = document.getElementById("themeBtn");
+  const btn = document.getElementById("themeBtn") || document.getElementById("themeToggleMenu");
   if (!btn) return;
 
-  btn.addEventListener("click", () => {
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
     const root = document.documentElement;
     const isDark = root.getAttribute("data-theme") === "dark";
     const next = isDark ? "light" : "dark";
@@ -160,14 +161,6 @@ function syncWishlistBadge() {
   badge.hidden = count === 0;
 }
 
-function initWishlistNav() {
-  document.querySelectorAll(".wishlist-nav").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      window.location.href = "wishlist.html";
-    });
-  });
-}
-
 /* ---------- Animasi scroll kustom (garansi halus di semua browser) ---------- */
 function animatedScrollTo(targetY) {
   const startY = window.scrollY;
@@ -203,26 +196,53 @@ const NAV_OFFSET = 90;
 
 function initSmoothScroll() {
   document.addEventListener("click", (e) => {
-    const link = e.target.closest('a[href^="#"]');
+    const link = e.target.closest('a[href*="#"]');
     if (!link) return;
 
-    const hash = link.getAttribute("href");
+    const href = link.getAttribute("href");
+    const hashIndex = href.indexOf("#");
+    if (hashIndex === -1) return;
+
+    const path = href.slice(0, hashIndex);
+    const hash = href.slice(hashIndex + 1);
 
     // Tautan mati (href="#") — beri umpan balik, jangan lompat ke atas halaman
-    if (hash === "#") {
+    if (hash === "") {
       e.preventDefault();
       showToast("Fitur ini segera hadir");
       return;
     }
 
-    const target = document.querySelector(hash);
-    if (!target) return;
+    const currentPage = window.location.pathname.split("/").pop() || "index.html";
 
-    e.preventDefault();
-    const top = target.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
-    animatedScrollTo(top);
-    history.replaceState(null, "", hash);
+    // Link ke halaman yang sama: scroll halus tanpa reload
+    if (!path || path === currentPage) {
+      const target = document.getElementById(hash);
+      if (!target) return;
+      e.preventDefault();
+      const top = target.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
+      animatedScrollTo(top);
+      history.replaceState(null, "", "#" + hash);
+      return;
+    }
+
+    // Link ke halaman lain: tandai target agar halaman tujuan scroll halus
+    sessionStorage.setItem("aurelle-scroll-target", hash);
   });
+
+  // Setelah navigasi antar halaman, scroll ke section yang dituju
+  const pendingHash = sessionStorage.getItem("aurelle-scroll-target");
+  if (pendingHash) {
+    sessionStorage.removeItem("aurelle-scroll-target");
+    const target = document.getElementById(pendingHash);
+    if (target) {
+      // Tunggu layout stabil (font, gambar, reveal) sebelum scroll
+      setTimeout(() => {
+        const top = target.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
+        animatedScrollTo(top);
+      }, 350);
+    }
+  }
 }
 
 /* ---------- Scrollspy: tandai link nav sesuai bagian yang terlihat ---------- */
@@ -274,6 +294,221 @@ function initMenu() {
   });
 }
 
+/* ---------- Brand Dropdown (Tentang Kami) ---------- */
+function initBrandMenu() {
+  const brandBtn = document.querySelector(".brand-btn");
+  const brandDropdown = document.querySelector(".brand-dropdown");
+  const brandWrap = document.querySelector(".brand-wrap");
+  if (!brandBtn || !brandDropdown || !brandWrap) return;
+
+  brandBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const isOpen = brandDropdown.toggleAttribute("hidden");
+    brandBtn.setAttribute("aria-expanded", String(!isOpen));
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!brandWrap.contains(e.target)) {
+      brandDropdown.setAttribute("hidden", "");
+      brandBtn.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (brandDropdown.hasAttribute("hidden")) return;
+    const items = Array.from(brandDropdown.querySelectorAll('a[role="menuitem"]'));
+
+    if (e.key === "Escape") {
+      brandDropdown.setAttribute("hidden", "");
+      brandBtn.setAttribute("aria-expanded", "false");
+      brandBtn.focus();
+      return;
+    }
+
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      if (!items.length) return;
+      const idx = items.indexOf(document.activeElement);
+      const next =
+        e.key === "ArrowDown"
+          ? (idx + 1) % items.length
+          : (idx - 1 + items.length) % items.length;
+      items[next].focus();
+      return;
+    }
+
+    if (e.key === "Home") {
+      e.preventDefault();
+      items[0]?.focus();
+    } else if (e.key === "End") {
+      e.preventDefault();
+      items[items.length - 1]?.focus();
+    }
+  });
+}
+
+/* ---------- User Menu Dropdown ---------- */
+function initUserMenu() {
+  const userBtn = document.querySelector(".user-btn");
+  const userDropdown = document.querySelector(".user-dropdown");
+  const userMenu = document.getElementById("userMenu");
+  const logoutBtn = document.getElementById("logoutBtn");
+  if (!userBtn || !userDropdown || !userMenu) return;
+
+  // Toggle dropdown
+  userBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const isOpen = userDropdown.toggleAttribute("hidden");
+    userBtn.setAttribute("aria-expanded", String(!isOpen));
+  });
+
+  // Close on click outside
+  document.addEventListener("click", (e) => {
+    if (!userMenu.contains(e.target)) {
+      userDropdown.setAttribute("hidden", "");
+      userBtn.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  // Keyboard: Escape tutup, panah navigasi antar item menu
+  document.addEventListener("keydown", (e) => {
+    if (userDropdown.hasAttribute("hidden")) return;
+    const items = Array.from(userDropdown.querySelectorAll('[role="menuitem"]'));
+
+    if (e.key === "Escape") {
+      userDropdown.setAttribute("hidden", "");
+      userBtn.setAttribute("aria-expanded", "false");
+      userBtn.focus();
+      return;
+    }
+
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      if (!items.length) return;
+      const idx = items.indexOf(document.activeElement);
+      const next =
+        e.key === "ArrowDown"
+          ? (idx + 1) % items.length
+          : (idx - 1 + items.length) % items.length;
+      items[next].focus();
+      return;
+    }
+
+    if (e.key === "Home") {
+      e.preventDefault();
+      items[0]?.focus();
+    } else if (e.key === "End") {
+      e.preventDefault();
+      items[items.length - 1]?.focus();
+    }
+  });
+
+  // Demo logout - clear localStorage cart/wishlist and show toast
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("aurelle-cart");
+      localStorage.removeItem("aurelle-wishlist");
+      localStorage.removeItem("aurelle-user");
+      syncCartBadge();
+      syncWishlistBadge();
+      showToast("Berhasil keluar (mode demo)");
+      userDropdown.setAttribute("hidden", "");
+      userBtn.setAttribute("aria-expanded", "false");
+      renderUserState();
+    });
+  }
+}
+
+/* ---------- Status pengguna (demo mode) ---------- */
+function renderUserState() {
+  const dropdown = document.querySelector(".user-dropdown");
+  const userBtn = document.querySelector(".user-btn");
+  if (!dropdown) return;
+
+  // Hapus header status lama kalau ada
+  dropdown.querySelector(".user-info")?.remove();
+
+  let user = null;
+  try {
+    user = JSON.parse(localStorage.getItem("aurelle-user") || "null");
+  } catch (e) {
+    user = null;
+  }
+
+  // Tampilkan avatar inisial di ikon header kalau login, ikon biasa kalau tamu
+  if (userBtn) {
+    const existing = userBtn.querySelector(".user-btn-avatar");
+    existing?.remove();
+    if (user && user.name) {
+      const initial = user.name.trim().charAt(0).toUpperCase() || "A";
+      const avatar = document.createElement("span");
+      avatar.className = "user-btn-avatar";
+      avatar.setAttribute("aria-hidden", "true");
+      avatar.textContent = initial;
+      userBtn.appendChild(avatar);
+      userBtn.classList.add("is-auth");
+    } else {
+      userBtn.classList.remove("is-auth");
+    }
+  }
+
+  const info = document.createElement("div");
+  info.className = "user-info";
+
+  if (user && user.name) {
+    const initial = user.name.trim().charAt(0).toUpperCase() || "A";
+    info.innerHTML = `
+      <span class="user-info-avatar" aria-hidden="true">${initial}</span>
+      <span class="user-info-text">
+        <strong>${escapeHtml(user.name)}</strong>
+        <small>${user.email ? escapeHtml(user.email) : "Member AURELLE"}</small>
+      </span>
+    `;
+  } else {
+    info.innerHTML = `
+      <span class="user-info-avatar" aria-hidden="true">?</span>
+      <span class="user-info-text">
+        <strong>Tamu</strong>
+        <small><a href="masuk.html" class="user-info-login">Masuk / Daftar</a></small>
+      </span>
+    `;
+  }
+
+  dropdown.prepend(info);
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function initUserState() {
+  renderUserState();
+}
+
+/* ---------- Quick actions di menu mobile ---------- */
+function initQuickActions() {
+  const searchBtn = document.querySelector("[data-quick-search]");
+  if (!searchBtn) return;
+
+  searchBtn.addEventListener("click", () => {
+    const headerSearch = document.getElementById("searchBtn");
+    if (headerSearch) {
+      headerSearch.click();
+      // Tutup menu mobile kalau terbuka
+      const navLinks = document.getElementById("navLinks");
+      const menuBtn = document.getElementById("menuBtn");
+      if (navLinks && navLinks.classList.contains("open")) {
+        navLinks.classList.remove("open");
+        menuBtn?.setAttribute("aria-expanded", "false");
+      }
+    }
+  });
+}
+
 /* ---------- Navbar sticky ---------- */
 function initNavbar() {
   const nav = document.getElementById("navbar");
@@ -289,9 +524,6 @@ function initActiveNav() {
   const page = window.location.pathname.split("/").pop() || "index.html";
   if (page === "keranjang.html" || page === "checkout.html") {
     document.querySelector(".cart-btn")?.classList.add("active");
-  }
-  if (page === "wishlist.html") {
-    document.querySelector(".wishlist-nav")?.classList.add("active");
   }
 }
 
@@ -355,12 +587,17 @@ function initSearch() {
         </button>
       </div>
       <div class="search-results" id="searchResults" aria-live="polite"></div>
+      <div class="search-footer" id="searchFooter" hidden>
+        <a href="#" id="viewAllResults">Lihat semua hasil di Koleksi &rarr;</a>
+      </div>
     </div>`;
   document.body.appendChild(overlay);
 
   const input = overlay.querySelector("#searchInput");
   const results = overlay.querySelector("#searchResults");
   const closeBtn = overlay.querySelector("#searchClose");
+  const footer = overlay.querySelector("#searchFooter");
+  const viewAll = overlay.querySelector("#viewAllResults");
 
   const itemHTML = (p, index) => `
     <a class="search-item" href="produk.html?id=${index}">
@@ -396,6 +633,7 @@ function initSearch() {
         popularHTML() +
         `<p class="search-label">Produk populer</p>` +
         PRODUCTS.slice(0, 4).map((p, i) => itemHTML(p, i)).join("");
+      if (footer) footer.hidden = true;
       return;
     }
 
@@ -403,6 +641,12 @@ function initSearch() {
     results.innerHTML = found.length
       ? found.map(({ index, product }) => itemHTML(product, index)).join("")
       : '<p class="search-empty">Tidak ada produk yang cocok. Coba kata kunci lain.</p>';
+
+    // Link “Lihat semua hasil” mengarah ke katalog dengan kata kunci
+    if (footer && viewAll) {
+      footer.hidden = false;
+      viewAll.href = "koleksi.html?q=" + encodeURIComponent(input.value.trim());
+    }
   };
 
   /* Klik chip riwayat/populer, hapus riwayat, atau item hasil */
@@ -454,6 +698,9 @@ function initSearch() {
     if (first) {
       e.preventDefault();
       window.location.href = first.getAttribute("href");
+    } else if (viewAll) {
+      e.preventDefault();
+      window.location.href = viewAll.getAttribute("href");
     }
   });
   document.addEventListener("keydown", (e) => {
@@ -554,10 +801,13 @@ document.addEventListener("DOMContentLoaded", () => {
   initAnnouncement();
   initSearch();
   initCartButton();
-  initWishlistNav();
   initWishlist();
   syncCartBadge();
   syncWishlistBadge();
+  initBrandMenu();
+  initUserMenu();
+  initUserState();
+  initQuickActions();
   initSmoothScroll();
   initScrollSpy();
   initQuickAdd();

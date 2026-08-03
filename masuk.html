@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="AURELLE — Pesanan Saya. Semua transaksimu dalam satu tampilan: bayar, lacak, konfirmasi, dan beli lagi." />
-  <title>Pesanan Saya — AURELLE</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="description" content="AURELLE — Masuk / Daftar. Akses pesanan, alamat, voucher, dan pengaturan akunmu." />
+  <title>Masuk / Daftar — AURELLE</title>
 
   <!-- Terapkan tema sebelum halaman digambar (hindari flash) -->
   <script>
@@ -29,9 +30,9 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="AURELLE" />
-  <meta property="og:title" content="Pesanan Saya — AURELLE" />
-  <meta property="og:description" content="Semua transaksimu dalam satu tampilan: bayar, lacak, konfirmasi, dan beli lagi." />
-  <meta property="og:url" content="https://zaenal170125621.github.io/aurelle/pesanan.html" />
+  <meta property="og:title" content="Masuk / Daftar — AURELLE" />
+  <meta property="og:description" content="Akses pesanan, alamat, voucher, dan pengaturan akunmu." />
+  <meta property="og:url" content="https://zaenal170125621.github.io/aurelle/masuk.html" />
   <meta property="og:image" content="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80" />
   <script src="js/analytics.js" defer></script>
 </head>
@@ -158,41 +159,33 @@
       <nav class="breadcrumb" aria-label="Jalur halaman">
         <a href="index.html">Beranda</a>
         <span class="sep">/</span>
-        <span class="current">Pesanan Saya</span>
+        <span class="current">Masuk / Daftar</span>
       </nav>
     </div>
 
-    <!-- ===== Pesanan Saya (terinspirasi halaman Pembelian Shopee) ===== -->
-    <section class="purchase-page">
+    <!-- ===== Login Card ===== -->
+    <section class="catalog">
       <div class="container">
-        <div class="section-head purchase-head">
-          <p class="eyebrow">Akun &amp; Transaksi</p>
-          <h1 class="section-title">Pesanan <em>Saya</em></h1>
-          <p class="section-sub">Semua transaksimu dalam satu tampilan — bayar, lacak, konfirmasi, dan beli lagi dengan sekali klik.</p>
-          <p class="track-switch">
-            Punya nomor pesanan? <a href="cek-pesanan.html">Lacak via Cek Pesanan</a>
-          </p>
+        <div class="section-head catalog-head">
+          <p class="eyebrow">Akun Saya</p>
+          <h2 class="section-title">Masuk / <em>Daftar</em></h2>
+          <p class="section-sub">Mode demo — cukup isi nama &amp; email, tanpa kata sandi.</p>
         </div>
 
-        <!-- Tab status ala Shopee -->
-        <div class="purchase-tabs" id="purchaseTabs" role="tablist" aria-label="Filter status pesanan">
-          <!-- dirender oleh pesanan.js -->
-        </div>
-
-        <!-- Pencarian + jumlah pesanan -->
-        <div class="purchase-toolbar">
-          <div class="purchase-search">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
-              <circle cx="11" cy="11" r="7" />
-              <path d="m20 20-3.5-3.5" />
-            </svg>
-            <input id="purchaseSearch" type="text" placeholder="Cari pesanan (contoh: AUR-1042)" autocomplete="off" aria-label="Cari pesanan" />
-          </div>
-          <p class="purchase-count" id="purchaseCount" aria-live="polite"></p>
-        </div>
-
-        <div class="purchase-list" id="purchaseList">
-          <!-- kartu pesanan dirender oleh pesanan.js -->
+        <div class="login-card" id="loginCard">
+          <form id="loginForm" novalidate>
+            <label class="login-field">
+              <span>Nama lengkap</span>
+              <input type="text" name="name" id="loginName" placeholder="cth. Salsa Ramadhani" autocomplete="name" required />
+            </label>
+            <label class="login-field">
+              <span>Email</span>
+              <input type="email" name="email" id="loginEmail" placeholder="cth. salsa@email.com" autocomplete="email" required />
+            </label>
+            <p class="login-status" id="loginStatus" hidden></p>
+            <button type="submit" class="btn btn-dark btn-block">Masuk / Daftar</button>
+            <p class="login-note">Data disimpan di browser (localStorage) untuk demo.</p>
+          </form>
         </div>
       </div>
     </section>
@@ -266,7 +259,7 @@
     </div>
   </footer>
 
-  <a class="wa-float" href="https://wa.me/6285939592558?text=Halo%20AURELLE!%20Saya%20mau%20cek%20status%20pesanan." target="_blank" rel="noopener" aria-label="Chat WhatsApp">
+  <a class="wa-float" href="https://wa.me/6285939592558?text=Halo%20AURELLE!%20Saya%20mau%20tanya%20produk." target="_blank" rel="noopener" aria-label="Chat WhatsApp">
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
     </svg>
@@ -274,8 +267,7 @@
   </a>
 
   <script src="js/data.js"></script>
-  <script src="js/orders.js"></script>
   <script src="js/site.js"></script>
-  <script src="js/pesanan.js"></script>
+  <script src="js/masuk.js"></script>
 </body>
 </html>
